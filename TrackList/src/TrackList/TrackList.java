@@ -18,19 +18,23 @@ public class TrackList {
      */
     public static void main(String[] args) {
         
-        final int result = 35;
-        
         System.out.print("GitHub:");
-        Registro.Tab("GitHub:",result);
+        Registro.Tab("GitHub:",Registro.result);
         System.out.println(Registro.github);
         
         System.out.print("Projeto:");
-        Registro.Tab("Projeto:",result);
+        Registro.Tab("Projeto:",Registro.result);
         System.out.println("TrackList");
         
-        System.out.print("Última atualização:");
-        Registro.Tab("Última atualização:",result);
+        System.out.print("Criação:");
+        Registro.Tab("Criação:",Registro.result);
         System.out.println(Registro.upgrade.DataLinha(true));
+        
+        /* Criação: 01/05/2025 **
+        System.out.print("Última atualização:");
+        Registro.Tab("Última atualização:",Registro.result);
+        System.out.println(Registro.upgrade.DataLinha(true));
+        /* Criação: 01/05/2025 */
         
         System.out.println();
         

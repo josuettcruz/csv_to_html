@@ -664,14 +664,14 @@ public class Exportar {
             
         }
         
-        // doc.add("<!-- " + Registro.github + " -->");
+        doc.add("<!-- " + Registro.github + " -->");
         doc.add("<!-- " + new Data().DataAbreviada(true) + " -- " + new Hora(true).getHora(true) + " -->");
         doc.add("<html>");
         doc.add("<head>");
         doc.add("<title>" + select_title + "</title>");
         doc.add("<meta charset=\"utf-8\" />");
         doc.add("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-        doc.add("<link rel=\"icon\" href=\"pasta\\arquivo.ico\" type=\"image/x-icon\">");
+        // doc.add("<link rel=\"icon\" href=\"pasta\\arquivo.ico\" type=\"image/x-icon\">");
         doc.add("<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">");
         doc.add("<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>");
         doc.add("<link href=\"https://fonts.googleapis.com/css2?family=Bytesized&family=Kavoon&family=Montserrat+Underline:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sofia+Sans+Extra+Condensed:ital,wght@0,1..1000;1,1..1000&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap\" rel=\"stylesheet\">");
@@ -725,7 +725,6 @@ public class Exportar {
                 doc.add("      color: aqua;");
                 doc.add("      text-decoration: none;");
                 doc.add("   }/* MOBILE */");
-                doc.add("   ");
                 
             }// if(this.link) -- 2 de 2
             
@@ -779,7 +778,6 @@ public class Exportar {
             doc.add("      word-wrap: break-word;");
             doc.add("      line-height:2em;");
             doc.add("   }");
-            doc.add("   ");
             doc.add("   p.texto{");
             doc.add("      color:white;");
             doc.add("      margin-top:10px;");
@@ -810,11 +808,9 @@ public class Exportar {
             
         }
         
-        doc.add("   ");
         doc.add("</style>");
         doc.add("</head>");
         doc.add("<body>");
-        doc.add("");
         
         if(cd){//if(cd) - 1
             
@@ -842,7 +838,7 @@ public class Exportar {
                             
                         }/* case "mpg" */
                         
-                        case "avi" ->{
+                        /* case "avi" ->{
                             
                             arq_1 += "<h1 class=\"arquivo\">Audio & Vídeo<br/>Interleave</h1><div class=\"space\"></div>";
                             
@@ -974,8 +970,6 @@ public class Exportar {
             arq_2 = "";
             ext_val = false;
             
-            doc.add("");
-            
             doc.add("<p class=\"ended\"></p>");
             
             if(this.tag){
@@ -993,6 +987,7 @@ public class Exportar {
                 doc.add("   }");
                 doc.add("   ");
                 doc.add("</script>");
+                doc.add("");
                 
             }//if(this.tag)
             
@@ -1002,59 +997,66 @@ public class Exportar {
             
         }//if(cd) - 1
         
-        doc.add("");
         doc.add("</body>");
         doc.add("</html>");
         
         if(cd){//if(cd) - 2
             
             doc.add("");
-            
-            doc.add("<!-- " + 
-                    name + 
-                    " --"
-            );
-            
-            if(this.code.Tot() <= 15){
-            
-            for(int pg = 1; pg <= this.code.Tot(); pg++){
-                
-                doc.add("");
-                
-                String pos = "Item ";
-                
-                pos += Numb(pg,this.code.Tot());
-                
-                doc.add("_".repeat(pos.length()));
-                
-                doc.add(pos);
-                
-                doc.add("");
-                
-                for(int l = 0; l < this.code.Tot(pg-1); l++){
-                    
-                    doc.add(this.code.Read((pg-1), l));
-                    
-                }//for(int l = 0; l < this.code.Tot(p); l++)
-                
-                doc.add("");
-                
-                String re = this.code.Read(pg-1, this.code.Tot(pg-1)-1);
-                
-                if(re.length() > 5){doc.add("-".repeat(re.length()));}
-                
-            }//for(int p = 0; p < this.code.Tot(); p++)
-            
             doc.add("");
-            
-            doc.add("-- " + 
-                    new Data().DataAbreviada(false) + 
+            doc.add("");
+                
+            doc.add("<!-- " + 
+                    new Data().DataAbreviada(true) + 
                     " -- " + 
-                    new Hora(true).getHora(extend) + 
+                    new Hora(true).getHora(false) + 
                     " --"
             );
             
-            }//if(this.code.Tot() <= 50)
+            if(this.code.Tot() <= 20 && this.link && !extend){
+                
+                for(int pg = 1; pg <= this.code.Tot(); pg++){
+                    
+                    doc.add("");
+                    
+                    String pos = "Item ";
+                    
+                    pos += Numb(pg,this.code.Tot());
+                    
+                    if(pg > 1){doc.add("-".repeat(pos.length()));}
+                    doc.add("_".repeat(pos.length()));
+                    
+                    doc.add(pos);
+                    
+                    doc.add("");
+                    
+                    for(int l = 0; l < this.code.Tot(pg-1); l++){
+                        
+                        Numero Test = new Numero(this.code.Read((pg-1),l));
+
+                        doc.add(Test.Val() && Test.Num() == 0 && l == 0 ? this.code.Read(0, 0) : this.code.Read((pg-1), l));
+
+                    }//for(int l = 0; l < this.code.Tot(p); l++)
+                    
+                    doc.add("");
+                    
+                    String re = this.code.Read(pg-1, this.code.Tot(pg-1)-1);
+                    
+                    if(re.length() >= 30 && pg < this.code.Tot()){
+                        
+                        doc.add("-".repeat(re.length() <= 100 ? re.length() : 100));
+                        doc.add("");
+                    
+                    }//if(re.length() >= 30 && pg < this.code.Tot())
+                    
+                }//for(int p = 0; p < this.code.Tot(); p++)
+                
+                doc.add("");
+            
+                doc.add("-- Arquivo: \"" + 
+                        name + 
+                        ".csv\" --"
+                );
             
             String total = "ITE";
             
@@ -1063,52 +1065,57 @@ public class Exportar {
             } else {
                 total += "NS";
             }
+                
+                String itens = "";
+                
+                for(int d = 1; d <= this.code.Tot(); d++){
+                    
+                    itens += ";";
+                    
+                    if(d < 10){
+                        itens += "0";
+                    }
+                    
+                    if(d < 100 && this.code.Tot() > 100){
+                        itens += "0";
+                    }
+                    
+                    if(d < 1000 && this.code.Tot() > 1000){
+                        itens += "0";
+                    }
+                    
+                    if(d < 10000 && this.code.Tot() > 10000){
+                        itens += "0";
+                    }
+                    
+                    itens += d;
+                    
+                    itens += " de ";
+                    
+                    if(this.code.Tot() < 10){itens += "0";}
+                    
+                    itens += this.code.Tot();
+                    
+                    itens += " | ";
+                    
+                    Numero Test = new Numero(this.code.Read((d-1),0));
+                    
+                    int val = Test.Val() && Test.Num() == 0 ? 0 : d-1;
+                    
+                    itens += Registro.Select(this.code.Read(val, 0).trim().replace(" | ", " - "),350);
+                    
+                }//for(int d = 0; d < this.code.Tot(); d++)
+
+                doc.add(
+                        name + 
+                        ";" + 
+                        this.code.Tot() + 
+                        " " + 
+                        total + 
+                        itens
+                );
             
-            String itens = "";
-            
-            for(int d = 1; d <= this.code.Tot(); d++){
-                
-                itens += ";";
-                
-                if(d < 10){
-                    itens += "0";
-                }
-                
-                if(d < 100 && this.code.Tot() > 100){
-                    itens += "0";
-                }
-                
-                if(d < 1000 && this.code.Tot() > 1000){
-                    itens += "0";
-                }
-                
-                if(d < 10000 && this.code.Tot() > 10000){
-                    itens += "0";
-                }
-                
-                itens += d;
-                
-                itens += " de ";
-                
-                if(this.code.Tot() < 10){itens += "0";}
-                
-                itens += this.code.Tot();
-                
-                itens += " | ";
-                
-                itens += Registro.Select(this.code.Read(d-1, 0),350);
-                
-                
-            }//for(int d = 0; d < this.code.Tot(); d++)
-            
-            doc.add(
-                    name + 
-                    ";" + 
-                    this.code.Tot() + 
-                    " " + 
-                    total + 
-                    itens
-            );
+            }//if(this.code.Tot() <= 20 && this.link && !extend)
             
             for(int x = 0; x < this.code.Tot(); x++){
                 

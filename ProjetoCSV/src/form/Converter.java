@@ -6,6 +6,8 @@ package form;
 
 import file.csv;
 import model.Data;
+import model.Hora;
+import model.Registro;
 
 /**
  *
@@ -24,6 +26,8 @@ public class Converter extends javax.swing.JFrame {
     
     public void Enter(){
         
+        System.out.println();
+        
         setVisible(true);
         setResizable(false);
         
@@ -36,12 +40,24 @@ public class Converter extends javax.swing.JFrame {
         
         if(tentar){
             
-            System.out.println("Hoje é: " + new Data().DataCompleta(true));
-            System.out.println();
+            System.out.print("Hoje é:");
+            Registro.Tab("Hoje é:", Registro.result);
+            System.out.println(new Data().DataCompleta(true));
             
         }
         
+        System.out.print("Resultado:");
+        Registro.Tab("Resultado:", Registro.result);
         System.out.println(tct);
+        
+        System.out.print("Data:");
+        Registro.Tab("Data:", Registro.result);
+        System.out.println(new Data().DataCompleta(false));
+        
+        System.out.print("Hora:");
+        Registro.Tab("Hora:", Registro.result);
+        System.out.println(new Hora(true).getNodeHora(false));
+        
         System.exit(0);
         
     }//Exc(boolean tentar, String tct)

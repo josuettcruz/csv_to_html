@@ -29,7 +29,7 @@
 
 5. Cole o seguinte texto a baixo
 
-´´´# Tagscanner export script
+```# Tagscanner export script
 
 $file_name TrackList.csv
 $file_notes Raw comma-separated text
@@ -40,4 +40,4 @@ $document_open
 $select %_index%,0
 %title%;%artist%;%album%;%track%;%year%;%genre%;%_length_sec%;%_filesize%;%_filedate%;%filepath%;%filenameext%
 $endselect
-$document_close´´´
+$document_close```

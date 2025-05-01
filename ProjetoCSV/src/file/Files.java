@@ -4,6 +4,8 @@
  */
 package file;
 
+import model.Registro;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -33,7 +35,9 @@ public class Files {
 
             if(menu.createNewFile()){
 
-                System.out.println("Arquivo: \"" + arq + "\" criado!");
+                System.out.print("Arquivo criado:");
+                Registro.Tab("Arquivo criado:", Registro.result);
+                System.out.println(arq);
 
             }/* else {
 
