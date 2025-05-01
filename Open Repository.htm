@@ -1,0 +1,40 @@
+<h1 style="margin-left:10vw;margin-top:10vh;font-size:7vw;font-weight:bold;">Abrindo<span></span></h1>
+<script>
+
+    var add = 0;
+
+    var node = setInterval(function(){
+
+        switch(add % 4){
+
+        case 0:
+        document.querySelector("h1 > span").innerHTML  = "";
+        break;
+
+        case 1:
+        document.querySelector("h1 > span").innerHTML  = ".";
+        break;
+
+        case 2:
+        document.querySelector("h1 > span").innerHTML  = "..";
+        break;
+
+        case 3:
+        document.querySelector("h1 > span").innerHTML  = "...";
+        break;
+
+        }
+
+        add++;
+
+        if(add >= 8){
+            clearInterval(node);
+        }
+
+    },200);
+
+    setTimeout(function(){
+        window.open("https://github.com/josuettcruz/csv_to_html","_parent");
+        },2000);
+
+</script>
