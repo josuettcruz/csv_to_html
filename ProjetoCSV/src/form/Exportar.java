@@ -645,27 +645,33 @@ public class Exportar {
         
         String select_title;
         
-        select_title = name;
-        
-        if(name.contains(" ") && name.length() >= max_char_title){
+        if(name.contains(" ") && name.length() >= max_char_title){//select_title
             
             select_title = new Data().DataAbreviada(false);
             
-        } else if(name.length() >= max_char_title){
+        } else if(name.length() >= max_char_title){//select_title
             
             select_title = "(";
             select_title += new Data().DataAbreviada(false);
             select_title += ") ";
             select_title += name;
             
-        } else {
+        } else if(this.code.Read(0, 0).contains("|")){//select_title
+            
+            select_title = this.code.Read(0, 0).substring(0, this.code.Read(0, 0).indexOf("|")).trim();
+            
+        } else if(this.code.Read(0, 0).isBlank()){//select_title
             
             select_title = name;
             
-        }
+        } else {//select_title
+            
+            select_title = this.code.Read(0, 0);
+            
+        }//select_title
         
         doc.add("<!-- " + Registro.github + " -->");
-        doc.add("<!-- " + new Data().DataAbreviada(true) + " -- " + new Hora(true).getHora(true) + " -->");
+        doc.add("<!-- " + new Data().DataAbreviada(false) + " -- " + new Hora(true).getHora(true) + " -->");
         doc.add("<html>");
         doc.add("<head>");
         doc.add("<title>" + select_title + "</title>");
@@ -1009,11 +1015,11 @@ public class Exportar {
             doc.add("<!-- " + 
                     new Data().DataAbreviada(true) + 
                     " -- " + 
-                    new Hora(true).getHora(false) + 
+                    new Hora(true).getHora(true) + 
                     " --"
             );
             
-            if(this.code.Tot() <= 20 && this.link && !extend){
+            if(this.code.Tot() <= 20 && this.link){
                 
                 for(int pg = 1; pg <= this.code.Tot(); pg++){
                     
@@ -1115,7 +1121,7 @@ public class Exportar {
                         itens
                 );
             
-            }//if(this.code.Tot() <= 20 && this.link && !extend)
+            }//if(this.code.Tot() <= 20 && this.link)
             
             for(int x = 0; x < this.code.Tot(); x++){
                 
