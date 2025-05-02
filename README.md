@@ -11,7 +11,7 @@
 
 > TagScanner 6.1.18
 
-[TagScanner](https://www.xdlab.ru/en/index.htm)
+[Pàgina Inicial](https://www.xdlab.ru/en/index.htm)
 
 [Baixar](https://www.xdlab.ru/en/download.htm)
 
