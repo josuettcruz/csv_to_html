@@ -312,11 +312,67 @@ public class Exportar {
         
         return txt;
         
-    }
+    }//DataHora(String text)
+    
+    private String Numb(int num, int max){
+        
+        if(num < 0){
+            num = num - num*2;
+        }
+        
+        String txt = "";
+        
+        if(max >= 10 && num < 10){txt += "0";}
+        if(max >= 100 && num < 100){txt += "0";}
+        if(max >= 1000 && num < 1000){txt += "0";}
+        if(max >= 10000 && num < 10000){txt += "0";}
+        if(max >= 100000 && num < 100000){txt += "0";}
+        if(max >= 1000000 && num < 1000000){txt += "0";}
+        
+        txt += num;
+        txt += " de ";
+        txt += max;
+        
+        return txt;
+        
+    }//Numb(int numb)
+    
+    private boolean mpeg(String txt){
+        
+        boolean val = false;
+        String text = "";
+        
+        for(int a = 0; a < txt.length(); a++){
+            
+            switch(txt.charAt(a)){
+                
+                case '.' ->{
+                    text = "";
+                }
+                
+                default ->{
+                    text += txt.charAt(a);
+                }
+                
+            }//switch(txt.charAt(a))
+            
+        }//for(int a = 0; a < txt.length(); a++)
+        
+        for(String g : this.ext){
+            
+            if(g.equalsIgnoreCase(text)){val = true;break;}
+            
+        }//for(String p : ext)
+        
+        return val;
+        
+    }//mpeg(String txt)
     
     private String T(String text){
         
         String txt = "";
+        
+        boolean divide = true;
         
         int col = 0;
         
@@ -382,6 +438,7 @@ public class Exportar {
             } else if(tx.equalsIgnoreCase("|")){//if
                 
                 col = 2;
+                divide = false;
                 
             } else if(tx.equalsIgnoreCase("-") && col == 1){//if
                 
@@ -395,7 +452,7 @@ public class Exportar {
                 
                 txt += d.DataCompleta(true);
                 
-            } else if(h.Val()){//if
+            } else if(h.Val() && !h.getNodeHora(true).isBlank()){//if
                 
                 if(col > 0){txt += "<br/>";}
                 
@@ -403,7 +460,7 @@ public class Exportar {
                 
                 txt += h.getNodeHora(true);
                 
-            } else if(into && Tx(tx)){//if
+            } else if(divide && into && Tx(tx)){//if
                 
                 if(col > 0){txt += "<br/>";}
                 
@@ -411,7 +468,7 @@ public class Exportar {
                 
                 txt += phrase(tx, col);
                 
-            } else if(into){//if
+            } else if(divide && into){//if
                 
                 if(col > 0){txt += "<br/>";}
                 
@@ -419,7 +476,7 @@ public class Exportar {
                 
                 txt += phrase(tx, col);
                 
-            } else if(Tx(tx)){//if
+            } else if(divide && Tx(tx)){//if
                 
                 txt += node;
                 
@@ -427,7 +484,7 @@ public class Exportar {
                 
                 txt += phrase(tx, col);
                 
-            } else if(ended && text.length() >= this.tribute_max_end_separator_paragraphy){//if
+            } else if(divide && ended && text.length() >= this.tribute_max_end_separator_paragraphy){//if
                 
                 txt += node;
                 
@@ -435,7 +492,7 @@ public class Exportar {
                 
                 txt += phrase(tx, col);
                 
-            } else if(end && text.length() >= this.max_end_separator_paragraphy){//if
+            } else if(divide && end && text.length() >= this.max_end_separator_paragraphy){//if
                 
                 txt += node;
                 
@@ -491,62 +548,6 @@ public class Exportar {
         return txt;
         
     }//P(String paragraphy, String link)
-    
-    private String Numb(int num, int max){
-        
-        if(num < 0){
-            num = num - num*2;
-        }
-        
-        String txt = "";
-        
-        if(max >= 10 && num < 10){txt += "0";}
-        if(max >= 100 && num < 100){txt += "0";}
-        if(max >= 1000 && num < 1000){txt += "0";}
-        if(max >= 10000 && num < 10000){txt += "0";}
-        if(max >= 100000 && num < 100000){txt += "0";}
-        if(max >= 1000000 && num < 1000000){txt += "0";}
-        
-        txt += num;
-        txt += " de ";
-        txt += max;
-        
-        return txt;
-        
-    }//Numb(int numb)
-    
-    private boolean mpeg(String txt){
-        
-        boolean val = false;
-        String text = "";
-        
-        for(int a = 0; a < txt.length(); a++){
-            
-            switch(txt.charAt(a)){
-                
-                case '.' ->{
-                    text = "";
-                }
-                
-                default ->{
-                    text += txt.charAt(a);
-                }
-                
-            }//switch(txt.charAt(a))
-            
-        }//for(int a = 0; a < txt.length(); a++)
-        
-
-        
-        for(String g : this.ext){
-            
-            if(g.equalsIgnoreCase(text)){val = true;break;}
-            
-        }//for(String p : ext)
-        
-        return val;
-        
-    }//mpeg(String txt)
     
     public void Export(String name){
         
@@ -677,7 +678,7 @@ public class Exportar {
         doc.add("<title>" + select_title + "</title>");
         doc.add("<meta charset=\"utf-8\" />");
         doc.add("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-        // doc.add("<link rel=\"icon\" href=\"pasta\\arquivo.ico\" type=\"image/x-icon\">");
+        //doc.add("<link rel=\"icon\" href=\"pasta\\arquivo.ico\" type=\"image/x-icon\">");
         doc.add("<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">");
         doc.add("<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>");
         doc.add("<link href=\"https://fonts.googleapis.com/css2?family=Bytesized&family=Kavoon&family=Montserrat+Underline:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sofia+Sans+Extra+Condensed:ital,wght@0,1..1000;1,1..1000&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap\" rel=\"stylesheet\">");
@@ -834,7 +835,7 @@ public class Exportar {
                         
                         case "mp4" ->{
                             
-                            arq_1 += "<h1 class=\"arquivo\">[MPEG-4]</h1><div class=\"space\"></div>";
+                            arq_1 += "<h1 class=\"arquivo\">MPEG-4</h1><div class=\"space\"></div>";
                             
                         }//case "mp4"
                         
@@ -1009,17 +1010,16 @@ public class Exportar {
         if(cd){//if(cd) - 2
             
             doc.add("");
-            doc.add("");
-            doc.add("");
-                
-            doc.add("<!-- " + 
-                    new Data().DataAbreviada(true) + 
-                    " -- " + 
-                    new Hora(true).getHora(true) + 
-                    " --"
-            );
             
-            if(this.code.Tot() <= 20 && this.link){
+            if(this.code.Tot() <= 250 && this.link && !this.code.Read(0,0).contains("Agora na TV")){
+                
+                doc.add("<!-- " + 
+                       new Data().DataAbreviada(true) + 
+                       " -- " + 
+                       new Hora(true).getHora(true) + 
+                       " -- " + 
+                       T(this.code.Read(0, 0)).replaceAll("<br/>", " -- ")
+                );
                 
                 for(int pg = 1; pg <= this.code.Tot(); pg++){
                     
@@ -1058,19 +1058,35 @@ public class Exportar {
                 }//for(int p = 0; p < this.code.Tot(); p++)
                 
                 doc.add("");
+                doc.add("");
             
-                doc.add("-- Arquivo: \"" + 
-                        name + 
-                        ".csv\" --"
+                doc.add("-- " + 
+                        new Data().DataAbreviada(false) + 
+                        " -- " + 
+                        new Hora(true).getHora(true) + 
+                        " --"
                 );
+                
+            } else {//if(this.code.Tot() <= 250 && this.link && !this.code.Read(0,0).contains("Agora na TV"))
+                
+                doc.add("<!-- " + 
+                        new Data().DataAbreviada(false) + 
+                        " -- " + 
+                        new Hora(true).getHora(true) + 
+                        " --"
+                );
+                
+            }//if(this.code.Tot() <= 250 && this.link && !this.code.Read(0,0).contains("Agora na TV"))
             
-            String total = "ITE";
+            if(this.code.Tot() <= 250){
             
-            if(this.code.Tot() == 1){
-                total += "M";
-            } else {
-                total += "NS";
-            }
+                String total = "ITE";
+
+                if(this.code.Tot() == 1){
+                    total += "M";
+                } else {
+                    total += "NS";
+                }
                 
                 String itens = "";
                 
@@ -1086,13 +1102,13 @@ public class Exportar {
                         itens += "0";
                     }
                     
-                    if(d < 1000 && this.code.Tot() > 1000){
+                    /*if(d < 1000 && this.code.Tot() > 1000){
                         itens += "0";
                     }
                     
                     if(d < 10000 && this.code.Tot() > 10000){
                         itens += "0";
-                    }
+                    }*/
                     
                     itens += d;
                     
@@ -1113,15 +1129,13 @@ public class Exportar {
                 }//for(int d = 0; d < this.code.Tot(); d++)
 
                 doc.add(
-                        name + 
-                        ";" + 
                         this.code.Tot() + 
                         " " + 
                         total + 
                         itens
                 );
             
-            }//if(this.code.Tot() <= 20 && this.link)
+            }//if(this.code.Tot() <= 250)
             
             for(int x = 0; x < this.code.Tot(); x++){
                 
