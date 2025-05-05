@@ -708,10 +708,21 @@ public class Exportar {
                 
             }// if(this.link) -- 1 de 2
             
-            doc.add("   h1.arquivo::selection, h1.cabecalho::selection, h1.tema::selection, p.texto::selection{");
+            if(extend){
+                doc.add("   h1.arquivo::selection, h1.cabecalho::selection, h1.tema::selection, p.texto::selection{");
+            } else {
+                doc.add("   h1.tema::selection, p.texto::selection{");
+            }
+            
             doc.add("      color:black;");
             doc.add("   }");
-            doc.add("   h1.arquivo::selection, h1.cabecalho::selection, h1.tema::selection{");
+            
+            if(extend){
+                doc.add("   h1.arquivo::selection, h1.cabecalho::selection, h1.tema::selection{");
+            } else {
+                doc.add("   h1.tema::selection{");
+            }
+            
             doc.add("      background-color: wheat;");
             doc.add("   }");
             doc.add("   p.texto::selection{");
@@ -732,6 +743,7 @@ public class Exportar {
                 doc.add("      color: aqua;");
                 doc.add("      text-decoration: none;");
                 doc.add("   }/* MOBILE */");
+                doc.add("   ");
                 
             }// if(this.link) -- 2 de 2
             
