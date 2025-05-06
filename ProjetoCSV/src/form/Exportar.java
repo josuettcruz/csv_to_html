@@ -748,7 +748,7 @@ public class Exportar {
                 doc.add("   ");
                 doc.add("   /* MOBILE **");
                 doc.add("   a:link, a:hover, a:active, a:visited{");
-                doc.add("      font-family: \"Montserrat Underline\";");
+                //doc.add("      font-family: \"Montserrat Underline\";");
                 doc.add("      font-weight: bold;");
                 doc.add("      color: aqua;");
                 doc.add("      text-decoration: none;");
