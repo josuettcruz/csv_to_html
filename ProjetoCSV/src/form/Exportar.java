@@ -19,11 +19,14 @@ public class Exportar {
     private final int max_end_separator_paragraphy = 150;
     private final int tribute_max_end_separator_paragraphy = 350;
     
+    private final String target = "blank";
+    
     private final String ext[] = {
             "avi",
             "mpg",
             "mp4",
-            "mov"
+            "mov",
+            "tv"
         };
     
     private String host;
@@ -112,7 +115,7 @@ public class Exportar {
         
     }//Reverse(String text)
     
-    private String Tag(String dig, int note){
+    private String Tag(String dig, int note, String divide){
         
         boolean space = true;
         boolean reverse = false;
@@ -170,8 +173,8 @@ public class Exportar {
                         
                     } else if(space && note > 0){//if(this.meta)
                         
-                        txt += "<br/>";
-                        node += "<br/>";
+                        txt += divide;
+                        node += divide;
                         
                         space = false;
                         
@@ -194,7 +197,7 @@ public class Exportar {
         
     }//Tag(String dig)
     
-    private String phrase(String dig, int note){
+    private String phrase(String dig, int note, String divide){
         
         boolean space = true;
         
@@ -214,7 +217,7 @@ public class Exportar {
                         
                     } else if(space && note > 0){//if(this.meta)
                         
-                        txt += "<br/>";
+                        txt += divide;
                         
                         space = false;
                         
@@ -368,7 +371,7 @@ public class Exportar {
         
     }//mpeg(String txt)
     
-    private String T(String text){
+    private String T(String text, String separator){
         
         String txt = "";
         
@@ -416,7 +419,7 @@ public class Exportar {
                 }
                 
                 case 2 ->{
-                    node = "<br/>";
+                    node = separator;
                 }
                 
                 case 3 ->{
@@ -433,7 +436,7 @@ public class Exportar {
                 
                 txt += node;
                 
-                txt += Tag(tx, col);
+                txt += Tag(tx, col, separator);
                 
             } else if(tx.equalsIgnoreCase("|")){//if
                 
@@ -446,7 +449,7 @@ public class Exportar {
                 
             } else if(d.Val()){//if
                 
-                if(col > 0){txt += "<br/>";}
+                if(col > 0){txt += separator;}
                 
                 col = 2;
                 
@@ -454,7 +457,7 @@ public class Exportar {
                 
             } else if(h.Val() && !h.getNodeHora(true).isBlank()){//if
                 
-                if(col > 0){txt += "<br/>";}
+                if(col > 0){txt += separator;}
                 
                 col = 2;
                 
@@ -462,19 +465,19 @@ public class Exportar {
                 
             } else if(divide && into && Tx(tx)){//if
                 
-                if(col > 0){txt += "<br/>";}
+                if(col > 0){txt += separator;}
                 
                 col = 2;
                 
-                txt += phrase(tx, col);
+                txt += phrase(tx, col, separator);
                 
             } else if(divide && into){//if
                 
-                if(col > 0){txt += "<br/>";}
+                if(col > 0){txt += separator;}
                 
                 col = 1;
                 
-                txt += phrase(tx, col);
+                txt += phrase(tx, col, separator);
                 
             } else if(divide && Tx(tx)){//if
                 
@@ -482,7 +485,7 @@ public class Exportar {
                 
                 col = 2;
                 
-                txt += phrase(tx, col);
+                txt += phrase(tx, col, separator);
                 
             } else if(divide && ended && text.length() >= this.tribute_max_end_separator_paragraphy){//if
                 
@@ -490,7 +493,7 @@ public class Exportar {
                 
                 col = 2;
                 
-                txt += phrase(tx, col);
+                txt += phrase(tx, col, separator);
                 
             } else if(divide && end && text.length() >= this.max_end_separator_paragraphy){//if
                 
@@ -498,7 +501,7 @@ public class Exportar {
                 
                 col = 2;
                 
-                txt += phrase(tx, col);
+                txt += phrase(tx, col, separator);
                 
             } else {//if
                 
@@ -506,7 +509,7 @@ public class Exportar {
                 
                 col = 1;
                 
-                txt += phrase(tx, col);
+                txt += phrase(tx, col, separator);
                 
             }//if
             
@@ -532,7 +535,7 @@ public class Exportar {
     
     private String P(String paragraphy){
         
-        return "<p class=\"" + this.p + "\">" + T(paragraphy) + "</p>";
+        return "<p class=\"" + this.p + "\">" + T(paragraphy, "<br/>") + "</p>";
         
     }//P(String paragraphy)
     
@@ -540,8 +543,16 @@ public class Exportar {
         
         String txt = "<p class=\"" + this.p + "\"><a href=\"";
         txt += link;
-        txt += "\" target=\"_blank\">";
-        txt += T(paragraphy);
+        txt += "\" target=\"_";
+        txt += this.target;
+        txt += "\">";
+        txt += T(paragraphy, "</a></p><p class=\"" + 
+                this.p + 
+                "\"><a href=\"" + 
+                link + 
+                "\" target=\"_" + 
+                this.target + 
+                "\">");
         
         txt += "</a></p>";
         
@@ -646,11 +657,7 @@ public class Exportar {
         
         String select_title;
         
-        if(name.contains(" ") && name.length() >= max_char_title){//select_title
-            
-            select_title = new Data().DataAbreviada(false);
-            
-        } else if(name.length() >= max_char_title){//select_title
+        if(name.length() >= max_char_title){//select_title
             
             select_title = "(";
             select_title += new Data().DataAbreviada(false);
@@ -671,17 +678,21 @@ public class Exportar {
             
         }//select_title
         
+        Data data_title = new Data(select_title);
+        
+        String title = data_title.Val() ? data_title.DataAbreviada(true) : select_title;
+        
         doc.add("<!-- " + Registro.github + " -->");
         doc.add("<!-- " + new Data().DataAbreviada(false) + " -- " + new Hora(true).getHora(true) + " -->");
         doc.add("<html>");
         doc.add("<head>");
-        doc.add("<title>" + select_title + "</title>");
+        doc.add("<title>" + title + "</title>");
         doc.add("<meta charset=\"utf-8\" />");
         doc.add("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
         //doc.add("<link rel=\"icon\" href=\"pasta\\arquivo.ico\" type=\"image/x-icon\">");
-        doc.add("<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">");
-        doc.add("<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>");
-        doc.add("<link href=\"https://fonts.googleapis.com/css2?family=Bytesized&family=Kavoon&family=Montserrat+Underline:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sofia+Sans+Extra+Condensed:ital,wght@0,1..1000;1,1..1000&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap\" rel=\"stylesheet\">");
+        //doc.add("<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">");
+        //doc.add("<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>");
+        //doc.add("<link href=\"https://fonts.googleapis.com/css2?family=Bytesized&family=Kavoon&family=Montserrat+Underline:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sofia+Sans+Extra+Condensed:ital,wght@0,1..1000;1,1..1000&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap\" rel=\"stylesheet\">");
         doc.add("<style>");
         
         if(cd){
@@ -690,20 +701,19 @@ public class Exportar {
                 
                 doc.add("   /* DEKSTOP **/");
                 doc.add("   a:link, a:active{");
-                doc.add("      font-family: \"Montserrat Underline\";");
+                //doc.add("      font-family: \"Montserrat Underline\";");
                 doc.add("      font-weight: bold;");
-                doc.add("      color: aqua;");
+                doc.add("      color: lightblue;");
                 doc.add("      text-decoration: none;");
                 doc.add("   }");
                 doc.add("   a:hover, a:visited{");
-                doc.add("      font-family: \"Montserrat Underline\";");
+                //doc.add("      font-family: \"Montserrat Underline\";");
                 doc.add("      font-weight: bold;");
                 doc.add("      color: teal;");
                 doc.add("      text-decoration: none;");
-                doc.add("      border-radius: .5rem;");
                 doc.add("   }");
                 doc.add("   a{");
-                doc.add("      transition: .2s;");
+                doc.add("      transition: 1s;");
                 doc.add("   }");
                 
             }// if(this.link) -- 1 de 2
@@ -773,7 +783,7 @@ public class Exportar {
                 doc.add("      margin-left:5%;");
                 doc.add("      font-weight: normal;");
                 doc.add("      font-size:calc(30px + 1vw);");
-                doc.add("      font-family: \"Poppins\";");
+                //doc.add("      font-family: \"Poppins\";");
                 doc.add("      word-wrap: break-word;");
                 doc.add("   }");
                 doc.add("   h1.cabecalho{");
@@ -781,7 +791,7 @@ public class Exportar {
                 doc.add("      margin-left:5%;");
                 doc.add("      font-weight: normal;");
                 doc.add("      font-size:calc(20px + 1vw);");
-                doc.add("      font-family: \"Roboto\";");
+                //doc.add("      font-family: \"Roboto\";");
                 doc.add("      word-wrap: break-word;");
                 doc.add("      line-height:2em;");
                 doc.add("   }");
@@ -793,7 +803,7 @@ public class Exportar {
             doc.add("      margin-left:3%;");
             doc.add("      font-weight: normal;");
             doc.add("      font-size:calc(20px + 1vw);");
-            doc.add("      font-family: \"Sofia Sans Extra Condensed\";");
+            //doc.add("      font-family: \"Sofia Sans Extra Condensed\";");
             doc.add("      word-wrap: break-word;");
             doc.add("      line-height:2em;");
             doc.add("   }");
@@ -804,7 +814,7 @@ public class Exportar {
             doc.add("      margin-right:1%;");
             doc.add("      font-weight: normal;");
             doc.add("      font-size:calc(10px + 1vw);");
-            doc.add("      font-family: \"Winky Sans\";");
+            //doc.add("      font-family: \"Winky Sans\";");
             doc.add("      word-wrap: break-word;");
             doc.add("      line-height:2em;");
             doc.add("   }");
@@ -848,29 +858,61 @@ public class Exportar {
                         case "mp4" ->{
                             
                             arq_1 += "<h1 class=\"arquivo\">MPEG-4</h1><div class=\"space\"></div>";
+                            arq_1 += "<h1 class=\"arquivo\">VÍDEO: ";
+                            arq_1 += Numb(arquivo+1, all_vcr);
+                            arq_1 += "</h1><div class=\"space\"></div><h1 class=\"";
+                            arq_1 += this.h1;
+                            arq_1 += "\">";
+                            arq_1 += this.code.Read(x, 0).substring(0,max);
                             
                         }//case "mp4"
                         
                         case "mpg" ->{
                             
-                            arq_1 += "<h1 class=\"arquivo\">MPEG Vídeo</h1><div class=\"space\"></div>";
+                            arq_1 += "<h1 class=\"arquivo\">MPEG Vídeo</h1><div class=\"space\"></div><h1 class=\"arquivo\">VÍDEO: ";
+                            arq_1 += Numb(arquivo+1, all_vcr);
+                            arq_1 += "</h1><div class=\"space\"></div><h1 class=\"";
+                            arq_1 += this.h1;
+                            arq_1 += "\">";
+                            arq_1 += this.code.Read(x, 0).substring(0,max);
                             
                         }/* case "mpg" */
                         
-                        /* case "avi" ->{
+                        case "avi" ->{
                             
-                            arq_1 += "<h1 class=\"arquivo\">Audio & Vídeo<br/>Interleave</h1><div class=\"space\"></div>";
+                            arq_1 += "<h1 class=\"arquivo\">Audio & Vídeo: ";
+                            arq_1 += Numb(arquivo+1, all_vcr);
+                            arq_1 += "</h1><div class=\"space\"></div><h1 class=\"";
+                            arq_1 += this.h1;
+                            arq_1 += "\">";
+                            arq_1 += this.code.Read(x, 0).substring(0,max);
                             
                         }/* case "avi" */
                         
+                        case "tv" ->{
+                            
+                            arq_1 += "<h1 class=\"arquivo\">Transmição: ";
+                            arq_1 += Numb(arquivo+1, all_vcr);
+                            arq_1 += "</h1><div class=\"space\"></div><h1 class=\"";
+                            arq_1 += this.h1;
+                            arq_1 += "\">";
+                            arq_1 += this.code.Read(x, 0).substring(0,max);
+                            
+                        }/* case "tv" */
+                        
+                        default ->{
+                            
+                            arq_1 += "<h1 class=\"arquivo\">VÍDEO: ";
+                            arq_1 += Numb(arquivo+1, all_vcr);
+                            arq_1 += "</h1><div class=\"space\"></div><h1 class=\"";
+                            arq_1 += this.h1;
+                            arq_1 += "\">";
+                            arq_1 += this.code.Read(x, 0).substring(0,max);
+                            
+                        }/* default */
+                        
                     }//switch(this.code.Read(x, 0).substring(0,max+1))
                     
-                    arq_1 += "<h1 class=\"arquivo\">VÍDEO: ";
-                    arq_1 += Numb(arquivo+1, all_vcr);
-                    arq_1 += "</h1><div class=\"space\"></div><h1 class=\"";
-                    arq_1 += this.h1;
-                    arq_1 += "\">";
-                    arq_1 += this.code.Read(x, 0).substring(0,max);
                     arq_2 = this.code.Read(x, 0);
                     ext_val = true;
                     arquivo++;
@@ -918,7 +960,7 @@ public class Exportar {
                                 tx += "</h1><div class=\"space\"></div><h1 class=\"";
                                 tx += this.h1;
                                 tx += "\">";
-                                tx += T(this.code.Read(x, 0));
+                                tx += T(this.code.Read(x, 0), "<br/>");
                                 tx += "</h1>";
                                 
                             }//if(sub_arq == 1)
@@ -933,11 +975,11 @@ public class Exportar {
                             
                             if(numer.Num() == 0 && numer.Val()){
                                 
-                                tx += T(this.code.Read(0, 0));
+                                tx += T(this.code.Read(0, 0), "<br/>");
                                 
                             } else {//if(numer.Num() == 0 && numer.Val())
                                 
-                                tx += T(this.code.Read(x, 0));
+                                tx += T(this.code.Read(x, 0), "<br/>");
                                 
                             }//if(numer.Num() == 0 && numer.Val())
                             
@@ -1030,7 +1072,7 @@ public class Exportar {
                        " -- " + 
                        new Hora(true).getHora(true) + 
                        " -- " + 
-                       T(this.code.Read(0, 0)).replaceAll("<br/>", " -- ")
+                       T(this.code.Read(0, 0), " -- ")
                 );
                 
                 for(int pg = 1; pg <= this.code.Tot(); pg++){
