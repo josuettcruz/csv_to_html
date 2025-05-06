@@ -546,9 +546,7 @@ public class Exportar {
         txt += "\" target=\"_";
         txt += this.target;
         txt += "\">";
-        txt += T(paragraphy, "</a></p><p class=\"" + 
-                this.p + 
-                "\"><a href=\"" + 
+        txt += T(paragraphy, "</a><br/><a href=\"" + 
                 link + 
                 "\" target=\"_" + 
                 this.target + 
@@ -565,6 +563,8 @@ public class Exportar {
         cod c = new cod();
         
         final int max_char_title = 80;
+        
+        boolean not_tv = true;
         
         int all_vcr = 0;
         
@@ -864,6 +864,7 @@ public class Exportar {
                             arq_1 += this.h1;
                             arq_1 += "\">";
                             arq_1 += this.code.Read(x, 0).substring(0,max);
+                            arq_2 = this.code.Read(x, 0);
                             
                         }//case "mp4"
                         
@@ -875,28 +876,37 @@ public class Exportar {
                             arq_1 += this.h1;
                             arq_1 += "\">";
                             arq_1 += this.code.Read(x, 0).substring(0,max);
+                            arq_2 = this.code.Read(x, 0);
                             
                         }/* case "mpg" */
                         
-                        case "avi" ->{
+                        /* case "avi" ->{
                             
-                            arq_1 += "<h1 class=\"arquivo\">Audio & Vídeo: ";
+                            arq_1 += "<h1 class=\"arquivo\">Audio & Vídeo:<br/>";
                             arq_1 += Numb(arquivo+1, all_vcr);
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"";
                             arq_1 += this.h1;
                             arq_1 += "\">";
                             arq_1 += this.code.Read(x, 0).substring(0,max);
+                            arq_2 = this.code.Read(x, 0);
                             
                         }/* case "avi" */
                         
                         case "tv" ->{
+                            
+                            not_tv = false;
                             
                             arq_1 += "<h1 class=\"arquivo\">Transmição: ";
                             arq_1 += Numb(arquivo+1, all_vcr);
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"";
                             arq_1 += this.h1;
                             arq_1 += "\">";
-                            arq_1 += this.code.Read(x, 0).substring(0,max);
+                            arq_1 += T(this.code.Read(x, 0).substring(0,max),
+                                    "</h1><div class=\"space\"></div><h1 class=\"" + 
+                                    this.h1 + 
+                                    "\">");
+                            
+                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             
                         }/* case "tv" */
                         
@@ -908,12 +918,12 @@ public class Exportar {
                             arq_1 += this.h1;
                             arq_1 += "\">";
                             arq_1 += this.code.Read(x, 0).substring(0,max);
+                            arq_2 = this.code.Read(x, 0);
                             
                         }/* default */
                         
                     }//switch(this.code.Read(x, 0).substring(0,max+1))
                     
-                    arq_2 = this.code.Read(x, 0);
                     ext_val = true;
                     arquivo++;
                     sub_arq = into_arq;
@@ -1065,7 +1075,7 @@ public class Exportar {
             
             doc.add("");
             
-            if(this.code.Tot() <= 250 && this.link && !this.code.Read(0,0).contains("Agora na TV")){
+            if(this.code.Tot() <= 300 && this.link && not_tv){
                 
                 doc.add("<!-- " + 
                        new Data().DataAbreviada(true) + 
@@ -1117,11 +1127,11 @@ public class Exportar {
                 doc.add("-- " + 
                         new Data().DataAbreviada(false) + 
                         " -- " + 
-                        new Hora(true).getHora(true) + 
+                        new Hora(true).getHora(false) + 
                         " --"
                 );
                 
-            } else {//if(this.code.Tot() <= 250 && this.link && !this.code.Read(0,0).contains("Agora na TV"))
+            } else {//if(this.code.Tot() <= 300 && this.link && not_tv)
                 
                 doc.add("<!-- " + 
                         new Data().DataAbreviada(false) + 
@@ -1130,9 +1140,9 @@ public class Exportar {
                         " --"
                 );
                 
-            }//if(this.code.Tot() <= 250 && this.link && !this.code.Read(0,0).contains("Agora na TV"))
+            }//if(this.code.Tot() <= 300 && this.link && not_tv)
             
-            if(this.code.Tot() <= 250){
+            if(this.code.Tot() <= 250 && !extend && not_tv){
             
                 String total = "ITE";
 
@@ -1178,18 +1188,21 @@ public class Exportar {
                     
                     int val = Test.Val() && Test.Num() == 0 ? 0 : d-1;
                     
-                    itens += Registro.Select(this.code.Read(val, 0).trim().replace(" | ", " - "),350);
+                    itens += T(this.code.Read(val, 0)," | ");
                     
                 }//for(int d = 0; d < this.code.Tot(); d++)
 
                 doc.add(
-                        this.code.Tot() + 
-                        " " + 
-                        total + 
-                        itens
+                    new Data().Load() + 
+                    " | " + 
+                    new Hora(true).getHora(true) + 
+                    this.code.Tot() + 
+                    " " + 
+                    total + 
+                    itens
                 );
             
-            }//if(this.code.Tot() <= 250)
+            }//if(this.code.Tot() <= 250 && !extend && not_tv)
             
             for(int x = 0; x < this.code.Tot(); x++){
                 
