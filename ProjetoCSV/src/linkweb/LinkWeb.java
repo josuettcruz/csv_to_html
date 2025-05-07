@@ -28,19 +28,13 @@ public class LinkWeb {
         
         System.out.print("Criação:");
         Registro.Tab("Criação:",Registro.result);
-        System.out.println(Registro.upgrade.DataLinha(true));
+        System.out.println(Registro.create.DataLinha(true));
         
-        /* Criação: 01/05/2025 **
         System.out.print("Última atualização:");
         Registro.Tab("Última atualização:",Registro.result);
         System.out.println(Registro.upgrade.DataLinha(true));
-        /* Criação: 01/05/2025 */
         
-        String set_title = "Projeto de ";
-        set_title += Registro.upgrade.DataLinha(false);
-        set_title += "!";
-        
-        new Index().Enter(set_title);
+        new Index().Enter(false);
         
     }
     

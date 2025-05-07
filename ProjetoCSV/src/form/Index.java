@@ -4,7 +4,6 @@
  */
 package form;
 
-import file.cod;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -84,7 +83,7 @@ public class Index extends javax.swing.JFrame {
             txt = comp[2];
         }
         
-        txt += ", hoje é dia ";
+        txt += ", hoje é ";
         
         switch(s){
             

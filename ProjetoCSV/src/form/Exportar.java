@@ -541,18 +541,88 @@ public class Exportar {
     
     private String P(String paragraphy, String link){
         
-        String txt = "<p class=\"" + this.p + "\"><a href=\"";
+        String title_link = "";
+        String char_link = "";
+        boolean point = false;
+        
+        for(int i = 0; i < link.length(); i++){
+            
+            char ds = link.charAt(i);
+            
+            switch(ds){
+                
+                case '/' ->{
+                    if(point){
+                        title_link = char_link;
+                        point = false;
+                    }
+                    char_link = "";
+                }
+                
+                case '.' ->{
+                    point = true;
+                    char_link += ds;
+                }
+                
+                default ->{
+                    char_link += ds;
+                }
+                
+            }//ds
+            
+        }//for(int i = 0; i < link.length(); i++)
+        
+        char_link = "";
+        
+        String txt = "<p class=\"";
+        txt += this.p;
+        txt += "\" title=\"";
+        
+        switch(title_link){
+            
+            case "www.youtube.com":
+            case "youtube.com":
+            case "youtu.be":
+            txt += "YouTube";
+            break;
+            
+            case "images.app.goo.gl":
+            txt += "Google Imagens";
+            break;
+            
+            default:
+            txt += title_link;
+            break;
+            
+        }//switch(title_link)
+        
+        txt += "\"><a href=\"";
         txt += link;
         txt += "\" target=\"_";
         txt += this.target;
         txt += "\">";
-        txt += T(paragraphy, "</a><br/><a href=\"" + 
-                link + 
-                "\" target=\"_" + 
-                this.target + 
-                "\">");
+        txt += T(paragraphy, "</a><br/><a href=\"" + link + "\" target=\"_" + this.target + "\">");
+        txt += "</a><br/><span style=\"opacity:.5;font-size:.8em\">";
         
-        txt += "</a></p>";
+        switch(title_link){
+            
+            case "www.youtube.com":
+            case "youtube.com":
+            case "youtu.be":
+            txt += "Abrir o YouTube";
+            break;
+            
+            case "images.app.goo.gl":
+            txt += "Resultado da pesquiza Google Imagens";
+            break;
+            
+            default:
+            txt += title_link;
+            break;
+            
+        }//switch(title_link)
+        
+        txt += "</span></p>";
         
         return txt;
         
@@ -689,7 +759,7 @@ public class Exportar {
         doc.add("<title>" + title + "</title>");
         doc.add("<meta charset=\"utf-8\" />");
         doc.add("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-        //doc.add("<link rel=\"icon\" href=\"pasta\\arquivo.ico\" type=\"image/x-icon\">");
+        doc.add("<!-- <link rel=\"icon\" href=\"pasta\\arquivo.ico\" type=\"image/x-icon\"> -->");
         //doc.add("<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">");
         //doc.add("<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>");
         //doc.add("<link href=\"https://fonts.googleapis.com/css2?family=Bytesized&family=Kavoon&family=Montserrat+Underline:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sofia+Sans+Extra+Condensed:ital,wght@0,1..1000;1,1..1000&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap\" rel=\"stylesheet\">");
@@ -768,7 +838,7 @@ public class Exportar {
             doc.add("      background-color:transparent;");
             doc.add("      min-height:100px;");
             doc.add("      overflow-y:visible;");
-            doc.add("      border-radius: 2em;");
+            doc.add("      border-radius: 5em;");
             doc.add("   }");
             doc.add("   div.space{");
             doc.add("      width:100%;");
@@ -863,8 +933,8 @@ public class Exportar {
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"";
                             arq_1 += this.h1;
                             arq_1 += "\">";
-                            arq_1 += this.code.Read(x, 0).substring(0,max);
-                            arq_2 = this.code.Read(x, 0);
+                            arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>");
+                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             
                         }//case "mp4"
                         
@@ -875,8 +945,8 @@ public class Exportar {
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"";
                             arq_1 += this.h1;
                             arq_1 += "\">";
-                            arq_1 += this.code.Read(x, 0).substring(0,max);
-                            arq_2 = this.code.Read(x, 0);
+                            arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>");
+                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             
                         }/* case "mpg" */
                         
@@ -887,8 +957,8 @@ public class Exportar {
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"";
                             arq_1 += this.h1;
                             arq_1 += "\">";
-                            arq_1 += this.code.Read(x, 0).substring(0,max);
-                            arq_2 = this.code.Read(x, 0);
+                            arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>");
+                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             
                         }/* case "avi" */
                         
@@ -901,11 +971,7 @@ public class Exportar {
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"";
                             arq_1 += this.h1;
                             arq_1 += "\">";
-                            arq_1 += T(this.code.Read(x, 0).substring(0,max),
-                                    "</h1><div class=\"space\"></div><h1 class=\"" + 
-                                    this.h1 + 
-                                    "\">");
-                            
+                            arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
                             arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             
                         }/* case "tv" */
@@ -917,7 +983,8 @@ public class Exportar {
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"";
                             arq_1 += this.h1;
                             arq_1 += "\">";
-                            arq_1 += this.code.Read(x, 0).substring(0,max);
+                            arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
+                            arq_1 += this.code.Read(x, 0).substring(max).toLowerCase();
                             arq_2 = this.code.Read(x, 0);
                             
                         }/* default */
@@ -931,7 +998,6 @@ public class Exportar {
                 } else if(number.Val() && number.Num() == 0){//if(mpeg(this.code.Read(x, 0)))
                     
                     ext_val = false;
-                    arquivo = 0;
                     sub_arq = into_arq;
                     
                 } else {//if(mpeg(this.code.Read(x, 0)))
@@ -946,7 +1012,7 @@ public class Exportar {
                     
                     if(y == 0){
                         
-                        tx += "<div class=\"txt\">";
+                        tx += "<div class=\"txt\"><div class=\"divide\"></div>";
                         
                         if(ext_val){
                             
