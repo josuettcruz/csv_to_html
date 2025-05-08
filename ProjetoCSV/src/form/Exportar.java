@@ -1216,7 +1216,7 @@ public class Exportar {
                     total += "M";
                 } else {
                     total += "NS";
-                }
+                }// if(this.code.Tot() == 1)
                 
                 String itens = "";
                 
@@ -1262,6 +1262,7 @@ public class Exportar {
                     new Data().Load() + 
                     " | " + 
                     new Hora(true).getHora(true) + 
+                    ";" + 
                     this.code.Tot() + 
                     " " + 
                     total + 
