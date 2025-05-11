@@ -605,7 +605,7 @@ public class Exportar {
         txt += "\" target=\"_";
         txt += this.target;
         txt += "\">";
-        txt += T(paragraphy, "</a><br/><a href=\"" + link + "\">");
+        txt += T(paragraphy, "</a><br/><a href=\"" + link + "\" + target=\"" + this.target + "\">");
         txt += "</a></p>";
         
         return txt;
@@ -616,7 +616,7 @@ public class Exportar {
         
         cod c = new cod();
         
-        final int max_char_title = 80;
+        final int max_char_title = 75;
         
         boolean not_tv = true;
         
@@ -737,7 +737,6 @@ public class Exportar {
         String title = data_title.Val() ? data_title.DataAbreviada(true) : select_title;
         
         doc.add("<!-- " + Registro.github + " -->");
-        doc.add("<!-- " + new Data().DataAbreviada(false) + " -- " + new Hora(true).getHora(true) + " -->");
         doc.add("<html>");
         doc.add("<head>");
         doc.add("<title>" + title + "</title>");
@@ -772,7 +771,7 @@ public class Exportar {
                 doc.add("   span.hiperlink{");
                 doc.add("      color: white;");
                 doc.add("      letter-spacing: .1em;");
-                //doc.add("      font-family: \"Montserrat Underline\";");
+                //doc.add("      font-family: \"Sofia Sans Extra Condensed\";");
                 doc.add("      font-weight: bold;");
                 doc.add("      font-size: .5em;");
                 doc.add("   }");
@@ -988,8 +987,9 @@ public class Exportar {
                             arq_1 += this.h1;
                             arq_1 += "\">";
                             arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
-                            arq_1 += this.code.Read(x, 0).substring(max).toLowerCase();
-                            arq_2 = this.code.Read(x, 0);
+                            arq_1 += this.code.Read(x, 0).substring(max);
+                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
+                            arq_2 += this.code.Read(x, 0).substring(max);
                             
                         }/* default */
                         
@@ -1147,13 +1147,7 @@ public class Exportar {
             
             if(this.code.Tot() <= 300 && this.link && not_tv){
                 
-                doc.add("<!-- " + 
-                       new Data().DataAbreviada(true) + 
-                       " -- " + 
-                       new Hora(true).getHora(true) + 
-                       " -- " + 
-                       T(this.code.Read(0, 0), " -- ")
-                );
+                doc.add("<!-- " + T(this.code.Read(0, 0), " -- "));
                 
                 for(int pg = 1; pg <= this.code.Tot(); pg++){
                     
