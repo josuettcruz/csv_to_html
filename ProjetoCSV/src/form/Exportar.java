@@ -453,7 +453,7 @@ public class Exportar {
                 
                 col = 2;
                 
-                txt += d.DataCompleta(true);
+                txt += d.DataCompleta(separator);
                 
             } else if(h.Val() && !h.getNodeHora(true).isBlank()){//if
                 
@@ -535,7 +535,9 @@ public class Exportar {
     
     private String P(String paragraphy){
         
-        return "<p class=\"" + this.p + "\">" + T(paragraphy, "<br/>") + "</p>";
+        String classe = T(paragraphy," ").length() <= 75 ? this.p : "long_text";
+        
+        return "<p class=\"" + classe + "\">" + T(paragraphy, "</p><p class=\"" + classe + "\">") + "</p>";
         
     }//P(String paragraphy)
     
@@ -576,53 +578,35 @@ public class Exportar {
         
         String txt = "<p class=\"";
         txt += this.p;
-        txt += "\" title=\"";
         
         switch(title_link){
             
             case "www.youtube.com":
             case "youtube.com":
             case "youtu.be":
-            txt += "YouTube";
+            txt += "\"><span class=\"hiperlink\">Abrir o <q>YouTube</q></span><br/>";
             break;
             
             case "images.app.goo.gl":
-            txt += "Google Imagens";
+            case "g.co":
+            txt += "\"><span class=\"hiperlink\">Abrir o <q>Google</q></span><br/>";
             break;
             
             default:
+            txt += "\"><span class=\"hiperlink\"><q>";
             txt += title_link;
+            txt += "</q></span><br/>";
             break;
             
-        }//switch(title_link)
+        }//switch(title_link) - 1 - 2
         
-        txt += "\"><a href=\"";
+        txt += "<a href=\"";
         txt += link;
         txt += "\" target=\"_";
         txt += this.target;
         txt += "\">";
-        txt += T(paragraphy, "</a><br/><a href=\"" + link + "\" target=\"_" + this.target + "\">");
-        txt += "</a><br/><span style=\"opacity:.5;font-size:.8em\">";
-        
-        switch(title_link){
-            
-            case "www.youtube.com":
-            case "youtube.com":
-            case "youtu.be":
-            txt += "Abrir o YouTube";
-            break;
-            
-            case "images.app.goo.gl":
-            txt += "Resultado da pesquiza Google Imagens";
-            break;
-            
-            default:
-            txt += title_link;
-            break;
-            
-        }//switch(title_link)
-        
-        txt += "</span></p>";
+        txt += T(paragraphy, "</a><br/><a href=\"" + link + "\">");
+        txt += "</a></p>";
         
         return txt;
         
@@ -783,15 +767,22 @@ public class Exportar {
                 doc.add("      text-decoration: none;");
                 doc.add("   }");
                 doc.add("   a{");
-                doc.add("      transition: 1s;");
+                doc.add("      transition: .2s;");
+                doc.add("   }");
+                doc.add("   span.hiperlink{");
+                doc.add("      color: white;");
+                doc.add("      letter-spacing: .1em;");
+                //doc.add("      font-family: \"Montserrat Underline\";");
+                doc.add("      font-weight: bold;");
+                doc.add("      font-size: .5em;");
                 doc.add("   }");
                 
             }// if(this.link) -- 1 de 2
             
             if(extend){
-                doc.add("   h1.arquivo::selection, h1.cabecalho::selection, h1.tema::selection, p.texto::selection{");
+                doc.add("   h1.arquivo::selection, h1.cabecalho::selection, h1.tema::selection, p.texto::selection, p.long_text::selection, span.hiperlink::selection{");
             } else {
-                doc.add("   h1.tema::selection, p.texto::selection{");
+                doc.add("   h1.tema::selection, p.texto::selection, p.long_text::selection, span.hiperlink::selection{");
             }
             
             doc.add("      color:black;");
@@ -805,7 +796,7 @@ public class Exportar {
             
             doc.add("      background-color: wheat;");
             doc.add("   }");
-            doc.add("   p.texto::selection{");
+            doc.add("   p.texto::selection, p.long_text::selection{");
             doc.add("      background-color: white;");
             doc.add("   }");
             
@@ -849,17 +840,17 @@ public class Exportar {
             if(extend){
                 
                 doc.add("   h1.arquivo{");
-                doc.add("      color:white;");
-                doc.add("      margin-left:5%;");
+                doc.add("      color:lightskyblue;");
+                doc.add("      text-align:center;");
                 doc.add("      font-weight: normal;");
                 doc.add("      font-size:calc(30px + 1vw);");
                 //doc.add("      font-family: \"Poppins\";");
                 doc.add("      word-wrap: break-word;");
                 doc.add("   }");
                 doc.add("   h1.cabecalho{");
-                doc.add("      color:white;");
-                doc.add("      margin-left:5%;");
-                doc.add("      font-weight: normal;");
+                doc.add("      color:lightskyblue;");
+                doc.add("      margin-left:2%;");
+                doc.add("      font-weight: bold;");
                 doc.add("      font-size:calc(20px + 1vw);");
                 //doc.add("      font-family: \"Roboto\";");
                 doc.add("      word-wrap: break-word;");
@@ -870,7 +861,7 @@ public class Exportar {
             
             doc.add("   h1.tema{");
             doc.add("      color:white;");
-            doc.add("      margin-left:3%;");
+            doc.add("      margin-left:2%;");
             doc.add("      font-weight: normal;");
             doc.add("      font-size:calc(20px + 1vw);");
             //doc.add("      font-family: \"Sofia Sans Extra Condensed\";");
@@ -879,18 +870,31 @@ public class Exportar {
             doc.add("   }");
             doc.add("   p.texto{");
             doc.add("      color:white;");
-            doc.add("      margin-top:10px;");
+            doc.add("      margin-top:5px;");
+            doc.add("      margin-bottom:5px;");
             doc.add("      margin-left:2%;");
             doc.add("      margin-right:1%;");
+            doc.add("      font-weight: bold;");
+            doc.add("      font-size:calc(15px + 1vw);");
+            //doc.add("      font-family: \"Winky Sans\";");
+            doc.add("      word-wrap: break-word;");
+            doc.add("      line-height:2em;");
+            doc.add("   }");
+            doc.add("   p.long_text{");
+            doc.add("      color:white;");
+            doc.add("      margin-top:10px;");
+            doc.add("      margin-bottom:10px;");
+            doc.add("      margin-left:2%;");
+            doc.add("      margin-right:5%;");
             doc.add("      font-weight: normal;");
             doc.add("      font-size:calc(10px + 1vw);");
-            //doc.add("      font-family: \"Winky Sans\";");
+            //doc.add("      font-family: \"Sofia Sans Extra Condensed\";");
             doc.add("      word-wrap: break-word;");
             doc.add("      line-height:2em;");
             doc.add("   }");
             doc.add("   div.divide{");
             doc.add("      width:100%;");
-            doc.add("      height:20px;");
+            doc.add("      height:10%;");
             doc.add("      background-color:transparent;");
             doc.add("   }");
             doc.add("   p.ended{");
@@ -966,7 +970,7 @@ public class Exportar {
                             
                             not_tv = false;
                             
-                            arq_1 += "<h1 class=\"arquivo\">Transmição: ";
+                            arq_1 += "<h1 class=\"arquivo\">Transmição:<br/>";
                             arq_1 += Numb(arquivo+1, all_vcr);
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"";
                             arq_1 += this.h1;

@@ -317,7 +317,7 @@ public class Data {
         
     }//DataAbreviada(String sep)
     
-    public String DataCompleta(boolean week){
+    private String DataCompleta(boolean week, String separator){
         
         String txt = "";
         
@@ -365,7 +365,7 @@ public class Data {
                 txt += "-feira";
             }
 
-            txt += ", dia ";
+            txt += separator;
             
         }//if(semana)
         
@@ -435,6 +435,18 @@ public class Data {
         return txt;
         
     }//DataCompleta(boolean semana)
+    
+    public String DataCompleta(boolean semana){
+        
+        return this.DataCompleta(semana, ", dia");
+        
+    }//DataCompleta(boolean semana)
+    
+    public String DataCompleta(String separator){
+        
+        return this.DataCompleta(true, separator);
+        
+    }//public String DataCompleta(String separator)
     
     public String DataLinha(boolean ifo){
         
