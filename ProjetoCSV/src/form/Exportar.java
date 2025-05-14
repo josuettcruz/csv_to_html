@@ -535,9 +535,9 @@ public class Exportar {
     
     private String P(String paragraphy){
         
-        String classe = T(paragraphy," ").length() <= 75 ? this.p : "long_text";
+        String classe = T(paragraphy,"").length() <= 80 ? this.p : "long_text";
         
-        return "<p class=\"" + classe + "\">" + T(paragraphy, "</p><p class=\"" + classe + "\">") + "</p>";
+        return "<p class=\"" + classe + "\">" + T(paragraphy, "<br/>") + "</p>";
         
     }//P(String paragraphy)
     
@@ -616,7 +616,7 @@ public class Exportar {
         
         cod c = new cod();
         
-        final int max_char_title = 75;
+        final int max_char_title = 80;
         
         boolean not_tv = true;
         
@@ -752,7 +752,6 @@ public class Exportar {
             
             if(this.link){
                 
-                doc.add("   /* DEKSTOP **/");
                 doc.add("   a:link, a:active{");
                 //doc.add("      font-family: \"Montserrat Underline\";");
                 doc.add("      font-weight: bold;");
@@ -766,11 +765,10 @@ public class Exportar {
                 doc.add("      text-decoration: none;");
                 doc.add("   }");
                 doc.add("   a{");
-                doc.add("      transition: .2s;");
+                doc.add("      transition: .5s;");
                 doc.add("   }");
                 doc.add("   span.hiperlink{");
                 doc.add("      color: white;");
-                doc.add("      letter-spacing: .1em;");
                 //doc.add("      font-family: \"Sofia Sans Extra Condensed\";");
                 doc.add("      font-weight: bold;");
                 doc.add("      font-size: .5em;");
@@ -804,16 +802,7 @@ public class Exportar {
                 doc.add("   a::selection{");
                 doc.add("      color: wheat;");
                 doc.add("      background-color: teal;");
-                doc.add("   }/* DEKSTOP */");
-                doc.add("   ");
-                doc.add("   /* MOBILE **");
-                doc.add("   a:link, a:hover, a:active, a:visited{");
-                //doc.add("      font-family: \"Montserrat Underline\";");
-                doc.add("      font-weight: bold;");
-                doc.add("      color: aqua;");
-                doc.add("      text-decoration: none;");
-                doc.add("   }/* MOBILE */");
-                doc.add("   ");
+                doc.add("   }");
                 
             }// if(this.link) -- 2 de 2
             
@@ -869,8 +858,8 @@ public class Exportar {
             doc.add("   }");
             doc.add("   p.texto{");
             doc.add("      color:white;");
-            doc.add("      margin-top:5px;");
-            doc.add("      margin-bottom:5px;");
+            doc.add("      margin-top:25px;");
+            doc.add("      margin-bottom:25px;");
             doc.add("      margin-left:2%;");
             doc.add("      margin-right:1%;");
             doc.add("      font-weight: bold;");
@@ -884,7 +873,7 @@ public class Exportar {
             doc.add("      margin-top:10px;");
             doc.add("      margin-bottom:10px;");
             doc.add("      margin-left:2%;");
-            doc.add("      margin-right:5%;");
+            doc.add("      margin-right:48%;");
             doc.add("      font-weight: normal;");
             doc.add("      font-size:calc(10px + 1vw);");
             //doc.add("      font-family: \"Sofia Sans Extra Condensed\";");
@@ -1145,7 +1134,7 @@ public class Exportar {
             
             doc.add("");
             
-            if(this.code.Tot() <= 300 && this.link && not_tv){
+            if(this.code.Tot() <= 350 && this.link && not_tv){
                 
                 doc.add("<!-- " + T(this.code.Read(0, 0), " -- "));
                 
@@ -1206,7 +1195,7 @@ public class Exportar {
                 
             }//if(this.code.Tot() <= 300 && this.link && not_tv)
             
-            if(this.code.Tot() <= 250 && !extend && not_tv){
+            if(this.code.Tot() <= 250 && not_tv){
             
                 String total = "ITE";
 
@@ -1226,15 +1215,15 @@ public class Exportar {
                         itens += "0";
                     }
                     
-                    if(d < 100 && this.code.Tot() > 100){
+                    if(d < 100 && this.code.Tot() >= 100){
                         itens += "0";
                     }
                     
-                    /*if(d < 1000 && this.code.Tot() > 1000){
+                    /*if(d < 1000 && this.code.Tot() >= 1000){
                         itens += "0";
                     }
                     
-                    if(d < 10000 && this.code.Tot() > 10000){
+                    if(d < 10000 && this.code.Tot() >= 10000){
                         itens += "0";
                     }*/
                     
