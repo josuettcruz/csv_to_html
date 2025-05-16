@@ -9,6 +9,7 @@ import file.csv;
 import model.Registro;
 import java.util.ArrayList;
 import java.util.List;
+import model.Data;
 
 /**
  *
@@ -235,7 +236,7 @@ public class Text extends javax.swing.JFrame {
         
     }//Action()
     
-    private void Save(){
+    private void Saved(){
         
         cod d = new cod();
         
@@ -243,27 +244,17 @@ public class Text extends javax.swing.JFrame {
             
             boolean val_text = false;
             
-            String node = "";
-            
-            int number = this.index+1;
-            
             val_text = txt.getText().replaceAll("\n", "").trim().isBlank();
             
-            if(this.index <= 0){
-                node = "001";
-            } else if(number < 10){
-                node = "00";
-                node += number;
-            } else if(number < 100){
-                node = "0";
-                node += number;
-            } else if(number < 1000){
-                node += number;
-            } else {
-                node = "";
+            Data read = new Data(this.doc.Read(0, 0));
+            
+            String title_text = this.doc.Read(0, 0);
+            
+            if(read.Val() || this.doc.Read(0, 0).trim().isBlank()){
+                title_text = read.DataAbreviada(false);
             }
             
-            title.setText(node);
+            title.setText(title_text);
             
             if(val_text){
                 txt.requestFocus();
@@ -307,6 +298,16 @@ public class Text extends javax.swing.JFrame {
             }//if(d.Link(document) || document.isBlank())
             
         }//if(d.Link(title.getText().trim()) || title.getText().trim().isBlank())
+        
+    }//Saved()
+    
+    private void Save(){
+        
+        try{
+            Saved();
+        }catch(Exception e){
+            txt.setText(e.getMessage());
+        }
         
     }//Save()
     

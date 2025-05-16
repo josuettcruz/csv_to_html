@@ -6,6 +6,8 @@ package form;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import model.Data;
+import model.Hora;
 
 /**
  *
@@ -195,35 +197,6 @@ public class Index extends javax.swing.JFrame {
         
     }//DataCompleta()
     
-    public String DataAbreviada(){
-        
-        final String separator = "/";
-        
-        int a = LocalDate.now().getYear();
-        int m = LocalDate.now().getMonthValue();
-        int d = LocalDate.now().getDayOfMonth();
-        
-        String txt = "";
-        
-        if(d < 10){
-            txt += "0";
-        }
-        
-        txt += d;
-        txt += separator;
-        
-        if(m < 10){
-            txt += "0";
-        }
-        
-        txt += m;
-        txt += separator;
-        txt += a;
-        
-        return txt;
-        
-    }//DataAbreviada()
-    
     private void Enter(boolean exit, String tct){
         
         setVisible(true);
@@ -235,11 +208,16 @@ public class Index extends javax.swing.JFrame {
         novo.setEnabled(true);
         msg.setEditable(false);
         msg.setVisible(true);
+        
         if(exit){
-            setTitle(DataAbreviada());
-        } else {
+            
+            setTitle("(" + new Data().DataAbreviada(false) + ")  " + new Hora(true).getNodeHora(false));
+            
+        } else {//if(exit)
+            
             setTitle(DataCompleta());
-        }
+            
+        }//if(exit)
         
         setLocation(Location.x,Location.y);
         
