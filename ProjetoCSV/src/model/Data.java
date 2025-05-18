@@ -261,31 +261,31 @@ public class Data {
             switch(s){
                 
                 case 1 ->{
-                    txt += "Segunda";
+                    txt += "Seg";
                 }
                 
                 case 2 ->{
-                    txt += "Terça";
+                    txt += "Ter";
                 }
                 
                 case 3 ->{
-                    txt += "Quarta";
+                    txt += "Qua";
                 }
                 
                 case 4 ->{
-                    txt += "Quinta";
+                    txt += "Qui";
                 }
                 
                 case 5 ->{
-                    txt += "Sexta";
+                    txt += "Sex";
                 }
                 
                 case 6 ->{
-                    txt += "Sábado";
+                    txt += "Sáb";
                 }
                 
                 case 7 ->{
-                    txt += "Domingo";
+                    txt += "Dom";
                 }
                 
             }//switch(s)
@@ -438,7 +438,7 @@ public class Data {
     
     public String DataCompleta(boolean semana){
         
-        return this.DataCompleta(semana, ", dia");
+        return this.DataCompleta(semana, ", dia ");
         
     }//DataCompleta(boolean semana)
     
