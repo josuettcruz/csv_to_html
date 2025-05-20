@@ -41,7 +41,7 @@ public class Hora {
         }
         
         this.hora = LocalTime.of(
-                round(timer/(60*60)) % 60 >= 23 ? 23 : round(timer/(60*60)) % 60,
+                round(timer/60) >= 23 ? 23 : round(timer/60),
                 round(timer/60) % 60,
                 timer % 60
         );

@@ -16,7 +16,7 @@ public class Exportar {
     
     private csv code;
     
-    private final int long_text = 75;
+    private final int long_text = 70;
     private final int max_end_separator_paragraphy = 150;
     private final int tribute_max_end_separator_paragraphy = 350;
     
@@ -62,7 +62,7 @@ public class Exportar {
                     
                 }// 1 de 2 - boolean link;
                 
-                if(code.Read(col, line).length() > this.long_text){
+                if(code.Read(col, line).length() > this.long_text && !code.Read(col, line).contains("|") && !code.Read(col, line).contains("\\")){
                     
                     this.text_long = true;
                     
@@ -335,10 +335,6 @@ public class Exportar {
         
         if(max >= 10 && num < 10){txt += "0";}
         if(max >= 100 && num < 100){txt += "0";}
-        if(max >= 1000 && num < 1000){txt += "0";}
-        if(max >= 10000 && num < 10000){txt += "0";}
-        if(max >= 100000 && num < 100000){txt += "0";}
-        if(max >= 1000000 && num < 1000000){txt += "0";}
         
         txt += num;
         txt += " de ";
@@ -543,7 +539,7 @@ public class Exportar {
     
     private String P(String paragraphy){
         
-        String classe = paragraphy.length() <= long_text ? this.p : "long_text";
+        String classe = paragraphy.length() > long_text && !paragraphy.contains("|") && !paragraphy.contains("\\") ? "long_text" : this.p;
         
         return "<p class=\"" + classe + "\">" + T(paragraphy, "<br/>") + "</p>";
         
@@ -591,18 +587,40 @@ public class Exportar {
             case "www.youtube.com":
             case "youtube.com":
             case "youtu.be":
-            txt += "Abrir:<br/><q>YouTube</q>";
+            txt += "Abrir o <q>YouTube</q>";
             break;
             
             case "www.google.com":
             case "images.app.goo.gl":
             case "g.co":
-            txt += "Abrir:<br/><q>Google</q>";
+            txt += "Abrir o <q>Google</q>";
+            break;
+            
+            case "www.facebook.com":
+            txt += "Abrir o <q>FACEBOOK</q>";
+            break;
+            
+            case "www.instagram.com":
+            txt += "Abrir o <q>Instagram</q>";
+            break;
+            
+            case "pt.wikipedia.org":
+            txt += "Abrir a <q>Wikipédia</q>";
+            break;
+            
+            case "www.primevideo.com":
+            txt += "Abrir o <q>Prime Video</q>";
+            break;
+            
+            case "meuguia.tv":
+            case "mi.tv":
+            txt += "Agora na TV</p><p class=\"hiperlink\">Guia de programação da TV";
+            
             break;
             
             default:
             txt += "<q>";
-            txt += title_link.toUpperCase();
+            txt += title_link;
             txt += "</q>";
             break;
             
@@ -788,6 +806,10 @@ public class Exportar {
                 
             }// if(this.link) -- 1 de 3
             
+            doc.add("   body{");
+            doc.add("      background-color:black;");
+            doc.add("   }");
+            
             if(this.link){
                 
                 doc.add("   p.hiperlink{");
@@ -802,10 +824,6 @@ public class Exportar {
                 doc.add("   }");
                 
             }// if(this.link) -- 2 de 3
-            
-            doc.add("   body{");
-            doc.add("      background-color:black;");
-            doc.add("   }");
             
             doc.add("   div.txt{");
             doc.add("      margin-left:5%;");
@@ -976,15 +994,17 @@ public class Exportar {
                             
                         }/* case "mpg" */
                         
-                        /* case "avi" ->{
+                        case "avi" ->{
                             
-                            arq_1 += "<h1 class=\"arquivo\">Audio & Vídeo:<br/>";
+                            arq_1 += "<h1 class=\"arquivo\">VÍDEO: ";
                             arq_1 += Numb(arquivo+1, all_vcr);
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"";
                             arq_1 += this.h1;
                             arq_1 += "\">";
-                            arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>");
+                            arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
+                            arq_1 += this.code.Read(x, 0).substring(max);
                             arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
+                            arq_2 += this.code.Read(x, 0).substring(max);
                             
                         }/* case "avi" */
                         
@@ -1004,7 +1024,7 @@ public class Exportar {
                         
                         default ->{
                             
-                            arq_1 += "<h1 class=\"arquivo\">VÍDEO: ";
+                            arq_1 += "<h1 class=\"arquivo\">";
                             arq_1 += Numb(arquivo+1, all_vcr);
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"";
                             arq_1 += this.h1;
