@@ -22,15 +22,15 @@ public class Tela extends javax.swing.JFrame {
     public Tela() {
         
         initComponents();
-        setVisible(true);
-        setTitle("Hoje é dia: " + new Data().DataCompleta(false) + "!");
-        setLocation(300,150);
-        setResizable(false);
         
     }
     
-    public void Enter(boolean nao_e_teste){
+    public void Enter(boolean nao_e_teste, String title){
         
+        setVisible(true);
+        setLocation(300,150);
+        setResizable(false);
+        setTitle(title);
         this.aply = nao_e_teste;
         
     }
@@ -211,12 +211,9 @@ public class Tela extends javax.swing.JFrame {
                         
                     }//if(track.Val() && track.Num() > 0 && track.Num() < 1000)
                     
-                    // Faixa da pasta
+                    /* Faixa da pasta **/
                     
-                    // boolean arquivo = folder > 2;
-                    boolean arquivo = track_folder[i] > 1;
-                    
-                    if(arquivo/* && track_folder[i] > 0 && track_one[i] != track.Num()*/){
+                    if(track_folder[i] > 1 && max_folder > 1){
                         
                         htm += "Arquivo: ";
                         htm += Number(track_one[i],track_folder[i]);
@@ -225,6 +222,8 @@ public class Tela extends javax.swing.JFrame {
                         htm += ";";
                         
                     }//if(track_folder[i] > 0)
+                    
+                    /* Faixa da pasta */
                     
                     /* orm.Read(i, 6) -- Duração **/
                     
@@ -238,53 +237,8 @@ public class Tela extends javax.swing.JFrame {
                     
                     // orm.Read(i, 0) -- Título
                     
-                    /* orm.Read(i, 10) -- Nome **/
-                    
-                    String nome_arq = orm.Read(i, 10);
-                    
-                    int ext_arq = nome_arq.contains(".") ? nome_arq.lastIndexOf(".") : nome_arq.length();
-                    
-                    if(!isTempTrack(orm.Read(i, 10),12)){
-                        
-                        if(ext_arq < nome_arq.length()-1){
-                            
-                            switch(nome_arq.substring(ext_arq+1).toLowerCase()){
-                                
-                                case "mp3" ->{
-                                    
-                                    htm += "MPEG-3 Layer;";
-                                    htm += nome_arq.substring(0, ext_arq);
-                                    
-                                }//case "mp3"
-                                
-                                case "m4a" ->{
-                                    
-                                    htm += "MPEG-4 ÁUDIO;";
-                                    htm += nome_arq.substring(0, ext_arq);
-                                    
-                                }//case "m4a"
-                                
-                                default ->{
-                                    
-                                    htm += nome_arq.substring(0, ext_arq).toUpperCase();
-                                    htm += nome_arq.substring(ext_arq).toLowerCase();
-                                    
-                                }//default
-                                
-                            }//switch(nome_arq.substring(ext_arq+1).toLowerCase())
-                            
-                        } else {//if(ext_arq < nome_arq.length()-1)
-                            
-                            htm += orm.Read(i, 10);
-                            
-                        }//if(ext_arq < nome_arq.length()-1)
-                        
-                        htm += ";";
-                        
-                    }//if(!isTempTrack(orm.Read(i, 10),10))
-                    
                     /* orm.Read(i, 10) -- Nome */
-
+                    
                     if(orm.Read(i, 0).isBlank()){
                         
                         // Data e Hora do arquvi Original
@@ -303,15 +257,15 @@ public class Tela extends javax.swing.JFrame {
                         
                         if(orn.Val() || or.Val()){
                             
-                            if(orn.Val()){htm += orn.DataCompleta(true);}
+                            if(orn.Val()){htm += orn.Load();}
                             
                             if(or.Val()){
                                 
                                 if(orn.Val()){
-                                    htm += ";";
+                                    htm += " | ";
                                 }
                                 
-                                htm += or.getNodeHora(true);
+                                htm += or.Load();
                                 
                             }//if(or.Val())
                             
@@ -339,6 +293,36 @@ public class Tela extends javax.swing.JFrame {
                         htm += orm.Read(i, 1);
 
                     }/*if(!orm.Read(i, 1).isBlank()) */
+                    
+                    /* orm.Read(i, 10) -- Arquivo **/
+                    String nome_arq = orm.Read(i, 10);
+                    
+                    int ext_arq = nome_arq.contains(".") ? nome_arq.lastIndexOf(".") : nome_arq.length();
+                        
+                    if(ext_arq < nome_arq.length()-1){
+                        
+                        htm += ";";
+
+                        switch(nome_arq.substring(ext_arq+1).toLowerCase()){
+                            
+                            case "m4a" ->{
+                                
+                                htm += nome_arq.substring(0, ext_arq);
+
+                            }//case "m4a"
+                            
+                            default ->{
+                                    
+                                htm += nome_arq.substring(0, ext_arq).toUpperCase();
+                                htm += nome_arq.substring(ext_arq).toLowerCase();
+                                    
+                            }//default
+                            
+                        }//switch(nome_arq.substring(ext_arq+1).toLowerCase())
+                        
+                    }//if(ext_arq < nome_arq.length()-1)
+                    
+                    /* orm.Read(i, 10) -- Arquivo */
                     
                 }//for(int i = 0; i < orm.Tot(); i++)
                 

@@ -6,8 +6,6 @@ package form;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import model.Data;
-import model.Hora;
 
 /**
  *
@@ -209,15 +207,7 @@ public class Index extends javax.swing.JFrame {
         msg.setEditable(false);
         msg.setVisible(true);
         
-        if(exit){
-            
-            setTitle("(" + new Data().DataAbreviada(false) + ")  " + new Hora(true).getNodeHora(false));
-            
-        } else {//if(exit)
-            
-            setTitle(DataCompleta());
-            
-        }//if(exit)
+        setTitle(DataCompleta());
         
         setLocation(Location.x,Location.y);
         

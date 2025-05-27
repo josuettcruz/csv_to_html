@@ -28,17 +28,15 @@ public class TrackList {
         
         System.out.print("Criação:");
         Registro.Tab("Criação:",Registro.result);
-        System.out.println(Registro.upgrade.DataLinha(true));
+        System.out.println(Registro.create.DataLinha(true));
         
-        /* Criação: 01/05/2025 **
         System.out.print("Última atualização:");
         Registro.Tab("Última atualização:",Registro.result);
         System.out.println(Registro.upgrade.DataLinha(true));
-        /* Criação: 01/05/2025 */
         
         System.out.println();
         
-        new Tela().Enter(true);
+        new Tela().Enter(true, "Projeto atualizado " + Registro.upgrade.DataLinha(false) + "!");
         
     }
     

@@ -18,7 +18,7 @@ public class Exportar {
     
     private final int long_text = 70;
     private final int max_end_separator_paragraphy = 150;
-    private final int tribute_max_end_separator_paragraphy = 350;
+    private final int tribute_max_end_separator_paragraphy = 500;
     
     private final String target = "blank";
     
@@ -614,8 +614,7 @@ public class Exportar {
             
             case "meuguia.tv":
             case "mi.tv":
-            txt += "Agora na TV</p><p class=\"hiperlink\">Guia de programação da TV";
-            
+            txt += "Agora na TV";
             break;
             
             default:
@@ -626,9 +625,7 @@ public class Exportar {
             
         }//switch(title_link) - 1 - 2
         
-        txt += "</p><p class=\"";
-        txt += this.p;
-        txt += "\"><a href=\"";
+        txt += "</p><p class=\"texto_link\"><a href=\"";
         txt += link;
         txt += "\" target=\"_";
         txt += this.target;
@@ -781,22 +778,13 @@ public class Exportar {
             if(this.link){
                 
                 doc.add("   a:link, a:hover, a:active, a:visited{");
-                doc.add("      font-family: \"Montserrat Underline\";");
-                doc.add("      font-weight: bold;");
                 doc.add("      text-decoration: none;");
                 doc.add("   }");
                 doc.add("   a:link, a:active{");
                 doc.add("      color: turquoise;");
                 doc.add("   }");
                 doc.add("   a:hover, a:visited{");
-                doc.add("      color: aliceblue;");
-                doc.add("   }");
-                doc.add("   a:link, a:hover, a:visited{");
-                doc.add("      text-decoration: none;");
-                doc.add("   }");
-                doc.add("   a:active{");
-                doc.add("      text-decoration: overline;");
-                doc.add("      text-decoration-color: aliceblue;");
+                doc.add("      color: whitesmoke;");
                 doc.add("   }");
                 doc.add("   a{");
                 doc.add("      transition-property: color;");
@@ -804,27 +792,11 @@ public class Exportar {
                 doc.add("      transition-timing-function:ease-out;");
                 doc.add("   }");
                 
-            }// if(this.link) -- 1 de 3
+            }//if(this.link) -- 1 de 4
             
             doc.add("   body{");
             doc.add("      background-color:black;");
             doc.add("   }");
-            
-            if(this.link){
-                
-                doc.add("   p.hiperlink{");
-                doc.add("      color:rgba(255,255,255,.5);");
-                doc.add("      margin-top:15px;");
-                doc.add("      margin-bottom:5px;");
-                doc.add("      margin-left:2%;");
-                doc.add("      font-weight: bold;");
-                doc.add("      font-size:calc(5px + 1vw);");
-                doc.add("      font-family: \"Poppins\";");
-                doc.add("      word-wrap: break-word;");
-                doc.add("   }");
-                
-            }// if(this.link) -- 2 de 3
-            
             doc.add("   div.txt{");
             doc.add("      margin-left:5%;");
             doc.add("      margin-top:10%;");
@@ -848,7 +820,7 @@ public class Exportar {
                 doc.add("      margin-left:2%;");
                 doc.add("      font-weight: normal;");
                 doc.add("      font-size:calc(30px + 1vw);");
-                doc.add("      font-family: \"Bytesized\";");
+                //doc.add("      font-family: \"Bytesized\";");
                 doc.add("      word-wrap: break-word;");
                 doc.add("   }");
                 doc.add("   h1.cabecalho{");
@@ -856,7 +828,7 @@ public class Exportar {
                 doc.add("      margin-left:2%;");
                 doc.add("      font-weight: normal;");
                 doc.add("      font-size:calc(20px + 1vw);");
-                doc.add("      font-family: \"Roboto\";");
+                //doc.add("      font-family: \"Roboto\";");
                 doc.add("      word-wrap: break-word;");
                 doc.add("      line-height:2em;");
                 doc.add("   }");
@@ -868,22 +840,55 @@ public class Exportar {
             doc.add("      margin-left:2%;");
             doc.add("      font-weight: normal;");
             doc.add("      font-size:calc(20px + 1vw);");
-            doc.add("      font-family: \"Kavoon\";");
+            //doc.add("      font-family: \"Kavoon\";");
             doc.add("      word-wrap: break-word;");
             doc.add("      line-height:2em;");
             doc.add("   }");
+            
+            if(this.link){
+                
+                doc.add("   p.hiperlink{");
+                doc.add("      color:rgba(255,255,255,.4);");
+                doc.add("      margin-top:25px;");
+                doc.add("      margin-bottom:5px;");
+                doc.add("      margin-left:2%;");
+                doc.add("      font-weight: bold;");
+                doc.add("      font-size:calc(5px + 1vw);");
+                //doc.add("      font-family: \"Poppins\";");
+                doc.add("      word-wrap: break-word;");
+                doc.add("   }");
+                
+            }//if(this.link) -- 2 de 4
+            
             doc.add("   p.texto{");
             doc.add("      color:white;");
             doc.add("      margin-top:25px;");
             doc.add("      margin-bottom:25px;");
             doc.add("      margin-left:2%;");
             doc.add("      margin-right:2%;");
-            doc.add("      font-weight: bold;");
+            doc.add("      font-weight: normal;");
             doc.add("      font-size:calc(15px + 1vw);");
-            doc.add("      font-family: \"Winky Sans\";");
+            //doc.add("      font-family: \"Winky Sans\";");
             doc.add("      word-wrap: break-word;");
             doc.add("      line-height:2em;");
             doc.add("   }");
+            
+            if(this.link){
+                
+                doc.add("   p.texto_link{");
+                doc.add("      color:white;");
+                doc.add("      margin-top:5px;");
+                doc.add("      margin-bottom:25px;");
+                doc.add("      margin-left:2%;");
+                doc.add("      margin-right:2%;");
+                doc.add("      font-weight: bold;");
+                doc.add("      font-size:calc(15px + 1vw);");
+                //doc.add("      font-family: \"Montserrat Underline\";");
+                doc.add("      word-wrap: break-word;");
+                doc.add("      line-height:2em;");
+                doc.add("   }");
+                
+            }//if(this.link) -- 3 de 4
             
             if(this.text_long){
                 
@@ -895,12 +900,13 @@ public class Exportar {
                 doc.add("      margin-right:2%;");
                 doc.add("      font-weight: normal;");
                 doc.add("      font-size:calc(15px + 1vw);");
-                doc.add("      font-family: \"Sofia Sans Extra Condensed\";");
+                //doc.add("      font-family: \"Sofia Sans Extra Condensed\";");
                 doc.add("      word-wrap: break-word;");
                 doc.add("      line-height:2em;");
                 doc.add("   }");
                 
             }//if(this.text_long)
+            
             doc.add("   div.divide{");
             doc.add("      width:100%;");
             doc.add("      height:10%;");
@@ -929,17 +935,21 @@ public class Exportar {
             }//if(extend && this.text_long)
             
             doc.add("      color:black;");
-            doc.add("      background-color: white;");
+            doc.add("      background-color:whitesmoke;");
             doc.add("   }");
             
             if(this.link){
-            
+                
+                doc.add("   p.texto_link::selection{");
+                doc.add("      color:teal;");
+                doc.add("      background-color:whitesmoke;");
+                doc.add("   }");
                 doc.add("   p.hiperlink::selection{");
-                doc.add("      color:white;");
+                doc.add("      color:whitesmoke;");
                 doc.add("      background-color: transparent;");
                 doc.add("   }");
             
-            }// if(this.link) -- 3 de 3
+            }//if(this.link) -- 4 de 4
             
         } else {
             
@@ -1193,7 +1203,7 @@ public class Exportar {
                 doc.add("<!-- " + 
                         new Data().DataAbreviada(true) + 
                         " -- " + 
-                        new Hora(true).getHora(true) + 
+                        new Hora(true).getHora(false) + 
                         " --"
                 );
                 
@@ -1237,9 +1247,9 @@ public class Exportar {
                 doc.add("");
             
                 doc.add("-- " + 
-                        new Data().DataAbreviada(false) + 
+                        new Data().DataAbreviada(true) + 
                         " -- " + 
-                        new Hora(true).getHora(false) + 
+                        new Hora(true).getHora(true) + 
                         " --"
                 );
                 
@@ -1254,7 +1264,7 @@ public class Exportar {
                 
             }//if(this.code.Tot() <= 300 && this.link && not_tv)
             
-            if(this.code.Tot() <= 120 && not_tv){
+            if(this.code.Tot() <= 100 && !extend){
             
                 String total = "ITE";
 
@@ -1270,21 +1280,9 @@ public class Exportar {
                     
                     itens += ";";
                     
-                    if(d < 10){
-                        itens += "0";
-                    }
+                    if(d < 10){itens += "0";}
                     
-                    if(d < 100 && this.code.Tot() >= 100){
-                        itens += "0";
-                    }
-                    
-                    /*if(d < 1000 && this.code.Tot() >= 1000){
-                        itens += "0";
-                    }
-                    
-                    if(d < 10000 && this.code.Tot() >= 10000){
-                        itens += "0";
-                    }*/
+                    if(d < 100 && this.code.Tot() >= 100){itens += "0";}
                     
                     itens += d;
                     
@@ -1307,7 +1305,7 @@ public class Exportar {
                 doc.add(
                     new Data().Load() + 
                     " | " + 
-                    new Hora(true).getHora(true) + 
+                    new Hora(true).Load() + 
                     ";" + 
                     this.code.Tot() + 
                     " " + 
