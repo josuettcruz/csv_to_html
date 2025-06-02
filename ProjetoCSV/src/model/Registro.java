@@ -372,7 +372,7 @@ public class Registro {
             
             cont--;
             
-            if(space && cont > 0){
+            if(space){
                 
                 txt += " ";
                 space = false;
