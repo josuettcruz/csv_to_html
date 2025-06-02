@@ -10,7 +10,6 @@ import java.util.List;
 import model.Data;
 import model.Hora;
 import model.Numero;
-import model.Registro;
 
 public class Exportar {
     
@@ -426,9 +425,9 @@ public class Exportar {
                     node = separator;
                 }
                 
-                case 3 ->{
+                /*case 3 ->{
                     node = " - ";
-                }
+                }*/
                 
             }//switch(col)
             
@@ -447,11 +446,11 @@ public class Exportar {
                 col = 2;
                 divide = false;
                 
-            } else if(tx.equalsIgnoreCase("-") && col == 1){//if
+            } else /*if(tx.equalsIgnoreCase("-") && col == 1){//if
                 
                 col = 3;
                 
-            } else if(d.Val()){//if
+            } else*/ if(d.Val()){//if
                 
                 if(col > 0){txt += separator;}
                 
@@ -761,7 +760,6 @@ public class Exportar {
         
         String title = data_title.Val() ? data_title.DataAbreviada(true) : select_title;
         
-        doc.add("<!-- " + Registro.github + " -->");
         doc.add("<html>");
         doc.add("<head>");
         doc.add("<title>" + title + "</title>");

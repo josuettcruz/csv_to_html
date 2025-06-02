@@ -33,17 +33,7 @@ public class Files {
         
             File menu = new File(this.opner);
 
-            if(menu.createNewFile()){
-
-                System.out.print("Arquivo criado:");
-                Registro.Tab("Arquivo criado:", Registro.result);
-                System.out.println(arq);
-
-            }/* else {
-
-                System.out.println("\"" + arq + "\"");
-
-            }/*if(menu.createNewFile())*/
+            menu.createNewFile();
 
             Scanner reading = new Scanner(menu);
 

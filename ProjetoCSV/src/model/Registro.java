@@ -17,17 +17,19 @@ public class Registro {
     public static String github = "https://github.com/josuettcruz/csv_to_html";
     
     public static Data create = new Data(LocalDate.of(2025, 5, 1));
-    public static Data upgrade = new Data(LocalDate.of(2025, 5, 27));
+    public static Data upgrade = new Data(LocalDate.of(2025, 6, 2));
     
     public static int result = 28;
     
-    public static void Tab(String entrada, int tab){
+    public static String Tab(boolean print,String entrada, int tab){
         
         int pg = tab - entrada.length() > 1 ? tab - entrada.length() : 1;
         
-        System.out.print(" ".repeat(pg));
+        if(print){System.out.print(" ".repeat(pg));}
         
-    }/* Tab(String entrada, int tab) */
+        return " ".repeat(pg);
+        
+    }// Tab(String entrada, int tab)
     
     public static String Title(String text, String separator){
         
@@ -362,20 +364,31 @@ public class Registro {
         String phease[] = text.split(" ");
         
         boolean space = false;
+        boolean div = true;
+        
+        int cont = phease.length;
         
         for(String p : phease){
             
-            if(space){
+            cont--;
+            
+            if(space && cont > 0){
                 
                 txt += " ";
                 space = false;
             
             }//if(space)
             
-            if(!p.isBlank()){
+            if(p.contentEquals("|")){
                 
-                txt += space ? p.replaceAll("\t", "") : p.replaceAll("\t", " ");
+                if(div && cont > 0){txt += "| ";div = false;}
+                space = false;
+                
+            } else if(!p.isBlank()){
+                
+                txt += p;
                 space = true;
+                div = true;
                 
             }//if(!p.isBlank())
             
@@ -384,6 +397,5 @@ public class Registro {
         return txt;
         
     }//Select(String text)
-        
     
-}
+}//Registro

@@ -19,21 +19,22 @@ public class LinkWeb {
     public static void main(String[] args) {
         
         System.out.print("GitHub:");
-        Registro.Tab("GitHub:",Registro.result);
-        System.out.println(Registro.github);
+        Registro.Tab(true,"GitHub:",Registro.result);
+        System.out.print("\"");
+        System.out.print(Registro.github);
+        System.out.println("\"");
         
         System.out.print("Projeto:");
-        Registro.Tab("Projeto:",Registro.result);
-        System.out.println("ProjetoCSV");
+        Registro.Tab(true,"Projeto:",Registro.result);
+        System.out.println("\"ProjetoCSV\"");
         
         System.out.print("Criação:");
-        Registro.Tab("Criação:",Registro.result);
+        Registro.Tab(true,"Criação:",Registro.result);
         System.out.println(Registro.create.DataLinha(true));
         
         System.out.print("Última atualização:");
-        Registro.Tab("Última atualização:",Registro.result);
+        Registro.Tab(true,"Última atualização:",Registro.result);
         System.out.println(Registro.upgrade.DataLinha(true));
-        
         new Index().Enter(false);
         
     }

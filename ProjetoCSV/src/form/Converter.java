@@ -41,19 +41,19 @@ public class Converter extends javax.swing.JFrame {
         if(tentar){
             
             System.out.print("Hoje é:");
-            Registro.Tab("Hoje é:", Registro.result);
+            Registro.Tab(true,"Hoje é:", Registro.result);
             System.out.println(new Data().DataCompleta(true));
 
             System.out.print("Resultado:");
-            Registro.Tab("Resultado:", Registro.result);
+            Registro.Tab(true,"Resultado:", Registro.result);
             System.out.println(tct);
 
             System.out.print("Data:");
-            Registro.Tab("Data:", Registro.result);
+            Registro.Tab(true,"Data:", Registro.result);
             System.out.println(new Data().DataCompleta(false));
 
             System.out.print("Hora:");
-            Registro.Tab("Hora:", Registro.result);
+            Registro.Tab(true,"Hora:", Registro.result);
             System.out.println(new Hora(true).getNodeHora(false));
             
             System.exit(0);
