@@ -19,7 +19,9 @@ public class Exportar {
     private final int max_end_separator_paragraphy = 150;
     private final int tribute_max_end_separator_paragraphy = 500;
     
-    private final String target = "blank";
+    private final String option[] = {"_blank","_parent"};
+    
+    private final String target = option[0];
     
     private final String ext[] = {
             "avi",
@@ -425,9 +427,9 @@ public class Exportar {
                     node = separator;
                 }
                 
-                /*case 3 ->{
+                case 3 ->{
                     node = " - ";
-                }*/
+                }
                 
             }//switch(col)
             
@@ -446,11 +448,11 @@ public class Exportar {
                 col = 2;
                 divide = false;
                 
-            } else /*if(tx.equalsIgnoreCase("-") && col == 1){//if
+            } else if(tx.equalsIgnoreCase("-") && col == 1){//if
                 
                 col = 3;
                 
-            } else*/ if(d.Val()){//if
+            } else if(d.Val()){//if
                 
                 if(col > 0){txt += separator;}
                 
@@ -592,23 +594,19 @@ public class Exportar {
             case "www.google.com":
             case "images.app.goo.gl":
             case "g.co":
-            txt += "Abrir o <q>Google</q>";
+            txt += "Google";
             break;
             
             case "www.facebook.com":
-            txt += "Abrir o <q>FACEBOOK</q>";
+            txt += "FACEBOOK";
             break;
             
             case "www.instagram.com":
-            txt += "Abrir o <q>Instagram</q>";
-            break;
-            
-            case "pt.wikipedia.org":
-            txt += "Abrir a <q>Wikipédia</q>";
+            txt += "INSTAGRAM";
             break;
             
             case "www.primevideo.com":
-            txt += "Abrir o <q>Prime Video</q>";
+            txt += "Prime Video";
             break;
             
             case "meuguia.tv":
@@ -616,17 +614,19 @@ public class Exportar {
             txt += "Agora na TV";
             break;
             
+            case "www.canva.com":
+            txt += "Canva";
+            break;
+            
             default:
-            txt += "<q>";
-            txt += title_link;
-            txt += "</q>";
+            txt += title_link.replace(".","<br/>").toUpperCase();
             break;
             
         }//switch(title_link) - 1 - 2
         
         txt += "</p><p class=\"texto_link\"><a href=\"";
         txt += link;
-        txt += "\" target=\"_";
+        txt += "\" target=\"";
         txt += this.target;
         txt += "\">";
         txt += T(paragraphy, "</a><br/><a href=\"" + link + "\" + target=\"" + this.target + "\">");
@@ -847,7 +847,7 @@ public class Exportar {
             if(this.link){
                 
                 doc.add("   p.hiperlink{");
-                doc.add("      color:rgba(255,255,255,.4);");
+                doc.add("      color:gray;");
                 doc.add("      margin-top:25px;");
                 doc.add("      margin-bottom:5px;");
                 doc.add("      margin-left:2%;");
@@ -1248,7 +1248,7 @@ public class Exportar {
                 doc.add("-- " + 
                         new Data().DataAbreviada(true) + 
                         " -- " + 
-                        new Hora(true).getHora(true) + 
+                        new Hora(true).getHora(false) + 
                         " --"
                 );
                 
@@ -1257,7 +1257,7 @@ public class Exportar {
                 doc.add("<!-- " + 
                         new Data().DataAbreviada(true) + 
                         " -- " + 
-                        new Hora(true).getHora(true) + 
+                        new Hora(true).getHora(false) + 
                         " --"
                 );
                 

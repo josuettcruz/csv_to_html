@@ -6,6 +6,7 @@ package linkweb;
 
 import form.Index;
 import model.Registro;
+import model.Data;
 
 /**
  *
@@ -18,15 +19,18 @@ public class LinkWeb {
      */
     public static void main(String[] args) {
         
+        System.out.print("HOJE:");
+        Registro.Tab(true,"HOJE:",Registro.result);
+        System.out.print(new Data().DataCompleta(", dia "));
+        System.out.println("!");
+        
         System.out.print("GitHub:");
         Registro.Tab(true,"GitHub:",Registro.result);
-        System.out.print("\"");
-        System.out.print(Registro.github);
-        System.out.println("\"");
+        System.out.println(Registro.github);
         
         System.out.print("Projeto:");
         Registro.Tab(true,"Projeto:",Registro.result);
-        System.out.println("\"ProjetoCSV\"");
+        System.out.println("ProjetoCSV");
         
         System.out.print("Criação:");
         Registro.Tab(true,"Criação:",Registro.result);
