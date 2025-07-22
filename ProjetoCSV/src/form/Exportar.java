@@ -63,7 +63,9 @@ public class Exportar {
                     
                 }// 1 de 2 - boolean link;
                 
-                if(code.Read(col, line).length() > this.long_text && !code.Read(col, line).contains("|") && !code.Read(col, line).contains("\\")){
+                boolean doc = new cod().Link(code.Read(col, line));
+                
+                if(!doc && code.Read(col, line).length() > this.long_text && !code.Read(col, line).contains("|") && !code.Read(col, line).contains("\\")){
                     
                     this.text_long = true;
                     
@@ -588,13 +590,13 @@ public class Exportar {
             case "www.youtube.com":
             case "youtube.com":
             case "youtu.be":
-            txt += "Abrir o <q>YouTube</q>";
+            txt += "<q>YouTube</q>";
             break;
             
             case "www.google.com":
             case "images.app.goo.gl":
             case "g.co":
-            txt += "Google";
+            txt += "<q>Google</q>";
             break;
             
             case "www.facebook.com":
@@ -614,12 +616,8 @@ public class Exportar {
             txt += "Agora na TV";
             break;
             
-            case "www.canva.com":
-            txt += "Canva";
-            break;
-            
             default:
-            txt += title_link.replace(".","<br/>").toUpperCase();
+            txt += title_link.toUpperCase();
             break;
             
         }//switch(title_link) - 1 - 2
@@ -629,7 +627,7 @@ public class Exportar {
         txt += "\" target=\"";
         txt += this.target;
         txt += "\">";
-        txt += T(paragraphy, "</a><br/><a href=\"" + link + "\" + target=\"" + this.target + "\">");
+        txt += T(paragraphy, "</a><br/><a href=\"" + link + "\" target=\"" + this.target + "\">");
         txt += "</a></p>";
         
         return txt;
