@@ -213,7 +213,9 @@ public class Tela extends javax.swing.JFrame {
                     
                     /* Faixa da pasta **/
                     
-                    if(track_folder[i] > 1 && max_folder > 1){
+                    boolean track_one_arq = track_folder[i] > 1 && max_folder > 1 && track_one[i] > 1;
+                    
+                    if(track_one_arq/* && track_one[i] != (i+1)*/){
                         
                         htm += "Arquivo: ";
                         htm += Number(track_one[i],track_folder[i]);
@@ -280,7 +282,7 @@ public class Tela extends javax.swing.JFrame {
                         if(isTempTrack(orm.Read(i, 0),10)){
                             htm += orm.Read(i, 0).trim().replace(" - ", ";");
                         } else {
-                            htm += orm.Read(i, 0);
+                            htm += orm.Read(i, 0).trim().replace(" - ", " | ");
                         }
                         
                     }//if(orm.Read(i, 0).isBlank())
@@ -297,17 +299,30 @@ public class Tela extends javax.swing.JFrame {
                     /* orm.Read(i, 10) -- Arquivo **/
                     String nome_arq = orm.Read(i, 10);
                     
-                    int ext_arq = nome_arq.contains(".") ? nome_arq.lastIndexOf(".") : nome_arq.length();
+                    int ext_arq = nome_arq.lastIndexOf(".");
                         
-                    if(ext_arq < nome_arq.length()-1){
+                    if(track_folder[i] > 1 && max_folder > 1 && ext_arq >= 0 && ext_arq < nome_arq.length()-1){
                         
                         htm += ";";
 
                         switch(nome_arq.substring(ext_arq+1).toLowerCase()){
                             
+                            case "mp4" ->{
+                                
+                                htm += nome_arq;
+
+                            }//case "m4a"
+                            
                             case "m4a" ->{
                                 
                                 htm += nome_arq.substring(0, ext_arq);
+
+                            }//case "m4a"
+                            
+                            case "mp3" ->{
+                                
+                                htm += nome_arq.substring(0, ext_arq);
+                                htm += ".mp3";
 
                             }//case "m4a"
                             
