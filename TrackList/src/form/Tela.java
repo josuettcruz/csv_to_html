@@ -292,7 +292,7 @@ public class Tela extends javax.swing.JFrame {
                     if(!orm.Read(i, 1).isBlank() && !orm.Read(i, 1).equalsIgnoreCase(orm.Read(i, 0))){
                         
                         htm += ";";
-                        htm += orm.Read(i, 1);
+                        htm += orm.Read(i, 1).trim().replace(" - ", " | ");
 
                     }/*if(!orm.Read(i, 1).isBlank()) */
                     
@@ -301,7 +301,7 @@ public class Tela extends javax.swing.JFrame {
                     
                     int ext_arq = nome_arq.lastIndexOf(".");
                         
-                    if(track_folder[i] > 1 && max_folder > 1 && ext_arq >= 0 && ext_arq < nome_arq.length()-1){
+                    if(max_folder == 1 && ext_arq >= 0 && ext_arq < nome_arq.length()-1){
                         
                         htm += ";";
 

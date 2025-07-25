@@ -763,11 +763,10 @@ public class Exportar {
         doc.add("<title>" + title + "</title>");
         doc.add("<meta charset=\"utf-8\" />");
         doc.add("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-        doc.add("<!-- <link rel=\"icon\" href=\"pasta\\arquivo.ico\" type=\"image/x-icon\">");
-        doc.add("<!-- ícone -->");
-        //doc.add("<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">");
-        //doc.add("<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>");
-        //doc.add("<link href=\"https://fonts.googleapis.com/css2?family=Bytesized&family=Kavoon&family=Montserrat+Underline:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sofia+Sans+Extra+Condensed:ital,wght@0,1..1000;1,1..1000&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap\" rel=\"stylesheet\">");
+        doc.add("<!-- <link rel=\"icon\" href=\"pasta\\arquivo.ico\" type=\"image/x-icon\"> -->");
+        doc.add("<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">");
+        doc.add("<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>");
+        doc.add("<link href=\"https://fonts.googleapis.com/css2?family=Bytesized&family=Kavoon&family=Montserrat+Underline:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sofia+Sans+Extra+Condensed:ital,wght@0,1..1000;1,1..1000&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap\" rel=\"stylesheet\">");
         doc.add("<style>");
         
         if(cd){
@@ -817,7 +816,7 @@ public class Exportar {
                 doc.add("      margin-left:2%;");
                 doc.add("      font-weight: normal;");
                 doc.add("      font-size:calc(30px + 1vw);");
-                //doc.add("      font-family: \"Bytesized\";");
+                doc.add("      font-family: \"Bytesized\";");
                 doc.add("      word-wrap: break-word;");
                 doc.add("   }");
                 doc.add("   h1.cabecalho{");
@@ -825,7 +824,7 @@ public class Exportar {
                 doc.add("      margin-left:2%;");
                 doc.add("      font-weight: normal;");
                 doc.add("      font-size:calc(20px + 1vw);");
-                //doc.add("      font-family: \"Roboto\";");
+                doc.add("      font-family: \"Roboto\";");
                 doc.add("      word-wrap: break-word;");
                 doc.add("      line-height:2em;");
                 doc.add("   }");
@@ -837,25 +836,10 @@ public class Exportar {
             doc.add("      margin-left:2%;");
             doc.add("      font-weight: normal;");
             doc.add("      font-size:calc(20px + 1vw);");
-            //doc.add("      font-family: \"Kavoon\";");
+            doc.add("      font-family: \"Kavoon\";");
             doc.add("      word-wrap: break-word;");
             doc.add("      line-height:2em;");
             doc.add("   }");
-            
-            if(this.link){
-                
-                doc.add("   p.hiperlink{");
-                doc.add("      color:gray;");
-                doc.add("      margin-top:25px;");
-                doc.add("      margin-bottom:5px;");
-                doc.add("      margin-left:2%;");
-                doc.add("      font-weight: bold;");
-                doc.add("      font-size:calc(5px + 1vw);");
-                //doc.add("      font-family: \"Poppins\";");
-                doc.add("      word-wrap: break-word;");
-                doc.add("   }");
-                
-            }//if(this.link) -- 2 de 4
             
             doc.add("   p.texto{");
             doc.add("      color:white;");
@@ -865,27 +849,10 @@ public class Exportar {
             doc.add("      margin-right:2%;");
             doc.add("      font-weight: normal;");
             doc.add("      font-size:calc(15px + 1vw);");
-            //doc.add("      font-family: \"Winky Sans\";");
+            doc.add("      font-family: \"Winky Sans\";");
             doc.add("      word-wrap: break-word;");
             doc.add("      line-height:2em;");
             doc.add("   }");
-            
-            if(this.link){
-                
-                doc.add("   p.texto_link{");
-                doc.add("      color:white;");
-                doc.add("      margin-top:5px;");
-                doc.add("      margin-bottom:25px;");
-                doc.add("      margin-left:2%;");
-                doc.add("      margin-right:2%;");
-                doc.add("      font-weight: bold;");
-                doc.add("      font-size:calc(15px + 1vw);");
-                //doc.add("      font-family: \"Montserrat Underline\";");
-                doc.add("      word-wrap: break-word;");
-                doc.add("      line-height:2em;");
-                doc.add("   }");
-                
-            }//if(this.link) -- 3 de 4
             
             if(this.text_long){
                 
@@ -897,12 +864,40 @@ public class Exportar {
                 doc.add("      margin-right:2%;");
                 doc.add("      font-weight: normal;");
                 doc.add("      font-size:calc(15px + 1vw);");
-                //doc.add("      font-family: \"Sofia Sans Extra Condensed\";");
+                doc.add("      font-family: \"Sofia Sans Extra Condensed\";");
                 doc.add("      word-wrap: break-word;");
                 doc.add("      line-height:2em;");
                 doc.add("   }");
                 
             }//if(this.text_long)
+            
+            if(this.link){
+                
+                doc.add("   p.hiperlink{");
+                doc.add("      color:gray;");
+                doc.add("      margin-top:25px;");
+                doc.add("      margin-bottom:5px;");
+                doc.add("      margin-left:2%;");
+                doc.add("      font-weight: bold;");
+                doc.add("      font-size:calc(5px + 1vw);");
+                doc.add("      font-family: \"Poppins\";");
+                doc.add("      word-wrap: break-word;");
+                doc.add("   }");
+                
+                doc.add("   p.texto_link{");
+                doc.add("      color:white;");
+                doc.add("      margin-top:5px;");
+                doc.add("      margin-bottom:25px;");
+                doc.add("      margin-left:2%;");
+                doc.add("      margin-right:2%;");
+                doc.add("      font-weight: bold;");
+                doc.add("      font-size:calc(15px + 1vw);");
+                doc.add("      font-family: \"Montserrat Underline\";");
+                doc.add("      word-wrap: break-word;");
+                doc.add("      line-height:2em;");
+                doc.add("   }");
+                
+            }//if(this.link)
             
             doc.add("   div.divide{");
             doc.add("      width:100%;");
@@ -981,9 +976,7 @@ public class Exportar {
                             arq_1 += "<h1 class=\"arquivo\">MPEG-4</h1><div class=\"space\"></div>";
                             arq_1 += "<h1 class=\"arquivo\">VÍDEO: ";
                             arq_1 += Numb(arquivo+1, all_vcr);
-                            arq_1 += "</h1><div class=\"space\"></div><h1 class=\"";
-                            arq_1 += this.h1;
-                            arq_1 += "\">";
+                            arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
                             arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             
@@ -993,9 +986,7 @@ public class Exportar {
                             
                             arq_1 += "<h1 class=\"arquivo\">MPEG</h1><div class=\"space\"></div><h1 class=\"arquivo\">VÍDEO: ";
                             arq_1 += Numb(arquivo+1, all_vcr);
-                            arq_1 += "</h1><div class=\"space\"></div><h1 class=\"";
-                            arq_1 += this.h1;
-                            arq_1 += "\">";
+                            arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
                             arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             
@@ -1005,9 +996,7 @@ public class Exportar {
                             
                             arq_1 += "<h1 class=\"arquivo\">VÍDEO: ";
                             arq_1 += Numb(arquivo+1, all_vcr);
-                            arq_1 += "</h1><div class=\"space\"></div><h1 class=\"";
-                            arq_1 += this.h1;
-                            arq_1 += "\">";
+                            arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
                             arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
                             arq_1 += this.code.Read(x, 0).substring(max);
                             arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
@@ -1021,9 +1010,7 @@ public class Exportar {
                             
                             arq_1 += "<h1 class=\"arquivo\">EMISSORA</h1><h1 class=\"arquivo\">";
                             arq_1 += Numb(arquivo+1, all_vcr);
-                            arq_1 += "</h1><div class=\"space\"></div><h1 class=\"";
-                            arq_1 += this.h1;
-                            arq_1 += "\">";
+                            arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
                             arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
                             arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             
@@ -1033,9 +1020,7 @@ public class Exportar {
                             
                             arq_1 += "<h1 class=\"arquivo\">";
                             arq_1 += Numb(arquivo+1, all_vcr);
-                            arq_1 += "</h1><div class=\"space\"></div><h1 class=\"";
-                            arq_1 += this.h1;
-                            arq_1 += "\">";
+                            arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
                             arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
                             arq_1 += this.code.Read(x, 0).substring(max);
                             arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
@@ -1195,7 +1180,7 @@ public class Exportar {
             
             doc.add("");
             
-            if(this.code.Tot() <= 350 && this.link && not_tv){
+            if(this.code.Tot() <= 350 && !extend){
                 
                 doc.add("<!-- " + 
                         new Data().DataAbreviada(true) + 
@@ -1244,7 +1229,7 @@ public class Exportar {
                 doc.add("");
             
                 doc.add("-- " + 
-                        new Data().DataAbreviada(true) + 
+                        new Data().DataAbreviada(false) + 
                         " -- " + 
                         new Hora(true).getHora(false) + 
                         " --"
@@ -1261,7 +1246,7 @@ public class Exportar {
                 
             }//if(this.code.Tot() <= 300 && this.link && not_tv)
             
-            if(this.code.Tot() <= 100 && !extend){
+            if(this.code.Tot() <= 120 && this.link && not_tv){
             
                 String total = "ITE";
 
