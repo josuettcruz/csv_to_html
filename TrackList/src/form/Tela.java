@@ -166,12 +166,36 @@ public class Tela extends javax.swing.JFrame {
                 
             }//if(orm.Tot() >= 0)
             
-            String htm = name;
+            String htm = name.toUpperCase();
+            
+            if(max_folder == 1){
+                
+                htm += ";Data: | ";
+                htm += new Data().Load();
+                
+                htm += ";Hora: | ";
+                htm += new Hora(true).Load();  
+                
+            }//if(max_folder > 1)
             
             if(orm.Tot() >= 0){
                 
-                htm += ";Duração total: ";
+                htm += ";";
+                htm += max_track;
+                htm += " faixa";
+                if(max_track > 1){htm += "s";}
+                htm += ";Duração total: | ";
                 htm += new Hora(max_tot).Load();
+                
+                if(max_folder != 1){
+                    
+                    htm += ";Data: | ";
+                    htm += new Data().Load();
+                    
+                    htm += ";Hora: | ";
+                    htm += new Hora(true).Load();  
+                    
+                }//if(max_folder > 1)
                 
                 int folder = 1;
                 String indo = "";
@@ -184,9 +208,8 @@ public class Tela extends javax.swing.JFrame {
 
                     if(!orm.Read(i, 2).isBlank() && !orm.Read(i, 2).equalsIgnoreCase(indo) && max_folder > 1){
                         
-                        htm += "Pasta: ";
                         htm += Number(folder,max_folder);
-                        htm += " de ";
+                        htm += " --- ";
                         htm += max_folder;
                         htm += ";";
                         htm += orm.Read(i, 2);
@@ -203,17 +226,22 @@ public class Tela extends javax.swing.JFrame {
                     
                     if(track.Val() && track.Num() > 0 && track.Num() < 1000){
                         
-                        htm += "Faixa ";
+                        htm += "FAIXA: ";
                         htm += Number(track.Num(),max_track);
-                        htm += " de ";
-                        htm += Number(max_track,0);
+                        
+                        if(track.Num() != (i+1)){
+                        htm += " | TRACK: ";
+                        htm += Number(track.Num(),max_track);
                         htm += ";";
+                        } else {
+                            htm += ";";
+                        }
                         
                     }//if(track.Val() && track.Num() > 0 && track.Num() < 1000)
                     
                     /* Faixa da pasta **/
                     
-                    boolean track_one_arq = track_folder[i] > 1 && max_folder > 1 && track_one[i] > 1;
+                    boolean track_one_arq = track_folder[i] > 1 && max_folder > 1;
                     
                     if(track_one_arq/* && track_one[i] != (i+1)*/){
                         
@@ -233,7 +261,7 @@ public class Tela extends javax.swing.JFrame {
                     
                     Hora duraction_track = new Hora(number_track.Num());
                     
-                    htm += "Duração: ";
+                    htm += "Duração: | ";
                     htm += duraction_track.Load();
                     htm += ";";
                     
@@ -279,11 +307,7 @@ public class Tela extends javax.swing.JFrame {
                         
                     } else {//if(orm.Read(i, 0).isBlank())
                         
-                        if(isTempTrack(orm.Read(i, 0),10)){
-                            htm += orm.Read(i, 0).trim().replace(" - ", ";");
-                        } else {
-                            htm += orm.Read(i, 0).trim().replace(" - ", " | ");
-                        }
+                        htm += orm.Read(i, 0).trim().replace(" - ", ";");
                         
                     }//if(orm.Read(i, 0).isBlank())
                     
@@ -307,31 +331,23 @@ public class Tela extends javax.swing.JFrame {
 
                         switch(nome_arq.substring(ext_arq+1).toLowerCase()){
                             
-                            case "mp4" ->{
-                                
-                                htm += nome_arq;
-
-                            }//case "m4a"
+                            case "mp4" ->{htm += nome_arq;}
                             
-                            case "m4a" ->{
-                                
-                                htm += nome_arq.substring(0, ext_arq);
-
-                            }//case "m4a"
+                            case "m4a" ->{htm += nome_arq.substring(0, ext_arq);}
                             
                             case "mp3" ->{
                                 
                                 htm += nome_arq.substring(0, ext_arq);
                                 htm += ".mp3";
-
-                            }//case "m4a"
+                            
+                            }//case
                             
                             default ->{
                                     
                                 htm += nome_arq.substring(0, ext_arq).toUpperCase();
                                 htm += nome_arq.substring(ext_arq).toLowerCase();
                                     
-                            }//default
+                            }
                             
                         }//switch(nome_arq.substring(ext_arq+1).toLowerCase())
                         
@@ -349,9 +365,23 @@ public class Tela extends javax.swing.JFrame {
             
             // Nome do arquivo
             
+            out += "sound_";
             out += new Data().Load();
             out += "_";
             out += new Hora(true).Load();
+            out += "_";
+            
+            final int name_ext = 10;
+            
+            if(name.length() > name_ext){
+                
+                out += name.toLowerCase().replace(" ", "-").substring(0,name_ext);
+                
+            } else {//if(name.length() > 10)
+                
+                out += name.toLowerCase().replace(" ", "-");
+                
+            }//if(name.length() > 10)
             
             html export = new html(out,htm);
             
