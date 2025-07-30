@@ -10,14 +10,15 @@ import java.util.List;
 import model.Data;
 import model.Hora;
 import model.Numero;
+import model.Registro;
 
 public class Exportar {
     
     private csv code;
     
     private final int long_text = 70;
-    private final int max_end_separator_paragraphy = 150;
-    private final int tribute_max_end_separator_paragraphy = 500;
+    private final int max_end_separator_paragraphy = 100;
+    private final int tribute_max_end_separator_paragraphy = 150;
     
     private final String option[] = {"_blank","_parent"};
     
@@ -41,6 +42,14 @@ public class Exportar {
     private final String h1 = "tema";
     private final String p = "texto";
     
+    private boolean LongText(String long_text){
+                
+        boolean doc = new cod().Link(long_text);
+        
+        return !doc && (long_text.length() > this.long_text) && !long_text.contains("\"");
+        
+    }
+    
     public Exportar(csv code, String sent){
         
         this.code = code;
@@ -63,9 +72,7 @@ public class Exportar {
                     
                 }// 1 de 2 - boolean link;
                 
-                boolean doc = new cod().Link(code.Read(col, line));
-                
-                if(!doc && code.Read(col, line).length() > this.long_text && !code.Read(col, line).contains("|") && !code.Read(col, line).contains("\\")){
+                if(LongText(code.Read(col, line))){
                     
                     this.text_long = true;
                     
@@ -540,9 +547,83 @@ public class Exportar {
 
     }//T(String dig)
     
+    private String TitleLink(String lnk){
+        
+        String add = "";
+        boolean loop = true;
+        int i = 0;
+        
+        String txt = lnk.toUpperCase();
+        
+        while(loop && i < lnk.length()){
+            
+            boolean space = true;
+            
+            switch(lnk.charAt(i)){
+                
+                case '.' ->{
+                    
+                    if(add.length() <= 20){
+                        
+                        if(!add.toLowerCase().contains("www") && add.length() > 2){
+                            
+                            txt = add;
+                            loop = false;
+                            
+                        }//if(!add.toLowerCase().contains("www"))
+                        
+                        add = "";
+                        
+                    }//if(add.length() >= 2 && add.length() <= 20)
+                    
+                }//case '.'
+                
+                case '_' ->{
+                    
+                    if(space){add += " ";}
+                    space = false;
+                    
+                }//case '_'
+                
+                case '-' ->{
+                    
+                    if(space){add += " ";}
+                    space = false;
+                    
+                }//case '-'
+                
+                default ->{
+                    
+                    add += lnk.charAt(i);
+                    
+                }//default
+                
+            }//switch(lnk.charAt(i))
+            
+            switch(lnk.charAt(i)){
+                
+                case'_':
+                case'-':
+                space = false;
+                break;
+                
+                default:
+                space = true;
+                break;
+                
+            }
+            
+            i++;
+            
+        }//while(loop && i < lnk.length())
+        
+        return txt.toUpperCase();
+        
+    }//TitleLink(String lnk)
+    
     private String P(String paragraphy){
         
-        String classe = paragraphy.length() > long_text && !paragraphy.contains("|") && !paragraphy.contains("\\") ? "long_text" : this.p;
+        String classe = LongText(paragraphy) ? "long_text" : this.p;
         
         return "<p class=\"" + classe + "\">" + T(paragraphy, "<br/>") + "</p>";
         
@@ -583,46 +664,33 @@ public class Exportar {
         
         char_link = "";
         
-        String txt = "<p class=\"hiperlink\">";
+        String txt = "<p class=\"hiperlink\" title=\"";
+        txt += title_link.toLowerCase();
+        txt += "\">";
         
         switch(title_link.toLowerCase()){
             
             case "www.youtube.com":
             case "youtube.com":
             case "youtu.be":
-            txt += "<q>YouTube</q>";
+            txt += "YOUTUBE";
             break;
             
             case "www.google.com":
             case "images.app.goo.gl":
             case "g.co":
-            txt += "<q>Google</q>";
-            break;
-            
-            case "www.facebook.com":
-            txt += "FACEBOOK";
-            break;
-            
-            case "www.instagram.com":
-            txt += "INSTAGRAM";
-            break;
-            
-            case "www.primevideo.com":
-            txt += "Prime Video";
-            break;
-            
-            case "meuguia.tv":
-            case "mi.tv":
-            txt += "Agora na TV";
+            txt += "GOOGLE";
             break;
             
             default:
-            txt += title_link.toUpperCase();
+            txt += TitleLink(title_link);
             break;
             
         }//switch(title_link) - 1 - 2
         
-        txt += "</p><p class=\"texto_link\"><a href=\"";
+        txt += "</p><p class=\"texto_link\" title=\"";
+        txt += TitleLink(title_link);
+        txt += "\"><a href=\"";
         txt += link;
         txt += "\" target=\"";
         txt += this.target;
@@ -763,7 +831,8 @@ public class Exportar {
         doc.add("<title>" + title + "</title>");
         doc.add("<meta charset=\"utf-8\" />");
         doc.add("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-        doc.add("<!-- <link rel=\"icon\" href=\"pasta\\arquivo.ico\" type=\"image/x-icon\"> -->");
+        doc.add("<!-- <link rel=\"icon\" href=\"arquivo.ico\" type=\"image/x-icon\">");
+        doc.add("arquivo.ico -->");
         doc.add("<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">");
         doc.add("<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>");
         doc.add("<link href=\"https://fonts.googleapis.com/css2?family=Bytesized&family=Kavoon&family=Montserrat+Underline:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sofia+Sans+Extra+Condensed:ital,wght@0,1..1000;1,1..1000&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap\" rel=\"stylesheet\">");
@@ -777,96 +846,97 @@ public class Exportar {
                 doc.add("      text-decoration: none;");
                 doc.add("   }");
                 doc.add("   a:link, a:active{");
-                doc.add("      color: turquoise;");
+                doc.add("      color: #40e0d0;");
                 doc.add("   }");
                 doc.add("   a:hover, a:visited{");
-                doc.add("      color: whitesmoke;");
+                doc.add("      color: #808080;");
                 doc.add("   }");
                 doc.add("   a{");
                 doc.add("      transition-property: color;");
-                doc.add("      transition-duration: 500ms;");
-                doc.add("      transition-timing-function:ease-out;");
+                doc.add("      transition-duration: 200ms;");
+                doc.add("      transition-timing-function: ease-out;");
                 doc.add("   }");
                 
             }//if(this.link) -- 1 de 4
             
             doc.add("   body{");
-            doc.add("      background-color:black;");
+            doc.add("      background-color: black;");
             doc.add("   }");
             doc.add("   div.txt{");
-            doc.add("      margin-left:5%;");
-            doc.add("      margin-top:10%;");
-            doc.add("      width:90%;");
+            doc.add("      margin-left: 5%;");
+            doc.add("      margin-top: 10%;");
+            doc.add("      width: 90%;");
             doc.add("      border: 5px solid white;");
-            doc.add("      background-color:transparent;");
-            doc.add("      min-height:100px;");
-            doc.add("      overflow-y:visible;");
+            doc.add("      background-color: black;");
+            doc.add("      min-height: 200px;");
+            doc.add("      overflow-y: visible;");
             doc.add("      border-radius: 5em;");
             doc.add("   }");
             doc.add("   div.space{");
-            doc.add("      width:100%;");
-            doc.add("      height:5px;");
-            doc.add("      background-color:white;");
+            doc.add("      width: 100%;");
+            doc.add("      height: 5px;");
+            doc.add("      background-color: white;");
             doc.add("   }");
             
             if(extend){
                 
                 doc.add("   h1.arquivo{");
-                doc.add("      color:white;");
-                doc.add("      margin-left:2%;");
+                doc.add("      color: white;");
+                doc.add("      margin-left: 2%;");
                 doc.add("      font-weight: normal;");
-                doc.add("      font-size:calc(30px + 1vw);");
+                doc.add("      font-size: calc(30px + 1vw);");
                 doc.add("      font-family: \"Bytesized\";");
                 doc.add("      word-wrap: break-word;");
                 doc.add("   }");
+                
                 doc.add("   h1.cabecalho{");
-                doc.add("      color:white;");
-                doc.add("      margin-left:2%;");
+                doc.add("      color: white;");
+                doc.add("      margin-left: 2%;");
                 doc.add("      font-weight: normal;");
-                doc.add("      font-size:calc(20px + 1vw);");
+                doc.add("      font-size: calc(20px + 1vw);");
                 doc.add("      font-family: \"Roboto\";");
                 doc.add("      word-wrap: break-word;");
-                doc.add("      line-height:2em;");
+                doc.add("      line-height: 2em;");
                 doc.add("   }");
                 
             }//if(extend)
             
             doc.add("   h1.tema{");
             doc.add("      color:white;");
-            doc.add("      margin-left:2%;");
+            doc.add("      margin-left: 2%;");
             doc.add("      font-weight: normal;");
-            doc.add("      font-size:calc(20px + 1vw);");
+            doc.add("      font-size: calc(20px + 1vw);");
             doc.add("      font-family: \"Kavoon\";");
             doc.add("      word-wrap: break-word;");
-            doc.add("      line-height:2em;");
+            doc.add("      line-height: 2em;");
             doc.add("   }");
             
             doc.add("   p.texto{");
-            doc.add("      color:white;");
-            doc.add("      margin-top:25px;");
-            doc.add("      margin-bottom:25px;");
-            doc.add("      margin-left:2%;");
-            doc.add("      margin-right:2%;");
+            doc.add("      color: white;");
+            doc.add("      margin-top: 25px;");
+            doc.add("      margin-bottom: 25px;");
+            doc.add("      margin-left: 2%;");
+            doc.add("      margin-right: 2%;");
             doc.add("      font-weight: normal;");
-            doc.add("      font-size:calc(15px + 1vw);");
+            doc.add("      font-size: calc(20px + 1vw);");
             doc.add("      font-family: \"Winky Sans\";");
             doc.add("      word-wrap: break-word;");
-            doc.add("      line-height:2em;");
+            doc.add("      line-height: 2em;");
             doc.add("   }");
             
             if(this.text_long){
                 
                 doc.add("   p.long_text{");
-                doc.add("      color:white;");
-                doc.add("      margin-top:25px;");
-                doc.add("      margin-bottom:25px;");
-                doc.add("      margin-left:2%;");
-                doc.add("      margin-right:2%;");
+                doc.add("      color: white;");
+                doc.add("      margin-top: 25px;");
+                doc.add("      margin-bottom: 25px;");
+                doc.add("      margin-left: 2%;");
+                doc.add("      margin-right: 2%;");
                 doc.add("      font-weight: normal;");
-                doc.add("      font-size:calc(15px + 1vw);");
+                doc.add("      font-size: calc(20px + 1vw);");
                 doc.add("      font-family: \"Sofia Sans Extra Condensed\";");
                 doc.add("      word-wrap: break-word;");
-                doc.add("      line-height:2em;");
+                doc.add("      line-height: 2em;");
                 doc.add("   }");
                 
             }//if(this.text_long)
@@ -874,24 +944,23 @@ public class Exportar {
             if(this.link){
                 
                 doc.add("   p.hiperlink{");
-                doc.add("      color:gray;");
+                doc.add("      color: #808080;");
                 doc.add("      margin-top:25px;");
                 doc.add("      margin-bottom:5px;");
                 doc.add("      margin-left:2%;");
-                doc.add("      font-weight: bold;");
-                doc.add("      font-size:calc(5px + 1vw);");
-                doc.add("      font-family: \"Poppins\";");
-                doc.add("      word-wrap: break-word;");
+                doc.add("      font-weight: normal;");
+                doc.add("      font-size:calc(10px + 1vw);");
+                doc.add("      font-family: \"Bytesized\";");
                 doc.add("   }");
                 
                 doc.add("   p.texto_link{");
-                doc.add("      color:white;");
+                doc.add("      color: white;");
                 doc.add("      margin-top:5px;");
                 doc.add("      margin-bottom:25px;");
                 doc.add("      margin-left:2%;");
                 doc.add("      margin-right:2%;");
                 doc.add("      font-weight: bold;");
-                doc.add("      font-size:calc(15px + 1vw);");
+                doc.add("      font-size:calc(20px + 1vw);");
                 doc.add("      font-family: \"Montserrat Underline\";");
                 doc.add("      word-wrap: break-word;");
                 doc.add("      line-height:2em;");
@@ -902,7 +971,7 @@ public class Exportar {
             doc.add("   div.divide{");
             doc.add("      width:100%;");
             doc.add("      height:10%;");
-            doc.add("      background-color:transparent;");
+            doc.add("      background-color: transparent;");
             doc.add("   }");
             doc.add("   p.ended{");
             doc.add("      padding:50px;");
@@ -927,18 +996,18 @@ public class Exportar {
             }//if(extend && this.text_long)
             
             doc.add("      color:black;");
-            doc.add("      background-color:whitesmoke;");
+            doc.add("      background-color: #f5f5f5;");
             doc.add("   }");
             
             if(this.link){
                 
-                doc.add("   p.texto_link::selection{");
-                doc.add("      color:teal;");
-                doc.add("      background-color:whitesmoke;");
-                doc.add("   }");
                 doc.add("   p.hiperlink::selection{");
-                doc.add("      color:whitesmoke;");
+                doc.add("      color: #f5f5f5;");
                 doc.add("      background-color: transparent;");
+                doc.add("   }");
+                doc.add("   p.texto_link::selection{");
+                doc.add("      color: #008080;");
+                doc.add("      background-color: #f5f5f5;");
                 doc.add("   }");
             
             }//if(this.link) -- 4 de 4
@@ -976,6 +1045,7 @@ public class Exportar {
                             arq_1 += "<h1 class=\"arquivo\">MPEG-4</h1><div class=\"space\"></div>";
                             arq_1 += "<h1 class=\"arquivo\">VÍDEO: ";
                             arq_1 += Numb(arquivo+1, all_vcr);
+                            arq_1 += "</h1>";
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
                             arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
@@ -988,17 +1058,19 @@ public class Exportar {
                             arq_1 += Numb(arquivo+1, all_vcr);
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
                             arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>");
+                            arq_1 += "</h1>";
                             arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             
                         }/* case "mpg" */
                         
-                        case "avi" ->{
+                        /* case "avi" ->{
                             
                             arq_1 += "<h1 class=\"arquivo\">VÍDEO: ";
                             arq_1 += Numb(arquivo+1, all_vcr);
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
                             arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
                             arq_1 += this.code.Read(x, 0).substring(max);
+                            arq_1 += "</h1>";
                             arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             arq_2 += this.code.Read(x, 0).substring(max);
                             
@@ -1008,13 +1080,27 @@ public class Exportar {
                             
                             not_tv = false;
                             
-                            arq_1 += "<h1 class=\"arquivo\">EMISSORA</h1><h1 class=\"arquivo\">";
-                            arq_1 += Numb(arquivo+1, all_vcr);
-                            arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
-                            arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
+                            arq_1 += "";
+                            
+                            if(all_vcr == 1){
+                                
+                                arq_1 += "<h1 class=\"arquivo\">";
+                                arq_1 += T(this.code.Read(x, 0).substring(0,max),"</h1><h1 class=\"arquivo\">").toUpperCase();
+                                arq_1 += "</h1>";
+                                
+                            } else {//if(all_vcr > 1)
+                                
+                                arq_1 += "<h1 class=\"arquivo\">EMISSORA</h1><h1 class=\"arquivo\">";
+                                arq_1 += Numb(arquivo+1, all_vcr);
+                                arq_1 += "<h1 class=\"arquivo\"></h1><div class=\"space\"></div>";
+                                arq_1 += "<h1 class=\"cabecalho\">";
+                                arq_1 += T(this.code.Read(x, 0).substring(0,max),"</h1><h1 class=\"cabecalho\">");
+                                arq_1 += "</h1>";
+                                
+                            }//if(all_vcr > 1)
                             arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             
-                        }/* case "tv" */
+                        }// case "tv"
                         
                         default ->{
                             
@@ -1058,7 +1144,6 @@ public class Exportar {
                             if(sub_arq == into_arq){
                                 
                                 tx += arq_1;
-                                tx += "</h1>";
                                 
                             } else {//if(sub_arq == 1)
                                 
@@ -1180,12 +1265,12 @@ public class Exportar {
             
             doc.add("");
             
-            if(this.code.Tot() <= 350 && !extend){
+            if(this.code.Tot() <= 350 && not_tv){
                 
                 doc.add("<!-- " + 
                         new Data().DataAbreviada(true) + 
                         " -- " + 
-                        new Hora(true).getHora(false) + 
+                        new Hora(true).getHora(true) + 
                         " --"
                 );
                 
@@ -1231,7 +1316,7 @@ public class Exportar {
                 doc.add("-- " + 
                         new Data().DataAbreviada(false) + 
                         " -- " + 
-                        new Hora(true).getHora(false) + 
+                        new Hora(true).getHora(true) + 
                         " --"
                 );
                 
@@ -1240,20 +1325,20 @@ public class Exportar {
                 doc.add("<!-- " + 
                         new Data().DataAbreviada(true) + 
                         " -- " + 
-                        new Hora(true).getHora(false) + 
+                        new Hora(true).getHora(true) + 
                         " --"
                 );
                 
             }//if(this.code.Tot() <= 300 && this.link && not_tv)
             
-            if(this.code.Tot() <= 120 && this.link && not_tv){
+            if(this.code.Tot() <= 20 && this.link){
             
-                String total = "ITE";
+                String total = "Ite";
 
                 if(this.code.Tot() == 1){
-                    total += "M";
+                    total += "m";
                 } else {
-                    total += "NS";
+                    total += "ns";
                 }// if(this.code.Tot() == 1)
                 
                 String itens = "";
@@ -1261,10 +1346,6 @@ public class Exportar {
                 for(int d = 1; d <= this.code.Tot(); d++){
                     
                     itens += ";";
-                    
-                    if(d < 10){itens += "0";}
-                    
-                    if(d < 100 && this.code.Tot() >= 100){itens += "0";}
                     
                     itens += d;
                     
@@ -1280,7 +1361,7 @@ public class Exportar {
                     
                     int val = Test.Val() && Test.Num() == 0 ? 0 : d-1;
                     
-                    itens += T(this.code.Read(val, 0)," | ");
+                    itens += Registro.Title(this.code.Read(val, 0)," | ");
                     
                 }//for(int d = 0; d < this.code.Tot(); d++)
 
