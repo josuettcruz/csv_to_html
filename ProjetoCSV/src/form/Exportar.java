@@ -563,12 +563,14 @@ public class Exportar {
 
     }//T(String dig)
     
-    private String TitleLink(String lnk){
+    private String TitleLink(String lnk, boolean tag_title){
         
         String add = "";
-        boolean space = true;
+        boolean space = false;
         boolean loop = true;
         int i = 0;
+        
+        String sep = tag_title ? " " : "<br/>";
         
         String txt = lnk.toUpperCase();
         
@@ -602,7 +604,7 @@ public class Exportar {
                 
                 case '-' ->{
                     
-                    if(space){add += "<br/>";}
+                    if(space){add += sep;}
                     space = false;
                     
                 }//case '-'
@@ -710,7 +712,7 @@ public class Exportar {
             txt += "<p class=\"hiperlink\" title=\"";
             txt += title_link.toLowerCase();
             txt += "\">";
-            txt += TitleLink(title_link);
+            txt += TitleLink(title_link, false);
             txt += "</p>";
             break;
             
@@ -727,19 +729,13 @@ public class Exportar {
             break;
             
             case "www.google.com":
+            case "images.app.goo.gl":
+            case "g.co":
             txt += "Google";
             break;
             
-            case "images.app.goo.gl":
-            txt += "Google Imagens";
-            break;
-            
-            case "g.co":
-            txt += "Rsultado da pesquiza Google";
-            break;
-            
             default:
-            txt += TitleLink(title_link);
+            txt += TitleLink(title_link, true);
             break;
             
         }//switch(title_link) - 1 - 2
