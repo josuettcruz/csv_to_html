@@ -16,9 +16,9 @@ public class Exportar {
     
     private csv code;
     
-    private final int long_text = 70;
-    private final int max_end_separator_paragraphy = 100;
-    private final int tribute_max_end_separator_paragraphy = 150;
+    private final int long_text = 30;
+    private final int max_end_separator_paragraphy = 50;
+    private final int tribute_max_end_separator_paragraphy = 75;
     
     private final String option[] = {"_blank","_parent"};
     
@@ -39,6 +39,7 @@ public class Exportar {
     private boolean aspas;
     private boolean link;
     private boolean text_long;
+    boolean only_canva;
     private final String h1 = "tema";
     private final String p = "texto";
     
@@ -51,6 +52,8 @@ public class Exportar {
     }
     
     public Exportar(csv code, String sent){
+                
+        cod doc = new cod();
         
         this.code = code;
         
@@ -61,6 +64,7 @@ public class Exportar {
         this.aspas = false;
         this.link = false;
         this.text_long = false;
+        this.only_canva = false;
         
         for(int col = 0; col < code.Tot(); col++){
             
@@ -75,6 +79,12 @@ public class Exportar {
                 if(LongText(code.Read(col, line))){
                     
                     this.text_long = true;
+                    
+                }// 2 de 2 - boolean text_long;
+                
+                if(new cod().Link(code.Read(col, line)) && !code.Read(col, line).contains("www.canva.com")){
+                    
+                    this.only_canva = true;
                     
                 }// 2 de 2 - boolean text_long;
                 
@@ -664,7 +674,8 @@ public class Exportar {
         
         char_link = "";
         
-        String txt = "<p class=\"hiperlink\" title=\"";
+        String txt = "";
+        txt += "<p class=\"hiperlink\" title=\"";
         txt += title_link.toLowerCase();
         txt += "\">";
         
@@ -673,22 +684,36 @@ public class Exportar {
             case "www.youtube.com":
             case "youtube.com":
             case "youtu.be":
-            txt += "YOUTUBE";
+            txt += "<p class=\"hiperlink\" title=\"";
+            txt += title_link.toLowerCase();
+            txt += "\">YOUTUBE</p>";
+            txt += "";
             break;
             
             case "www.google.com":
             case "images.app.goo.gl":
             case "g.co":
-            txt += "GOOGLE";
+            txt += "<p class=\"hiperlink\" title=\"";
+            txt += title_link.toLowerCase();
+            txt += "\">GOOGLE</p>";
+            txt += "";
+            break;
+            
+            case "www.canva.com":
+            txt += "";
             break;
             
             default:
+            txt += "<p class=\"hiperlink\" title=\"";
+            txt += title_link.toLowerCase();
+            txt += "\">";
             txt += TitleLink(title_link);
+            txt += "</p>";
             break;
             
         }//switch(title_link) - 1 - 2
         
-        txt += "</p><p class=\"texto_link\" title=\"";
+        txt += "<p class=\"texto_link\" title=\"";
         txt += TitleLink(title_link);
         txt += "\"><a href=\"";
         txt += link;
@@ -831,8 +856,7 @@ public class Exportar {
         doc.add("<title>" + title + "</title>");
         doc.add("<meta charset=\"utf-8\" />");
         doc.add("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-        doc.add("<!-- <link rel=\"icon\" href=\"arquivo.ico\" type=\"image/x-icon\">");
-        doc.add("arquivo.ico -->");
+        //doc.add("<!-- <link rel=\"icon\" href=\"arquivo.ico\" type=\"image/x-icon\"> -->");
         doc.add("<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">");
         doc.add("<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>");
         doc.add("<link href=\"https://fonts.googleapis.com/css2?family=Bytesized&family=Kavoon&family=Montserrat+Underline:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sofia+Sans+Extra+Condensed:ital,wght@0,1..1000;1,1..1000&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap\" rel=\"stylesheet\">");
@@ -845,16 +869,11 @@ public class Exportar {
                 doc.add("   a:link, a:hover, a:active, a:visited{");
                 doc.add("      text-decoration: none;");
                 doc.add("   }");
-                doc.add("   a:link, a:active{");
+                doc.add("   a:link, a:hover, a:active{");
                 doc.add("      color: #40e0d0;");
                 doc.add("   }");
-                doc.add("   a:hover, a:visited{");
+                doc.add("   a:visited{");
                 doc.add("      color: #808080;");
-                doc.add("   }");
-                doc.add("   a{");
-                doc.add("      transition-property: color;");
-                doc.add("      transition-duration: 200ms;");
-                doc.add("      transition-timing-function: ease-out;");
                 doc.add("   }");
                 
             }//if(this.link) -- 1 de 4
@@ -880,7 +899,7 @@ public class Exportar {
             
             if(extend){
                 
-                doc.add("   h1.arquivo{");
+                doc.add("   h1.arquivo, h1.cabecalho{");
                 doc.add("      color: white;");
                 doc.add("      margin-left: 2%;");
                 doc.add("      font-weight: normal;");
@@ -890,13 +909,7 @@ public class Exportar {
                 doc.add("   }");
                 
                 doc.add("   h1.cabecalho{");
-                doc.add("      color: white;");
-                doc.add("      margin-left: 2%;");
-                doc.add("      font-weight: normal;");
-                doc.add("      font-size: calc(20px + 1vw);");
-                doc.add("      font-family: \"Roboto\";");
-                doc.add("      word-wrap: break-word;");
-                doc.add("      line-height: 2em;");
+                doc.add("      text-transform: uppercase;");
                 doc.add("   }");
                 
             }//if(extend)
@@ -943,6 +956,8 @@ public class Exportar {
             
             if(this.link){
                 
+                if(this.only_canva){
+                    
                 doc.add("   p.hiperlink{");
                 doc.add("      color: #808080;");
                 doc.add("      margin-top:25px;");
@@ -952,6 +967,8 @@ public class Exportar {
                 doc.add("      font-size:calc(10px + 1vw);");
                 doc.add("      font-family: \"Bytesized\";");
                 doc.add("   }");
+                
+                }//if(this.not_canva)
                 
                 doc.add("   p.texto_link{");
                 doc.add("      color: white;");
@@ -1047,8 +1064,8 @@ public class Exportar {
                             arq_1 += Numb(arquivo+1, all_vcr);
                             arq_1 += "</h1>";
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
-                            arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>");
-                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
+                            arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
+                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
                             
                         }//case "mp4"
                         
@@ -1057,7 +1074,7 @@ public class Exportar {
                             arq_1 += "<h1 class=\"arquivo\">MPEG</h1><div class=\"space\"></div><h1 class=\"arquivo\">VÍDEO: ";
                             arq_1 += Numb(arquivo+1, all_vcr);
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
-                            arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>");
+                            arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
                             arq_1 += "</h1>";
                             arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             
@@ -1069,9 +1086,9 @@ public class Exportar {
                             arq_1 += Numb(arquivo+1, all_vcr);
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
                             arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
-                            arq_1 += this.code.Read(x, 0).substring(max);
+                            arq_1 += this.code.Read(x, 0).substring(max).toUpperCase();
                             arq_1 += "</h1>";
-                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
+                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
                             arq_2 += this.code.Read(x, 0).substring(max);
                             
                         }/* case "avi" */
@@ -1090,7 +1107,7 @@ public class Exportar {
                                 
                             } else {//if(all_vcr > 1)
                                 
-                                arq_1 += "<h1 class=\"arquivo\">EMISSORA</h1><h1 class=\"arquivo\">";
+                                arq_1 += "<h1 class=\"arquivo\">EVENTO</h1><h1 class=\"arquivo\">";
                                 arq_1 += Numb(arquivo+1, all_vcr);
                                 arq_1 += "<h1 class=\"arquivo\"></h1><div class=\"space\"></div>";
                                 arq_1 += "<h1 class=\"cabecalho\">";
@@ -1098,7 +1115,7 @@ public class Exportar {
                                 arq_1 += "</h1>";
                                 
                             }//if(all_vcr > 1)
-                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
+                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
                             
                         }// case "tv"
                         
@@ -1109,7 +1126,7 @@ public class Exportar {
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
                             arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
                             arq_1 += this.code.Read(x, 0).substring(max);
-                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
+                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
                             arq_2 += this.code.Read(x, 0).substring(max);
                             
                         }/* default */
