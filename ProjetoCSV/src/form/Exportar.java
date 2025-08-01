@@ -317,7 +317,7 @@ public class Exportar {
         
         for(int dh = 0; dh < text.length();dh++){
             
-            boolean acept;
+            boolean acept = true;
             
             switch(text.charAt(dh)){
                 
@@ -332,6 +332,12 @@ public class Exportar {
                 case '{' ->{acept = false;}
                 
                 case '}' ->{acept = false;}
+                
+                case ',' ->{if(dh > 0){acept = false;}}
+                
+                case '.' ->{if(dh > 0){acept = false;}}
+                
+                case ':' ->{if(dh > 0){acept = false;}}
                 
                 default ->{acept = true;}
                 
@@ -467,9 +473,9 @@ public class Exportar {
                 col = 2;
                 divide = false;
                 
-            } else if(tx.equalsIgnoreCase("-") && col == 1){//if
+            } else if(d.Val())if(tx.equalsIgnoreCase("-")){//if
                 
-                col = 3;
+                if(col == 1){col = 3;}
                 
             } else if(d.Val()){//if
                 
@@ -560,14 +566,13 @@ public class Exportar {
     private String TitleLink(String lnk){
         
         String add = "";
+        boolean space = true;
         boolean loop = true;
         int i = 0;
         
         String txt = lnk.toUpperCase();
         
         while(loop && i < lnk.length()){
-            
-            boolean space = true;
             
             switch(lnk.charAt(i)){
                 
@@ -597,7 +602,7 @@ public class Exportar {
                 
                 case '-' ->{
                     
-                    if(space){add += " ";}
+                    if(space){add += "<br/>";}
                     space = false;
                     
                 }//case '-'
@@ -608,7 +613,7 @@ public class Exportar {
                     
                 }//default
                 
-            }//switch(lnk.charAt(i))
+            }//switch(lnk.charAt(i)) - 1 - 2
             
             switch(lnk.charAt(i)){
                 
@@ -621,7 +626,7 @@ public class Exportar {
                 space = true;
                 break;
                 
-            }
+            }//switch(lnk.charAt(i)) - 2 - 2
             
             i++;
             
@@ -685,18 +690,16 @@ public class Exportar {
             case "youtube.com":
             case "youtu.be":
             txt += "<p class=\"hiperlink\" title=\"";
-            txt += title_link.toLowerCase();
+            txt += title_link.toUpperCase();
             txt += "\">YOUTUBE</p>";
-            txt += "";
             break;
             
             case "www.google.com":
             case "images.app.goo.gl":
             case "g.co":
             txt += "<p class=\"hiperlink\" title=\"";
-            txt += title_link.toLowerCase();
+            txt += title_link.toUpperCase();
             txt += "\">GOOGLE</p>";
-            txt += "";
             break;
             
             case "www.canva.com":
@@ -720,14 +723,19 @@ public class Exportar {
             case "www.youtube.com":
             case "youtube.com":
             case "youtu.be":
-            txt += title_link.toLowerCase();
             txt += "YouTube";
             break;
             
             case "www.google.com":
+            txt += "Google";
+            break;
+            
             case "images.app.goo.gl":
+            txt += "Google Imagens";
+            break;
+            
             case "g.co":
-            txt += "GooGle";
+            txt += "Rsultado da pesquiza Google";
             break;
             
             default:

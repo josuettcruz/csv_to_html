@@ -364,7 +364,8 @@ public class Data {
             if(s < 6){
                 txt += "-feira";
             }
-
+            
+            txt += ",";
             txt += separator;
             
         }//if(semana)
@@ -429,7 +430,8 @@ public class Data {
             
         }//switch(m)
         
-        txt += " de ";
+        txt += separator;
+        txt += "de ";
         txt += a;
         
         return txt;
