@@ -473,7 +473,7 @@ public class Exportar {
                 col = 2;
                 divide = false;
                 
-            } else if(d.Val())if(tx.equalsIgnoreCase("-")){//if
+            } else if(tx.equalsIgnoreCase("-")){//if
                 
                 if(col == 1){col = 3;}
                 
