@@ -714,7 +714,29 @@ public class Exportar {
         }//switch(title_link) - 1 - 2
         
         txt += "<p class=\"texto_link\" title=\"";
-        txt += TitleLink(title_link);
+        
+        switch(title_link.toLowerCase()){
+            
+            case "www.youtube.com":
+            case "youtube.com":
+            case "youtu.be":
+            txt += title_link.toLowerCase();
+            txt += "YouTube";
+            break;
+            
+            case "www.google.com":
+            case "images.app.goo.gl":
+            case "g.co":
+            txt += "GooGle";
+            break;
+            
+            default:
+            txt += TitleLink(title_link);
+            break;
+            
+        }//switch(title_link) - 1 - 2
+        
+        
         txt += "\"><a href=\"";
         txt += link;
         txt += "\" target=\"";
