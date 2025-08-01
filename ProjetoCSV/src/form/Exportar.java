@@ -752,8 +752,6 @@ public class Exportar {
         
         cod c = new cod();
         
-        final int max_char_title = 80;
-        
         boolean not_tv = true;
         
         int all_vcr = 0;
@@ -847,14 +845,7 @@ public class Exportar {
         
         String select_title;
         
-        if(name.length() >= max_char_title){//select_title
-            
-            select_title = "(";
-            select_title += new Data().DataAbreviada(false);
-            select_title += ") ";
-            select_title += name;
-            
-        } else if(this.code.Read(0, 0).contains("|")){//select_title
+        if(this.code.Read(0, 0).contains("|")){//select_title
             
             select_title = this.code.Read(0, 0).substring(0, this.code.Read(0, 0).indexOf("|")).trim();
             
@@ -882,6 +873,7 @@ public class Exportar {
         doc.add("<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>");
         doc.add("<link href=\"https://fonts.googleapis.com/css2?family=Bytesized&family=Kavoon&family=Montserrat+Underline:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sofia+Sans+Extra+Condensed:ital,wght@0,1..1000;1,1..1000&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap\" rel=\"stylesheet\">");
         doc.add("<style>");
+        doc.add("   ");
         
         if(cd){
             
@@ -927,10 +919,6 @@ public class Exportar {
                 doc.add("      font-size: calc(30px + 1vw);");
                 doc.add("      font-family: \"Bytesized\";");
                 doc.add("      word-wrap: break-word;");
-                doc.add("   }");
-                
-                doc.add("   h1.cabecalho{");
-                doc.add("      text-transform: uppercase;");
                 doc.add("   }");
                 
             }//if(extend)
@@ -1052,19 +1040,20 @@ public class Exportar {
             
         } else {
             
-            doc.add("div.txt{");
-            doc.add("  margin-top:20%;");
-            doc.add("  margin-left:5%;");
-            doc.add("  font-size:7vw;");
-            doc.add("}");
+            doc.add("   div.txt{");
+            doc.add("     margin-top:20%;");
+            doc.add("     margin-left:5%;");
+            doc.add("     font-size:7vw;");
+            doc.add("   }");
             
         }
         
+        doc.add("   ");
         doc.add("</style>");
         doc.add("</head>");
         doc.add("<body>");
         
-        if(cd){//if(cd) - 1
+        if(cd){//if(cd) - 2
             
             for(int x = 0; x < this.code.Tot(); x++){
                 
@@ -1097,11 +1086,11 @@ public class Exportar {
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
                             arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
                             arq_1 += "</h1>";
-                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
+                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
                             
                         }/* case "mpg" */
                         
-                        /* case "avi" ->{
+                        case "avi" ->{
                             
                             arq_1 += "<h1 class=\"arquivo\">VÍDEO: ";
                             arq_1 += Numb(arquivo+1, all_vcr);
@@ -1110,9 +1099,9 @@ public class Exportar {
                             arq_1 += this.code.Read(x, 0).substring(max).toUpperCase();
                             arq_1 += "</h1>";
                             arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
-                            arq_2 += this.code.Read(x, 0).substring(max);
+                            arq_2 += this.code.Read(x, 0).substring(max).toUpperCase();
                             
-                        }/* case "avi" */
+                        }//case "avi"
                         
                         case "tv" ->{
                             
@@ -1130,8 +1119,7 @@ public class Exportar {
                                 
                                 arq_1 += "<h1 class=\"arquivo\">EVENTO</h1><h1 class=\"arquivo\">";
                                 arq_1 += Numb(arquivo+1, all_vcr);
-                                arq_1 += "<h1 class=\"arquivo\"></h1><div class=\"space\"></div>";
-                                arq_1 += "<h1 class=\"cabecalho\">";
+                                arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
                                 arq_1 += T(this.code.Read(x, 0).substring(0,max),"</h1><h1 class=\"cabecalho\">");
                                 arq_1 += "</h1>";
                                 
@@ -1150,7 +1138,7 @@ public class Exportar {
                             arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
                             arq_2 += this.code.Read(x, 0).substring(max);
                             
-                        }/* default */
+                        }// default
                         
                     }//switch(this.code.Read(x, 0).substring(0,max+1))
                     
