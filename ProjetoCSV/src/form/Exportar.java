@@ -679,12 +679,7 @@ public class Exportar {
             
         }//for(int i = 0; i < link.length(); i++)
         
-        char_link = "";
-        
         String txt = "";
-        txt += "<p class=\"hiperlink\" title=\"";
-        txt += title_link.toLowerCase();
-        txt += "\">";
         
         switch(title_link.toLowerCase()){
             
@@ -710,7 +705,7 @@ public class Exportar {
             
             default:
             txt += "<p class=\"hiperlink\" title=\"";
-            txt += title_link.toLowerCase();
+            txt += title_link.toUpperCase();
             txt += "\">";
             txt += TitleLink(title_link, false);
             txt += "</p>";
