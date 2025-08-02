@@ -16,7 +16,7 @@ public class Exportar {
     
     private csv code;
     
-    private final int long_text = 30;
+    private final int long_text = 80;
     private final int max_end_separator_paragraphy = 50;
     private final int tribute_max_end_separator_paragraphy = 75;
     
@@ -311,7 +311,7 @@ public class Exportar {
         
     }//Tx(String text)
     
-    private String DataHora(String text){
+    private String Data(String text){
         
         String txt = "";
         
@@ -349,7 +349,41 @@ public class Exportar {
         
         return txt;
         
-    }//DataHora(String text)
+    }//Data(String text)
+    
+    private String Hora(String text){
+        
+        String txt = "";
+        
+        for(int dh = 0; dh < text.length();dh++){
+            
+            boolean acept = true;
+            
+            switch(text.charAt(dh)){
+                
+                case '(' ->{acept = false;}
+                
+                case ')' ->{acept = false;}
+                
+                case '[' ->{acept = false;}
+                
+                case ']' ->{acept = false;}
+                
+                case '{' ->{acept = false;}
+                
+                case '}' ->{acept = false;}
+                
+                default ->{acept = true;}
+                
+            }//switch(text.charAt(dh))
+            
+            if(acept){txt += text.charAt(dh);}
+            
+        }//for(int dh = 0; dh < text.length();dh++)
+        
+        return txt;
+        
+    }//Hora(String text)
     
     private String Numb(int num, int max){
         
@@ -423,8 +457,8 @@ public class Exportar {
         
         for(String tx : dig){
             
-            Data d = new Data(DataHora(tx));
-            Hora h = new Hora(DataHora(tx));
+            Data d = new Data(Data(tx));
+            Hora h = new Hora(Hora(tx));
             
             boolean into_1 = tx.charAt(0) == '(';
             boolean into_2 = tx.charAt(0) == '[';
