@@ -39,7 +39,7 @@ public class Exportar {
     private boolean aspas;
     private boolean link;
     private boolean text_long;
-    boolean only_canva;
+    boolean not_only_canva;
     private final String h1 = "tema";
     private final String p = "texto";
     
@@ -64,7 +64,7 @@ public class Exportar {
         this.aspas = false;
         this.link = false;
         this.text_long = false;
-        this.only_canva = false;
+        this.not_only_canva = false;
         
         for(int col = 0; col < code.Tot(); col++){
             
@@ -84,7 +84,7 @@ public class Exportar {
                 
                 if(new cod().Link(code.Read(col, line)) && !code.Read(col, line).contains("www.canva.com")){
                     
-                    this.only_canva = true;
+                    this.not_only_canva = true;
                     
                 }// 2 de 2 - boolean text_long;
                 
@@ -582,7 +582,7 @@ public class Exportar {
                     
                     if(add.length() <= 20){
                         
-                        if(!add.toLowerCase().contains("www") && add.length() > 2){
+                        if(add.length() > 3){
                             
                             txt = add;
                             loop = false;
@@ -598,14 +598,12 @@ public class Exportar {
                 case '_' ->{
                     
                     if(space){add += " ";}
-                    space = false;
                     
                 }//case '_'
                 
                 case '-' ->{
                     
                     if(space){add += sep;}
-                    space = false;
                     
                 }//case '-'
                 
@@ -686,17 +684,17 @@ public class Exportar {
             case "www.youtube.com":
             case "youtube.com":
             case "youtu.be":
-            txt += "<p class=\"hiperlink\" title=\"";
-            txt += title_link.toUpperCase();
-            txt += "\">YOUTUBE</p>";
+            txt += "<p class=\"hiperlink\" title=\"YouTube\">YOUTUBE</p>";
             break;
             
             case "www.google.com":
             case "images.app.goo.gl":
             case "g.co":
-            txt += "<p class=\"hiperlink\" title=\"";
-            txt += title_link.toUpperCase();
-            txt += "\">GOOGLE</p>";
+            txt += "<p class=\"hiperlink\">GOOGLE</p>";
+            break;
+            
+            case "drive.google.com":
+            txt += "<p class=\"hiperlink\" title=\"Google Drive\">GOOGLE<br/>DRIVE</p>";
             break;
             
             case "www.canva.com":
@@ -705,7 +703,7 @@ public class Exportar {
             
             default:
             txt += "<p class=\"hiperlink\" title=\"";
-            txt += title_link.toUpperCase();
+            txt += TitleLink(title_link, true);
             txt += "\">";
             txt += TitleLink(title_link, false);
             txt += "</p>";
@@ -727,6 +725,10 @@ public class Exportar {
             case "images.app.goo.gl":
             case "g.co":
             txt += "Google";
+            break;
+            
+            case "drive.google.com":
+            txt += "Google Drive";
             break;
             
             default:
@@ -912,7 +914,7 @@ public class Exportar {
             
             if(extend){
                 
-                doc.add("   h1.arquivo, h1.cabecalho{");
+                doc.add("   h1.arquivo{");
                 doc.add("      color: white;");
                 doc.add("      margin-left: 2%;");
                 doc.add("      font-weight: normal;");
@@ -921,17 +923,29 @@ public class Exportar {
                 doc.add("      word-wrap: break-word;");
                 doc.add("   }");
                 
+                doc.add("   h1.cabecalho, h1.tema{");
+                doc.add("      color:white;");
+                doc.add("      margin-left: 2%;");
+                doc.add("      font-weight: normal;");
+                doc.add("      font-size: calc(20px + 1vw);");
+                doc.add("      font-family: \"Kavoon\";");
+                doc.add("      word-wrap: break-word;");
+                doc.add("      line-height: 2em;");
+                doc.add("   }");
+                
+            } else {//if(extend)
+                
+                doc.add("   h1.tema{");
+                doc.add("      color:white;");
+                doc.add("      margin-left: 2%;");
+                doc.add("      font-weight: normal;");
+                doc.add("      font-size: calc(20px + 1vw);");
+                doc.add("      font-family: \"Kavoon\";");
+                doc.add("      word-wrap: break-word;");
+                doc.add("      line-height: 2em;");
+                doc.add("   }");
+                
             }//if(extend)
-            
-            doc.add("   h1.tema{");
-            doc.add("      color:white;");
-            doc.add("      margin-left: 2%;");
-            doc.add("      font-weight: normal;");
-            doc.add("      font-size: calc(20px + 1vw);");
-            doc.add("      font-family: \"Kavoon\";");
-            doc.add("      word-wrap: break-word;");
-            doc.add("      line-height: 2em;");
-            doc.add("   }");
             
             doc.add("   p.texto{");
             doc.add("      color: white;");
@@ -965,7 +979,7 @@ public class Exportar {
             
             if(this.link){
                 
-                if(this.only_canva){
+                if(this.not_only_canva){
                     
                 doc.add("   p.hiperlink{");
                 doc.add("      color: #808080;");
@@ -977,19 +991,18 @@ public class Exportar {
                 doc.add("      font-family: \"Bytesized\";");
                 doc.add("   }");
                 
-                }//if(this.not_canva)
+                }//if(this.not_only_canva)
                 
                 doc.add("   p.texto_link{");
                 doc.add("      color: white;");
                 doc.add("      margin-top:5px;");
-                doc.add("      margin-bottom:25px;");
+                doc.add("      margin-bottom:30px;");
                 doc.add("      margin-left:2%;");
                 doc.add("      margin-right:2%;");
                 doc.add("      font-weight: bold;");
                 doc.add("      font-size:calc(20px + 1vw);");
                 doc.add("      font-family: \"Montserrat Underline\";");
                 doc.add("      word-wrap: break-word;");
-                doc.add("      line-height:2em;");
                 doc.add("   }");
                 
             }//if(this.link)
@@ -1003,42 +1016,68 @@ public class Exportar {
             doc.add("      padding:50px;");
             doc.add("   }");
             
-            if(extend && this.text_long){
-                
-                doc.add("   h1.arquivo::selection, h1.cabecalho::selection, h1.tema::selection, p.texto::selection, p.long_text::selection{");
-                
-            } else if(extend){//if(extend && this.text_long)
-                
-                doc.add("   h1.arquivo::selection, h1.cabecalho::selection, h1.tema::selection, p.texto::selection{");
-                
-            } else if(this.text_long){//if(extend && this.text_long)
-                
-                doc.add("   h1.tema::selection, p.texto::selection, p.long_text::selection{");
-                
-            } else {//if(extend && this.text_long)
-                
-                doc.add("   h1.tema::selection, p.texto::selection{");
-                
-            }//if(extend && this.text_long)
+            String selection = "   ";
             
+            if(extend){selection += "h1.arquivo::selection, h1.cabecalho::selection, ";}
+            
+            selection += "h1.tema::selection, p.texto::selection";
+            
+            if(this.link){selection += ", p.texto_link::selection";}
+            
+            if(this.text_long){selection += ", p.long_text::selection";}
+            
+            selection += "{";
+            
+            doc.add(selection);
             doc.add("      color:black;");
+            doc.add("   }");
+            
+            if(extend){
+                
+                doc.add("   h1.arquivo::selection{");
+                doc.add("      background-color: #add8e6;");
+                doc.add("   }");
+                
+                doc.add("   h1.cabecalho::selection{");
+                doc.add("      background-color: #87cefa;");
+                doc.add("   }");
+                
+            }//if(extend)
+            
+            doc.add("   h1.tema::selection{");
+            doc.add("      background-color: #add8e6;");
+            doc.add("   }");
+            
+            doc.add("   p.texto::selection{");
             doc.add("      background-color: #f5f5f5;");
             doc.add("   }");
             
+            if(this.text_long){
+                
+                doc.add("   p.long_text::selection{");
+                doc.add("      background-color: white;");
+                doc.add("   }");
+                
+            }//if(this.text_long)
+            
             if(this.link){
                 
+                doc.add("   p.texto_link::selection{");
+                doc.add("      background-color: #40e0d0;");
+                doc.add("   }");
+                
+            }//if(this.link)
+            
+            if(this.link && this.not_only_canva){
+                    
                 doc.add("   p.hiperlink::selection{");
                 doc.add("      color: #f5f5f5;");
                 doc.add("      background-color: transparent;");
                 doc.add("   }");
-                doc.add("   p.texto_link::selection{");
-                doc.add("      color: #008080;");
-                doc.add("      background-color: #f5f5f5;");
-                doc.add("   }");
             
-            }//if(this.link) -- 4 de 4
+            }//if(this.link && this.not_only_canva)
             
-        } else {
+        } else {//if(cd)
             
             doc.add("   div.txt{");
             doc.add("     margin-top:20%;");
@@ -1046,7 +1085,7 @@ public class Exportar {
             doc.add("     font-size:7vw;");
             doc.add("   }");
             
-        }
+        }//if(cd)
         
         doc.add("   ");
         doc.add("</style>");
@@ -1112,7 +1151,7 @@ public class Exportar {
                             if(all_vcr == 1){
                                 
                                 arq_1 += "<h1 class=\"arquivo\">";
-                                arq_1 += T(this.code.Read(x, 0).substring(0,max),"</h1><h1 class=\"arquivo\">").toUpperCase();
+                                arq_1 += T(this.code.Read(x, 0).substring(0,max),"</h1><h1 class=\"arquivo\">");
                                 arq_1 += "</h1>";
                                 
                             } else {//if(all_vcr > 1)
@@ -1124,7 +1163,7 @@ public class Exportar {
                                 arq_1 += "</h1>";
                                 
                             }//if(all_vcr > 1)
-                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
+                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             
                         }// case "tv"
                         
@@ -1133,9 +1172,9 @@ public class Exportar {
                             arq_1 += "<h1 class=\"arquivo\">";
                             arq_1 += Numb(arquivo+1, all_vcr);
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
-                            arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
+                            arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             arq_1 += this.code.Read(x, 0).substring(max);
-                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
+                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             arq_2 += this.code.Read(x, 0).substring(max);
                             
                         }// default
@@ -1173,7 +1212,7 @@ public class Exportar {
                                 
                             } else {//if(sub_arq == 1)
                                 
-                                tx += "<h1 class=\"cabecalho\">";
+                                tx += "<h1 class=\"arquivo\">";
                                 
                                 if(x < one_vcr.size() && x < max_vcr.size() && max_vcr.get(x) > 0){
                                     
@@ -1342,7 +1381,7 @@ public class Exportar {
                 doc.add("-- " + 
                         new Data().DataAbreviada(false) + 
                         " -- " + 
-                        new Hora(true).getHora(true) + 
+                        new Hora(true).getHora(false) + 
                         " --"
                 );
                 
