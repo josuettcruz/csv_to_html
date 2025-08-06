@@ -722,23 +722,17 @@ public class Exportar {
             case "www.youtube.com":
             case "youtube.com":
             case "youtu.be":
-            txt += "<p class=\"hiperlink\"";
-            if(link.length() <= 100){txt += " title=\"";txt += link;}
-            txt += "\">YOUTUBE</p>";
+            txt += "<p class=\"hiperlink\">YOUTUBE</p>";
             break;
             
             case "www.google.com":
             case "images.app.goo.gl":
             case "g.co":
-            txt += "<p class=\"hiperlink\"";
-            if(link.length() <= 80){txt += " title=\"";txt += link;}
-            txt += "\">GOOGLE</p>";
+            txt += "<p class=\"hiperlink\">GOOGLE</p>";
             break;
             
             case "drive.google.com":
-            txt += "<p class=\"hiperlink\"";
-            if(link.length() <= 60){txt += " title=\"";txt += link;}
-            txt += "\">GOOGLE<br/>DRIVE</p>";
+            txt += "<p class=\"hiperlink\">GOOGLE<br/>DRIVE</p>";
             break;
             
             case "www.canva.com":
@@ -747,9 +741,9 @@ public class Exportar {
             
             default:
             txt += "<p class=\"hiperlink\" title=\"";
-            txt += link.length() >= 40 ? TitleLink(title_link, true) : link;
+            txt += link.length() >= 120 ? TitleLink(title_link, true) : link;
             txt += "\">";
-            txt += TitleLink(title_link, false);
+            txt += link.length() < 40 ? link.toUpperCase() : TitleLink(title_link, false);
             txt += "</p>";
             break;
             
@@ -768,16 +762,15 @@ public class Exportar {
             case "www.google.com":
             case "images.app.goo.gl":
             case "g.co":
-            txt += link.length() <= 60 ? link : "Google";
+            txt += "Google";
             break;
             
             case "drive.google.com":
-            txt += link.length() <= 60 ? link : "Google Drive";
             txt += "Google Drive";
             break;
             
             default:
-            txt += link.length() <= 40 ? link : TitleLink(title_link, true);
+            txt += link.length() <= 120 ? link : TitleLink(title_link, true);
             break;
             
         }//switch(title_link) - 1 - 2
@@ -1376,7 +1369,7 @@ public class Exportar {
             
             doc.add("");
             
-            if(this.code.Tot() <= 350 && not_tv){
+            if(this.code.Tot() <= 350 && not_tv && this.local_user){
                 
                 doc.add("<!-- " + 
                         new Data().DataAbreviada(true) + 
@@ -1442,7 +1435,7 @@ public class Exportar {
                 
             }//if(this.code.Tot() <= 300 && this.link && not_tv)
             
-            if(this.code.Tot() <= 20 && this.link){
+            if(this.code.Tot() <= 20 && this.link && this.local_user){
             
                 String total = "Ite";
 

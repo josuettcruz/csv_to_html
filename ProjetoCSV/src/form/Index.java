@@ -4,8 +4,6 @@
  */
 package form;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import model.Registro;
 
 /**

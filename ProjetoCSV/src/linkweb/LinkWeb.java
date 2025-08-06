@@ -41,3 +41,17 @@ public class LinkWeb {
     }
     
 }
+
+/*public class LinkWeb {
+
+    public static void main(String[] args) {
+        
+        final String msg = "Não compactar esse arquivo!\n\nMotivo:\n[..\\..\\] ao invés de [..\\]";
+        
+        System.out.println(msg);
+        
+        new Index().Enter(msg);
+        
+    }
+    
+}*/
