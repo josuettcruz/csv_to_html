@@ -16,13 +16,15 @@ public class Exportar {
     
     private csv code;
     
-    private final int long_text = 80;
-    private final int max_end_separator_paragraphy = 50;
-    private final int tribute_max_end_separator_paragraphy = 75;
+    private final boolean style_local = false;
+    private final boolean local_user = true;
+    private final int long_text = 100;
+    private final int max_end_separator_paragraphy = 150;
+    private final int tribute_max_end_separator_paragraphy = 500;
     
-    private final String option[] = {"_blank","_parent"};
+    private final boolean new_open = true;
     
-    private final String target = option[0];
+    private final String target = this.new_open ? "_blank" : "_parent";
     
     private final String ext[] = {
             "avi",
@@ -525,7 +527,9 @@ public class Exportar {
                 
                 col = 2;
                 
-                txt += h.getNodeHora(true);
+                txt += "<q>";
+                txt += h.getNodeHora("</q>" + separator + "<q>");
+                txt += "</q>";
                 
             } else if(divide && into && Tx(tx)){//if
                 
@@ -718,17 +722,23 @@ public class Exportar {
             case "www.youtube.com":
             case "youtube.com":
             case "youtu.be":
-            txt += "<p class=\"hiperlink\" title=\"YouTube\">YOUTUBE</p>";
+            txt += "<p class=\"hiperlink\"";
+            if(link.length() <= 100){txt += " title=\"";txt += link;}
+            txt += "\">YOUTUBE</p>";
             break;
             
             case "www.google.com":
             case "images.app.goo.gl":
             case "g.co":
-            txt += "<p class=\"hiperlink\">GOOGLE</p>";
+            txt += "<p class=\"hiperlink\"";
+            if(link.length() <= 80){txt += " title=\"";txt += link;}
+            txt += "\">GOOGLE</p>";
             break;
             
             case "drive.google.com":
-            txt += "<p class=\"hiperlink\" title=\"Google Drive\">GOOGLE<br/>DRIVE</p>";
+            txt += "<p class=\"hiperlink\"";
+            if(link.length() <= 60){txt += " title=\"";txt += link;}
+            txt += "\">GOOGLE<br/>DRIVE</p>";
             break;
             
             case "www.canva.com":
@@ -737,7 +747,7 @@ public class Exportar {
             
             default:
             txt += "<p class=\"hiperlink\" title=\"";
-            txt += TitleLink(title_link, true);
+            txt += link.length() >= 40 ? TitleLink(title_link, true) : link;
             txt += "\">";
             txt += TitleLink(title_link, false);
             txt += "</p>";
@@ -752,21 +762,22 @@ public class Exportar {
             case "www.youtube.com":
             case "youtube.com":
             case "youtu.be":
-            txt += "YouTube";
+            txt += link.length() <= 100 ? link : "YouTube";
             break;
             
             case "www.google.com":
             case "images.app.goo.gl":
             case "g.co":
-            txt += "Google";
+            txt += link.length() <= 60 ? link : "Google";
             break;
             
             case "drive.google.com":
+            txt += link.length() <= 60 ? link : "Google Drive";
             txt += "Google Drive";
             break;
             
             default:
-            txt += TitleLink(title_link, true);
+            txt += link.length() <= 40 ? link : TitleLink(title_link, true);
             break;
             
         }//switch(title_link) - 1 - 2
@@ -904,12 +915,12 @@ public class Exportar {
         doc.add("<title>" + title + "</title>");
         doc.add("<meta charset=\"utf-8\" />");
         doc.add("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-        //doc.add("<!-- <link rel=\"icon\" href=\"arquivo.ico\" type=\"image/x-icon\"> -->");
+        if(this.local_user){doc.add("<link rel=\"icon\" href=\"icone\\.ico\" type=\"image/x-icon\">");}
         doc.add("<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">");
         doc.add("<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>");
         doc.add("<link href=\"https://fonts.googleapis.com/css2?family=Bytesized&family=Kavoon&family=Montserrat+Underline:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sofia+Sans+Extra+Condensed:ital,wght@0,1..1000;1,1..1000&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap\" rel=\"stylesheet\">");
+        if(this.style_local){doc.add("<link rel=\"stylesheet\" type=\"text/css\" href=\"local.css\">");} else {
         doc.add("<style>");
-        doc.add("   ");
         
         if(cd){
             
@@ -1003,7 +1014,7 @@ public class Exportar {
                 doc.add("      margin-left: 2%;");
                 doc.add("      margin-right: 2%;");
                 doc.add("      font-weight: normal;");
-                doc.add("      font-size: calc(20px + 1vw);");
+                doc.add("      font-size: calc(10px + 1vw);");
                 doc.add("      font-family: \"Sofia Sans Extra Condensed\";");
                 doc.add("      word-wrap: break-word;");
                 doc.add("      line-height: 2em;");
@@ -1036,6 +1047,7 @@ public class Exportar {
                 doc.add("      font-weight: bold;");
                 doc.add("      font-size:calc(20px + 1vw);");
                 doc.add("      font-family: \"Montserrat Underline\";");
+                doc.add("      line-height: 2em;");
                 doc.add("      word-wrap: break-word;");
                 doc.add("   }");
                 
@@ -1121,8 +1133,8 @@ public class Exportar {
             
         }//if(cd)
         
-        doc.add("   ");
         doc.add("</style>");
+        }//if(this.style_local)
         doc.add("</head>");
         doc.add("<body>");
         
@@ -1145,10 +1157,10 @@ public class Exportar {
                             arq_1 += "<h1 class=\"arquivo\">MPEG-4</h1><div class=\"space\"></div>";
                             arq_1 += "<h1 class=\"arquivo\">VÍDEO: ";
                             arq_1 += Numb(arquivo+1, all_vcr);
-                            arq_1 += "</h1>";
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
-                            arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
-                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
+                            arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>");
+                            arq_1 += "</h1>";
+                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             
                         }//case "mp4"
                         

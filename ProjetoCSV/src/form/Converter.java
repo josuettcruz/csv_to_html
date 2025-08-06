@@ -39,22 +39,10 @@ public class Converter extends javax.swing.JFrame {
     private void Exc(boolean tentar, String tct){
         
         if(tentar){
-            
-            System.out.print("Hoje é:");
-            Registro.Tab(true,"Hoje é:", Registro.result);
-            System.out.println(new Data().DataCompleta(true));
 
             System.out.print("Resultado:");
-            Registro.Tab(true,"Resultado:", Registro.result);
+            System.out.print(Registro.Tab("Resultado:",Registro.result));
             System.out.println(tct);
-
-            System.out.print("Data:");
-            Registro.Tab(true,"Data:", Registro.result);
-            System.out.println(new Data().DataCompleta(false));
-
-            System.out.print("Hora:");
-            Registro.Tab(true,"Hora:", Registro.result);
-            System.out.println(new Hora(true).getNodeHora(false));
             
             System.exit(0);
             

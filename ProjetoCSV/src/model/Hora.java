@@ -462,7 +462,7 @@ public class Hora {
         
     }//getNodeHoraMinute()
     
-    private String getNodeHoraSecond(){
+    private String getNodeHoraSecond(String sep){
         
         String txt = "";
 
@@ -475,19 +475,19 @@ public class Hora {
             txt += ht;
             txt += " hora";
 
-            if(ht > 1){
-                txt += "s";
-            }
+            if(ht > 1){txt += "s";}
             
             if(mt > 0 || st > 0){
                 
                 if(st == 0){
                     
-                    txt += " e ";
+                    txt += " e";
+                    txt += sep;
                     
                 } else {//if(st == 0)
                     
-                    txt += ", ";
+                    txt += ",";
+                    txt += sep;
                     
                 }//if(st == 0)
                 
@@ -501,16 +501,19 @@ public class Hora {
             txt += " minuto";
 
             if(mt > 1){
+                
                 txt += "s";
-            }
+                
+            }//if(mt > 1)
 
         }//if(mt > 0)
 
         if(st > 0){
 
             if(ht > 0 || mt > 0){
-                txt += " e ";
-            }
+                txt += " e";
+                txt += sep;
+            }//if(ht > 0 || mt > 0)
 
             txt += st;
             txt += " segundo";
@@ -527,9 +530,15 @@ public class Hora {
     
     public String getNodeHora(boolean second){
         
-        return second ? getNodeHoraSecond() : getNodeHoraMinute();
+        return second ? getNodeHoraSecond(" ") : getNodeHoraMinute();
         
     }//getNodeHora(boolean second)
+    
+    public String getNodeHora(String separator){
+        
+        return getNodeHoraSecond(separator);
+        
+    }//getNodeHora(String separator)
     
     public String Load(){
         

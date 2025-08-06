@@ -57,7 +57,7 @@ public class Tela extends javax.swing.JFrame {
         
     }
     
-    private boolean isTempTrack(String txt, int min){
+    /*private boolean isTempTrack(String txt, int min){
         
         if(min < 0){min = min - min * 2;}
         
@@ -82,7 +82,7 @@ public class Tela extends javax.swing.JFrame {
         
         return sel >= min;
         
-    }//isTempTrack(String txt)
+    }/* isTempTrack(String txt) */
     
     private void Converter(String file){
         
@@ -166,36 +166,18 @@ public class Tela extends javax.swing.JFrame {
                 
             }//if(orm.Tot() >= 0)
             
-            String htm = name.toUpperCase();
-            
-            if(max_folder == 1){
-                
-                htm += ";Data: | ";
-                htm += new Data().Load();
-                
-                htm += ";Hora: | ";
-                htm += new Hora(true).Load();  
-                
-            }//if(max_folder > 1)
+            String htm = name;
             
             if(orm.Tot() >= 0){
                 
+                htm += " (";
+                htm += new Data().DataAbreviada(false);
+                htm += ");Duração total: | ";
+                htm += new Hora(max_tot).Load();
                 htm += ";";
                 htm += max_track;
                 htm += " faixa";
                 if(max_track > 1){htm += "s";}
-                htm += ";Duração total: | ";
-                htm += new Hora(max_tot).Load();
-                
-                if(max_folder != 1){
-                    
-                    htm += ";Data: | ";
-                    htm += new Data().Load();
-                    
-                    htm += ";Hora: | ";
-                    htm += new Hora(true).Load();  
-                    
-                }//if(max_folder > 1)
                 
                 int folder = 1;
                 String indo = "";
@@ -209,7 +191,7 @@ public class Tela extends javax.swing.JFrame {
                     if(!orm.Read(i, 2).isBlank() && !orm.Read(i, 2).equalsIgnoreCase(indo) && max_folder > 1){
                         
                         htm += Number(folder,max_folder);
-                        htm += " --- ";
+                        htm += " de ";
                         htm += max_folder;
                         htm += ";";
                         htm += orm.Read(i, 2);
@@ -226,16 +208,19 @@ public class Tela extends javax.swing.JFrame {
                     
                     if(track.Val() && track.Num() > 0 && track.Num() < 1000){
                         
-                        htm += "FAIXA: ";
+                        htm += "Faixa ";
                         htm += Number(track.Num(),max_track);
+                        htm += " de ";
+                        htm += max_track;
                         
                         if(track.Num() != (i+1)){
-                        htm += " | TRACK: ";
-                        htm += Number(track.Num(),max_track);
+                            
+                            htm += ";Arquivo ";
+                            htm += Number((i+1),orm.Tot());
+                            
+                        }//if(track.Num() != (i+1))
+                        
                         htm += ";";
-                        } else {
-                            htm += ";";
-                        }
                         
                     }//if(track.Val() && track.Num() > 0 && track.Num() < 1000)
                     
@@ -245,7 +230,7 @@ public class Tela extends javax.swing.JFrame {
                     
                     if(track_one_arq/* && track_one[i] != (i+1)*/){
                         
-                        htm += "Arquivo: ";
+                        htm += track.Num() != (i+1) ? "Faixa " : "Arquivo ";
                         htm += Number(track_one[i],track_folder[i]);
                         htm += " de ";
                         htm += Number(track_folder[i],0);
@@ -364,24 +349,9 @@ public class Tela extends javax.swing.JFrame {
             String out = ouput;
             
             // Nome do arquivo
-            
-            out += "sound_";
+            out += name;
+            out += " - ";
             out += new Data().Load();
-            out += "_";
-            out += new Hora(true).Load();
-            out += "_";
-            
-            final int name_ext = 10;
-            
-            if(name.length() > name_ext){
-                
-                out += name.toLowerCase().replace(" ", "-").substring(0,name_ext);
-                
-            } else {//if(name.length() > 10)
-                
-                out += name.toLowerCase().replace(" ", "-");
-                
-            }//if(name.length() > 10)
             
             html export = new html(out,htm);
             

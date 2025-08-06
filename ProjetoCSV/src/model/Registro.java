@@ -5,6 +5,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,16 +17,13 @@ public class Registro {
     
     public static String github = "https://github.com/josuettcruz/csv_to_html";
     
-    public static Data create = new Data(LocalDate.of(2025, 5, 1));
-    public static Data upgrade = new Data(LocalDate.of(2025, 8, 2));
+    public static Data upgrade = new Data(LocalDate.of(2025, 8, 6));
     
     public static int result = 28;
     
-    public static String Tab(boolean print,String entrada, int tab){
+    public static String Tab(String entrada, int tab){
         
         int pg = tab - entrada.length() > 1 ? tab - entrada.length() : 1;
-        
-        if(print){System.out.print(" ".repeat(pg));}
         
         return " ".repeat(pg);
         
@@ -397,5 +395,140 @@ public class Registro {
         return txt;
         
     }//Select(String text)
+    
+    public static String Agora(){
+        
+        int a = LocalDate.now().getYear();
+        int m = LocalDate.now().getMonthValue();
+        int d = LocalDate.now().getDayOfMonth();
+        int s = LocalDate.now().getDayOfWeek().getValue();
+        
+        String txt = "";
+        
+        final String comp[] = {"Bom Dia", "Boa Tarde", "Boa Noite"};
+        
+        if(LocalTime.now().getHour() < 12){
+            txt = comp[0];
+        } else if(LocalTime.now().getHour() < 18){
+            txt = comp[1];
+        } else if(LocalTime.now().getHour() > 18){
+            txt = comp[2];
+        } else if(LocalTime.now().getMinute() <= 30){
+            txt = comp[1];
+        } else {
+            txt = comp[2];
+        }
+        
+        txt += ", hoje é ";
+        
+        switch(s){
+            
+            case 1 ->{
+                txt += "Segunda";
+            }
+            
+            case 2 ->{
+                txt += "Terça";
+            }
+            
+            case 3 ->{
+                txt += "Quarta";
+            }
+            
+            case 4 ->{
+                txt += "Quinta";
+            }
+            
+            case 5 ->{
+                txt += "Sexta";
+            }
+            
+            case 6 ->{
+                txt += "Sábado";
+            }
+            
+            case 7 ->{
+                txt += "Domingo";
+            }
+            
+        }//switch(s)
+        
+        if(s < 6){
+            
+            txt += "-feira";
+            
+        }
+        
+        txt += ", dia ";
+        
+        txt += d;
+        
+        if(d == 1){
+            txt += "º";
+        }
+        
+        txt += " de ";
+        
+        switch(m){
+            
+            case 1 ->{
+                txt += "Janeiro";
+            }
+            
+            case 2 ->{
+                txt += "Fevereiro";
+            }
+            
+            case 3 ->{
+                txt += "Março";
+            }
+            
+            case 4 ->{
+                txt += "Abril";
+            }
+            
+            case 5 ->{
+                txt += "Maio";
+            }
+            
+            case 6 ->{
+                txt += "Junho";
+            }
+            
+            case 7 ->{
+                txt += "Julho";
+            }
+            
+            case 8 ->{
+                txt += "Agosto";
+            }
+            
+            case 9 ->{
+                txt += "Setembro";
+            }
+            
+            case 10 ->{
+                txt += "Outubro";
+            }
+            
+            case 11 ->{
+                txt += "Novembro";
+            }
+            
+            case 12 ->{
+                txt += "Dezembro";
+            }
+            
+        }//switch(m)
+        
+        txt += " de ";
+        
+        txt += a;
+        
+        txt += "!";
+        
+        return txt;
+        
+    }//DataCompleta()
     
 }//Registro

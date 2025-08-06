@@ -18,7 +18,7 @@ public class Registro {
     
     public static Data create = new Data(LocalDate.of(2025, 5, 1));
     
-    public static Data upgrade = new Data(LocalDate.of(2025, 7, 26));
+    public static Data upgrade = new Data(LocalDate.of(2025, 8, 6));
     
     public static int result = 28;
     
