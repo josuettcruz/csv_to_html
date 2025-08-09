@@ -388,25 +388,21 @@ public class Registro {
         boolean space = false;
         boolean div = true;
         
-        int cont = phease.length;
-        
         for(String p : phease){
             
-            cont--;
-            
-            if(space){
+            if(space && div){
                 
                 txt += " ";
                 space = false;
-            
+                
             }//if(space)
             
             if(p.contentEquals("|")){
                 
-                if(div && cont > 0){txt += "| ";div = false;}
-                space = false;
+                if(div){txt += "| ";}
+                div = false;
                 
-            } else if(!p.isBlank()){
+            } else if (!p.isBlank()){
                 
                 txt += p;
                 space = true;
@@ -416,7 +412,22 @@ public class Registro {
             
         }//for(String p : phease)
         
-        return txt;
+        /* String index out of range: 11 **
+        if(txt.length() > 1){
+        
+            switch(txt.trim().charAt(txt.length()-1)){
+                
+                case'|' ->{
+                    
+                    txt = txt.substring(0,txt.trim().length()-2).trim();
+                    
+                }//case'|'
+                
+            }//switch(txt.charAt(txt.length()-1))
+        
+        }** if(txt.length() > 1) */
+        
+        return txt.trim();
         
     }//Select(String text)
     

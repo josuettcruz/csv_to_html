@@ -309,23 +309,41 @@ public class Tela extends javax.swing.JFrame {
                     String nome_arq = orm.Read(i, 10);
                     
                     int ext_arq = nome_arq.lastIndexOf(".");
+                    boolean valid = ext_arq >= 0 && ext_arq < nome_arq.length()-1;
                         
-                    if(max_folder == 1 && ext_arq >= 0 && ext_arq < nome_arq.length()-1){
+                    if(max_folder == 1 && max_track <= 50 && valid){
                         
                         htm += ";";
 
                         switch(nome_arq.substring(ext_arq+1).toLowerCase()){
                             
-                            case "mp4" ->{htm += nome_arq;}
+                            case "mp4" ->{
+                                
+                                htm += "MPEG-4 | ";
+                                htm += nome_arq.substring(0, ext_arq);
                             
-                            case "m4a" ->{htm += nome_arq.substring(0, ext_arq);}
+                            }//case "mp4"
+                            
+                            case "m4v" ->{
+                                
+                                htm += "MPEG-4 | ";
+                                htm += nome_arq.substring(0, ext_arq).toUpperCase();
+                            
+                            }//case "m4v"
+                            
+                            case "m4a" ->{
+                                
+                                htm += nome_arq.substring(0, ext_arq).toUpperCase();
+                                htm += ".m4a";
+                                
+                            }//case "m4a"
                             
                             case "mp3" ->{
                                 
                                 htm += nome_arq.substring(0, ext_arq);
                                 htm += ".mp3";
                             
-                            }//case
+                            }//case "mp3"
                             
                             default ->{
                                     

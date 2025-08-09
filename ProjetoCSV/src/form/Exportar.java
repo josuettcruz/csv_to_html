@@ -17,11 +17,11 @@ public class Exportar {
     private final String icon = "C:\\Users\\Public\\Documents\\Arquivo";
     
     private final boolean ready_view = false;
-    private final boolean local_user = true;
+    private final boolean local_user = false;
     private final boolean style_local = false;
     private final int long_text = 100;
     private final int max_end_separator_paragraphy = 150;
-    private final int tribute_max_end_separator_paragraphy = 500;
+    private final int tribute_max_end_separator_paragraphy = 300;
     
     private final boolean new_open = true;
     
@@ -532,9 +532,7 @@ public class Exportar {
                 
                 col = 2;
                 
-                txt += "<q>";
-                txt += h.getNodeHora("</q>" + separator + "<q>");
-                txt += "</q>";
+                txt += h.getNodeHora(separator);
                 
             } else if(divide && into && Tx(tx)){//if
                 
@@ -1007,18 +1005,22 @@ public class Exportar {
                 
             }//if(extend)
             
-            doc.add("   p.texto{");
-            doc.add("      color: white;");
-            doc.add("      margin-top: 25px;");
-            doc.add("      margin-bottom: 25px;");
-            doc.add("      margin-left: 2%;");
-            doc.add("      margin-right: 2%;");
-            doc.add("      font-weight: normal;");
-            doc.add("      font-size: calc(20px + 1vw);");
-            doc.add("      font-family: \"Winky Sans\";");
-            doc.add("      word-wrap: break-word;");
-            doc.add("      line-height: 2em;");
-            doc.add("   }");
+            if(this.text){
+                
+                doc.add("   p.texto{");
+                doc.add("      color: white;");
+                doc.add("      margin-top: 25px;");
+                doc.add("      margin-bottom: 25px;");
+                doc.add("      margin-left: 2%;");
+                doc.add("      margin-right: 2%;");
+                doc.add("      font-weight: normal;");
+                doc.add("      font-size: calc(20px + 1vw);");
+                doc.add("      font-family: \"Winky Sans\";");
+                doc.add("      word-wrap: break-word;");
+                doc.add("      line-height: 2em;");
+                doc.add("   }");
+                
+            }//if(this.text)
             
             if(this.text_long){
                 
@@ -1081,7 +1083,9 @@ public class Exportar {
             
             if(extend){selection += "h1.arquivo::selection, h1.cabecalho::selection, ";}
             
-            selection += "h1.tema::selection, p.texto::selection";
+            selection += "h1.tema::selection";
+            
+            if(this.text){selection += ", p.texto::selection";}
             
             if(this.link){selection += ", p.texto_link::selection";}
             
@@ -1478,29 +1482,31 @@ public class Exportar {
                     
                     itens += Numb(d,this.code.Tot());
                     
-                    if(this.code.Tot() < 10){itens += "0";}
-                    
-                    if(this.code.Tot() < 100){itens += "0";}
-                    
-                    itens += this.code.Tot();
-                    
-                    itens += " | ";
-                    
                     Numero Test = new Numero(this.code.Read(i,0));
                     
                     int val = Test.Val() && Test.Num() == 0 ? 0 : i;
                     
-                    itens += this.code.Read(val, 0).replace(" - ", " | ");
+                    if(!this.code.Read(val, 0).contains("|")){
+                        
+                        itens += " | ";
+                        itens += this.code.Read(val, 0);
+                        
+                    }//if(!this.code.Read(val, 0).contains("|"))
                     
-                    if(this.code.Tot(i) >= 1){itens += this.code.Read(i, 1).replace(" - ", " | ");}
+                    if(this.code.Tot(i) >= 1){
+                        
+                        itens += " | ";
+                        itens += this.code.Read(i, 1);
+                        
+                    }//if(this.code.Tot(i) >= 1)
                     
                 }//for(int d = 0; d < this.code.Tot(); d++)
 
                 doc.add(
-                    new Data().Load() + 
-                    " | " + 
-                    new Hora(true).Load() + 
-                    ";" + 
+                    name + 
+                    " (" + 
+                    new Data().DataAbreviada(false) + 
+                    ");" + 
                     this.code.Tot() + 
                     " " + 
                     total + 
