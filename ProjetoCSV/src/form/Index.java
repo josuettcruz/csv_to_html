@@ -71,7 +71,7 @@ public class Index extends javax.swing.JFrame {
         msg.setEditable(false);
         msg.setVisible(true);
         
-        setTitle(Registro.Agora());
+        setTitle(Registro.Agora(false));
         
         setLocation(Location.x,Location.y);
         

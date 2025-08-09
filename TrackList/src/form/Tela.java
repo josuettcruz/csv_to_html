@@ -28,7 +28,7 @@ public class Tela extends javax.swing.JFrame {
     public void Enter(boolean nao_e_teste, String title){
         
         setVisible(true);
-        setLocation(300,150);
+        setLocation(100,100);
         setResizable(false);
         setTitle(title);
         this.aply = nao_e_teste;

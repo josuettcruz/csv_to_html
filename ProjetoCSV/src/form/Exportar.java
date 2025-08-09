@@ -10,14 +10,17 @@ import java.util.List;
 import model.Data;
 import model.Hora;
 import model.Numero;
-import model.Registro;
 
 public class Exportar {
     
     private csv code;
     
-    private final boolean style_local = false;
+    private final String local_style = "C:\\Users\\Public\\Documents\\Arquivo";
+    private final String icon = "C:\\Users\\Public\\Documents\\Arquivo";
+    
+    private final boolean ready_view = false;
     private final boolean local_user = true;
+    private final boolean style_local = false;
     private final int long_text = 100;
     private final int max_end_separator_paragraphy = 150;
     private final int tribute_max_end_separator_paragraphy = 500;
@@ -903,16 +906,26 @@ public class Exportar {
         
         String title = data_title.Val() ? data_title.DataAbreviada(true) : select_title;
         
+        String style = "<link rel=\"stylesheet\" type=\"text/css\" href=\"";
+        style += this.local_style;
+        if(!this.local_style.contains(".")){style += ".css";}
+        style += "\">";
+        
+        String ico = "<link rel=\"icon\" href=\"";
+        ico += this.icon;
+        if(!this.icon.contains(".")){ico += ".ico";}
+        ico += "\" type=\"image/x-icon\">";
+        
         doc.add("<html>");
         doc.add("<head>");
         doc.add("<title>" + title + "</title>");
         doc.add("<meta charset=\"utf-8\" />");
         doc.add("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-        if(this.local_user){doc.add("<link rel=\"icon\" href=\"icone\\.ico\" type=\"image/x-icon\">");}
+        if(this.local_user){doc.add(ico);}
         doc.add("<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">");
         doc.add("<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>");
         doc.add("<link href=\"https://fonts.googleapis.com/css2?family=Bytesized&family=Kavoon&family=Montserrat+Underline:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sofia+Sans+Extra+Condensed:ital,wght@0,1..1000;1,1..1000&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap\" rel=\"stylesheet\">");
-        if(this.style_local){doc.add("<link rel=\"stylesheet\" type=\"text/css\" href=\"local.css\">");} else {
+        if(this.style_local){doc.add(style);} else {
         doc.add("<style>");
         
         if(cd){
@@ -1128,6 +1141,7 @@ public class Exportar {
         
         doc.add("</style>");
         }//if(this.style_local)
+        
         doc.add("</head>");
         doc.add("<body>");
         
@@ -1369,7 +1383,7 @@ public class Exportar {
             
             doc.add("");
             
-            if(this.code.Tot() <= 350 && not_tv && this.local_user){
+            if(this.code.Tot() <= 100 && not_tv && this.link){
                 
                 doc.add("<!-- " + 
                         new Data().DataAbreviada(true) + 
@@ -1435,7 +1449,7 @@ public class Exportar {
                 
             }//if(this.code.Tot() <= 300 && this.link && not_tv)
             
-            if(this.code.Tot() <= 20 && this.link && this.local_user){
+            if(this.ready_view){
             
                 String total = "Ite";
 
@@ -1449,7 +1463,13 @@ public class Exportar {
                 
                 for(int d = 1; d <= this.code.Tot(); d++){
                     
+                    int i = d-1;
+                    
                     itens += ";";
+                    
+                    if(d < 10 && this.code.Tot() >= 10){itens += "0";}
+                    
+                    if(d < 100 && this.code.Tot() >= 100){itens += "0";}
                     
                     itens += d;
                     
@@ -1457,15 +1477,19 @@ public class Exportar {
                     
                     if(this.code.Tot() < 10){itens += "0";}
                     
+                    if(this.code.Tot() < 100){itens += "0";}
+                    
                     itens += this.code.Tot();
                     
                     itens += " | ";
                     
-                    Numero Test = new Numero(this.code.Read((d-1),0));
+                    Numero Test = new Numero(this.code.Read(i,0));
                     
-                    int val = Test.Val() && Test.Num() == 0 ? 0 : d-1;
+                    int val = Test.Val() && Test.Num() == 0 ? 0 : i;
                     
-                    itens += Registro.Title(this.code.Read(val, 0)," | ");
+                    itens += this.code.Read(val, 0).replace(" - ", " | ");
+                    
+                    if(this.code.Tot(i) >= 1){itens += this.code.Read(i, 1).replace(" - ", " | ");}
                     
                 }//for(int d = 0; d < this.code.Tot(); d++)
 

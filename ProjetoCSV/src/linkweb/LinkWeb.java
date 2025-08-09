@@ -28,10 +28,10 @@ public class LinkWeb {
         System.out.print(Registro.Tab("Projeto:",Registro.result));
         System.out.println("\"ProjetoCSV\"");
         
-        System.out.println();
+        System.out.println(Registro.Agora(true));
+        
         System.out.println();
         
-        System.out.println(Registro.Agora());
         System.out.print("Esse projeto foi atualizado ");
         System.out.print(Registro.upgrade.DataLinha(false));
         System.out.println("!");

@@ -26,10 +26,6 @@ public class TrackList {
         Registro.Tab("Projeto:",Registro.result);
         System.out.println("TrackList");
         
-        System.out.print("Criação:");
-        Registro.Tab("Criação:",Registro.result);
-        System.out.println(Registro.create.DataLinha(true));
-        
         System.out.print("Última atualização:");
         Registro.Tab("Última atualização:",Registro.result);
         System.out.println(Registro.upgrade.DataLinha(true));

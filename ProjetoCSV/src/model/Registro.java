@@ -17,7 +17,7 @@ public class Registro {
     
     public static String github = "https://github.com/josuettcruz/csv_to_html";
     
-    public static Data upgrade = new Data(LocalDate.of(2025, 8, 6));
+    public static Data upgrade = new Data(LocalDate.of(2025, 8, 9));
     
     public static int result = 28;
     
@@ -28,6 +28,30 @@ public class Registro {
         return " ".repeat(pg);
         
     }// Tab(String entrada, int tab)
+    
+    public static boolean Link(String link){
+        
+        final String href = "http";
+        
+        final int qtd = href.length();
+        
+        boolean http;
+        
+        if(link.length() > qtd){
+            
+            http = link.substring(0,qtd).contains(href);
+            
+        } else {
+            
+            http = false;
+            
+        }
+        
+        boolean protocol = link.contains("://");
+        
+        return http && protocol && !link.contains(" ") && !link.contains("/");
+        
+    }//Link(String link)
     
     public static String Title(String text, String separator){
         
@@ -396,7 +420,7 @@ public class Registro {
         
     }//Select(String text)
     
-    public static String Agora(){
+    public static String Agora(boolean index){
         
         int a = LocalDate.now().getYear();
         int m = LocalDate.now().getMonthValue();
@@ -419,7 +443,21 @@ public class Registro {
             txt = comp[2];
         }
         
-        txt += ", hoje é ";
+        txt += "!";
+        
+        if(index){
+            
+            txt += Registro.Tab(txt, Registro.result);
+            txt += "\"";
+            
+        } else {//if(index)
+            
+            txt += " ";
+            
+        }//if(index)
+        
+        txt += "Hoje é ";
+        
         
         switch(s){
             
@@ -525,10 +563,20 @@ public class Registro {
         
         txt += a;
         
-        txt += "!";
+        
+        
+        if(index){//if(index)
+            
+            txt += "\"";
+            
+        } else {//if(index)
+            
+            txt += "!";
+            
+        }//if(index)
         
         return txt;
         
-    }//DataCompleta()
+    }//Agora()
     
 }//Registro
