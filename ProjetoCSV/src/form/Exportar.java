@@ -660,7 +660,6 @@ public class Exportar {
                 
                 case'_':
                 case'-':
-                case'.':
                 space = false;
                 break;
                 
@@ -727,7 +726,7 @@ public class Exportar {
             case "youtube.com":
             case "youtu.be":
             txt += "<p class=\"hiperlink\" title=\"YouTube\">";
-            txt += link.length() >= 120 ? TitleLink(title_link, false) : "YOUTUBE";
+            txt += link.length() < 40 ? link.toUpperCase() : "YOUTUBE";
             txt += "</p>";
             break;
             
@@ -735,13 +734,13 @@ public class Exportar {
             case "images.app.goo.gl":
             case "g.co":
             txt += "<p class=\"hiperlink\" title=\"Google\">";
-            txt += link.length() >= 120 ? TitleLink(title_link, false) : "GOOGLE";
+            txt += link.length() < 40 ? link.toUpperCase() : "GOOGLE";
             txt += "</p>";
             break;
             
             case "drive.google.com":
             txt += "<p class=\"hiperlink\" title=\"Google Drive\">";
-            txt += link.length() >= 120 ? TitleLink(title_link, false) : "GOOGLE<BR/>DRIVE";
+            txt += link.length() < 40 ?  link.toUpperCase() : "GOOGLE<BR/>DRIVE";
             txt += "</p>";
             break;
             

@@ -186,10 +186,10 @@ public class Tela extends javax.swing.JFrame {
                     
                     htm += "\n";
                     
-                    /* orm.Read(i, 2) -- Álbum **/
-
+                    // orm.Read(i, 2) -- Álbum
                     if(!orm.Read(i, 2).isBlank() && !orm.Read(i, 2).equalsIgnoreCase(indo) && max_folder > 1){
                         
+                        htm += "Pasta: | ";
                         htm += Number(folder,max_folder);
                         htm += " de ";
                         htm += max_folder;
