@@ -5,11 +5,9 @@
 package form;
 
 import file.*;
+import model.*;
 import java.util.ArrayList;
 import java.util.List;
-import model.Data;
-import model.Hora;
-import model.Numero;
 
 public class Exportar {
     
@@ -44,21 +42,20 @@ public class Exportar {
     private boolean aspas;
     private boolean link;
     private boolean text_long;
+    private boolean text;
     boolean not_only_canva;
     private final String h1 = "tema";
     private final String p = "texto";
     
     private boolean LongText(String long_text){
                 
-        boolean doc = new cod().Link(long_text);
+        boolean doc = Registro.Link(long_text);
         
         return !doc && (long_text.length() > this.long_text) && !long_text.contains("\"");
         
-    }
+    }//LongText(String long_text)
     
     public Exportar(csv code, String sent){
-                
-        cod doc = new cod();
         
         this.code = code;
         
@@ -69,29 +66,34 @@ public class Exportar {
         this.aspas = false;
         this.link = false;
         this.text_long = false;
+        this.text = false;
         this.not_only_canva = false;
         
         for(int col = 0; col < code.Tot(); col++){
             
             for(int line = 1; line < code.Tot(col); line++){
                 
-                if(new cod().Link(code.Read(col, line))){
+                if(Registro.Link(code.Read(col, line))){
                     
                     this.link = true;
                     
-                }// 1 de 2 - boolean link;
+                }// 1 de 3
                 
                 if(LongText(code.Read(col, line))){
                     
                     this.text_long = true;
                     
-                }// 2 de 2 - boolean text_long;
+                } else {// 2 de 3
+                    
+                    this.text = true;
+                    
+                }// 2 de 3
                 
-                if(new cod().Link(code.Read(col, line)) && !code.Read(col, line).contains("www.canva.com")){
+                if(Registro.Link(code.Read(col, line)) && !code.Read(col, line).contains("www.canva.com")){
                     
                     this.not_only_canva = true;
                     
-                }// 2 de 2 - boolean text_long;
+                }// 3 de 3
                 
             }//for(int line = 1; line < code.Tot(col); line++)
             
@@ -660,6 +662,7 @@ public class Exportar {
                 
                 case'_':
                 case'-':
+                case'.':
                 space = false;
                 break;
                 
@@ -725,17 +728,23 @@ public class Exportar {
             case "www.youtube.com":
             case "youtube.com":
             case "youtu.be":
-            txt += "<p class=\"hiperlink\">YOUTUBE</p>";
+            txt += "<p class=\"hiperlink\" title=\"YouTube\">";
+            txt += link.length() >= 120 ? TitleLink(title_link, false) : "YOUTUBE";
+            txt += "</p>";
             break;
             
             case "www.google.com":
             case "images.app.goo.gl":
             case "g.co":
-            txt += "<p class=\"hiperlink\">GOOGLE</p>";
+            txt += "<p class=\"hiperlink\" title=\"Google\">";
+            txt += link.length() >= 120 ? TitleLink(title_link, false) : "GOOGLE";
+            txt += "</p>";
             break;
             
             case "drive.google.com":
-            txt += "<p class=\"hiperlink\">GOOGLE<br/>DRIVE</p>";
+            txt += "<p class=\"hiperlink\" title=\"Google Drive\">";
+            txt += link.length() >= 120 ? TitleLink(title_link, false) : "GOOGLE<BR/>DRIVE";
+            txt += "</p>";
             break;
             
             case "www.canva.com":
@@ -744,7 +753,7 @@ public class Exportar {
             
             default:
             txt += "<p class=\"hiperlink\" title=\"";
-            txt += link.length() >= 120 ? TitleLink(title_link, true) : link;
+            txt += link.length() >= 120 ? TitleLink(title_link, true).replace(".","<br/>") : link;
             txt += "\">";
             txt += link.length() < 40 ? link.toUpperCase() : TitleLink(title_link, false);
             txt += "</p>";
@@ -1307,19 +1316,19 @@ public class Exportar {
                         
                     } else {//if(y == 0)
                         
-                        if(c.Link(this.code.Read(x, y))){
+                        if(Registro.Link(this.code.Read(x, y))){
                             
-                            if(c.Link(this.code.Read(x, y-1))){
+                            if(Registro.Link(this.code.Read(x, y-1))){
                                 
                                 tx += "<div class=\"space\"></div>";
                                 tx += P(this.code.Read(x, y),this.code.Read(x, y));
                                 
-                            } else {//if(c.Link(this.code.Read(x, y-1)))
+                            } else {//if(Registro.Link(this.code.Read(x, y-1))){
                                 
                                 tx += "<div class=\"space\"></div>";
                                 tx += P(this.code.Read(x, y-1),this.code.Read(x, y));
                                 
-                            }//if(c.Link(this.code.Read(x, y-1)))
+                            }//if(Registro.Link(this.code.Read(x, y-1))){
                             
                         } else if(y == this.code.Tot(x)-1){//if(c.Link(this.code.Read(x, y)))
                             
@@ -1328,7 +1337,7 @@ public class Exportar {
                             
                         } else {//if(c.Link(this.code.Read(x, y)))
                             
-                            if(!c.Link(this.code.Read(x, y+1))){
+                            if(!Registro.Link(this.code.Read(x, y+1))){
                                 
                                 tx += "<div class=\"space\"></div>";
                                 tx += P(this.code.Read(x, y));
@@ -1467,13 +1476,7 @@ public class Exportar {
                     
                     itens += ";";
                     
-                    if(d < 10 && this.code.Tot() >= 10){itens += "0";}
-                    
-                    if(d < 100 && this.code.Tot() >= 100){itens += "0";}
-                    
-                    itens += d;
-                    
-                    itens += " de ";
+                    itens += Numb(d,this.code.Tot());
                     
                     if(this.code.Tot() < 10){itens += "0";}
                     

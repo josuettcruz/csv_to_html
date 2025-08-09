@@ -6,6 +6,7 @@ package form;
 
 import file.cod;
 import file.csv;
+import model.Registro;
 
 /**
  *
@@ -40,8 +41,6 @@ public class Open extends javax.swing.JFrame {
     
     private void Exportar(String diretory, String folder){
         
-        cod dar = new cod();
-        
         csv cmd = new csv(diretory.replace(".csv",""));
         
         if(cmd.Tot() >= 0){
@@ -54,14 +53,14 @@ public class Open extends javax.swing.JFrame {
                 
                 if(cmd.Tot(i) >= 4){
                     
-                    boolean title_a = !dar.Link(cmd.Read(i, 0));
+                    boolean title_a = !Registro.Link(cmd.Read(i, 0));
                     boolean title_b = !cmd.Read(i, 0).trim().isBlank();
-                    boolean vcr_a = !dar.Link(cmd.Read(i, 1));
+                    boolean vcr_a = !Registro.Link(cmd.Read(i, 1));
                     boolean vcr_b = !cmd.Read(i, 1).trim().isBlank();
-                    boolean lnk = dar.Link(cmd.Read(i, 2));
-                    boolean vch_a = !dar.Link(cmd.Read(i, 3));
+                    boolean lnk = Registro.Link(cmd.Read(i, 2));
+                    boolean vch_a = !Registro.Link(cmd.Read(i, 3));
                     boolean vch_b = !cmd.Read(i, 3).trim().isBlank();
-                    boolean lch = dar.Link(cmd.Read(i, 4));
+                    boolean lch = Registro.Link(cmd.Read(i, 4));
                     
                     YouTube = title_a && title_b && vcr_a && vcr_b && lnk && vch_a && vch_b && lch;
                     

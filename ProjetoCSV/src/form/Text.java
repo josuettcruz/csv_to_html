@@ -4,12 +4,11 @@
  */
 package form;
 
-import file.cod;
 import file.csv;
+import model.Data;
 import model.Registro;
 import java.util.ArrayList;
 import java.util.List;
-import model.Data;
 
 /**
  *
@@ -238,9 +237,7 @@ public class Text extends javax.swing.JFrame {
     
     private void Saved(){
         
-        cod d = new cod();
-        
-        if(d.Link(title.getText().trim()) || title.getText().trim().isBlank()){
+        if(Registro.Link(title.getText().trim()) || title.getText().trim().isBlank()){
             
             boolean val_text = false;
             
@@ -286,7 +283,7 @@ public class Text extends javax.swing.JFrame {
                 
             }//if(txt.getText().contains("\n"))
             
-            if(d.Link(document) || document.isBlank()){
+            if(Registro.Link(document) || document.isBlank()){
                 
                 txt.setText("");
                 txt.requestFocus();

@@ -935,7 +935,7 @@ public class cod {
         
     }//toFloat(String txt)
     
-    public boolean Link(String link){
+    /*public boolean Link(String link){
         
         final int qtd = 4;
         
@@ -953,48 +953,8 @@ public class cod {
         
         boolean protocol = link.contains("://");
         
-        /*boolean href = false;
+        return http && protocol && !link.contains(" ");
         
-        if(protocol){
-            
-            int sum = 0;
-            
-            for(int d = 0; d < link.length(); d++){
-                
-                int dg = 0;
-                
-                char g = link.charAt(d);
-                
-                switch(g){
-                    
-                    case ':' ->{
-                        
-                        dg = 1;
-                        
-                    }
-                    
-                    case '/' ->{
-                        
-                        if(dg == 1){
-                            dg = 2;
-                        }
-                        
-                        if(dg == 2){
-                            sum = d;
-                        }
-                        
-                    }
-                    
-                }//switch(g)
-                
-                href = link.substring(sum).contains("/");
-                
-            }//for(int d = 0; d < link.length(); d++)
-            
-        }/*if(protocol)*/
-        
-        return http && protocol && !link.contains(" ")/* && href*/;
-        
-    }//Link(String link)
+    }/*Link(String link)*/
     
 }//Class

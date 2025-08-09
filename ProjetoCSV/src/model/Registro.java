@@ -49,7 +49,7 @@ public class Registro {
         
         boolean protocol = link.contains("://");
         
-        return http && protocol && !link.contains(" ") && !link.contains("/");
+        return http && protocol && !link.contains(" ") && link.contains("/");
         
     }//Link(String link)
     

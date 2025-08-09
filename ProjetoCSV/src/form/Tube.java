@@ -4,11 +4,11 @@
  */
 package form;
 
-import file.cod;
 import file.csv;
 import model.Registro;
 import java.util.ArrayList;
 import java.util.List;
+import model.Data;
 
 /**
  *
@@ -249,7 +249,13 @@ public class Tube extends javax.swing.JFrame {
     
     private void Save(){
         
-        cod d = new cod();
+        String txt_void = this.doc.Read(0, 0);
+        
+        Data d = new Data(txt_void);
+        
+        if(d.Val()){txt_void = d.DataAbreviada(false);}
+        
+        if(txt_void.isBlank()){txt_void = new Data().DataAbreviada(false);}
         
         String geral = title.getText().trim();
         String nome = vcr.getText().trim();
@@ -257,29 +263,38 @@ public class Tube extends javax.swing.JFrame {
         String canal = vch.getText().trim();
         String ch = lch.getText().trim();
         
-        if(d.Link(geral)){
+        if(Registro.Link(geral) || geral.trim().isBlank()){
             
-            title.setText(N());
+            title.setText(txt_void);
             title.requestFocus();
             
-        } else if(d.Link(nome)){
+        } else if(Registro.Link(nome) || nome.trim().isBlank()){
             
-            vcr.setText("");
+            if(geral.trim().isBlank()){
+                
+                vcr.setText(txt_void);
+                
+            } else {
+                
+                vcr.setText(geral.trim());
+                
+            }
+            
             vcr.requestFocus();
             
-        } else if(!d.Link(ch)){//if(nome.isBlank())
+        } else if(!Registro.Link(ch)){//if(nome.isBlank())
             
-            lch.setText("");
+            lch.setText("https://www.youtube.com/");
             lch.requestFocus();
             
-        } else if(!d.Link(link)){//if(nome.isBlank())
+        } else if(!Registro.Link(link)){//if(nome.isBlank())
             
-            lnk.setText("");
+            lnk.setText("https://www.youtube.com/");
             lnk.requestFocus();
             
-        } else if(d.Link(canal)){//if(nome.isBlank())
+        } else if(Registro.Link(canal)){//if(nome.isBlank())
             
-            if(d.Link(canal)){
+            if(Registro.Link(canal)){
                 
                 String[] dot = canal.split("/");
                 
@@ -319,9 +334,10 @@ public class Tube extends javax.swing.JFrame {
             
         } else if(canal.isBlank()){//if(nome.isBlank())
             
+            vch.setText(txt_void);
             vch.requestFocus();
             
-            if(d.Link(ch)){
+            if(Registro.Link(ch)){
                 
                 String[] dot = ch.split("/");
                 
