@@ -743,16 +743,18 @@ public class Exportar {
             break;
             
             case "www.google.com":
+            case "www.google.com.br":
             case "images.app.goo.gl":
+            case "share.google":
             case "g.co":
             txt += "<p class=\"hiperlink\" title=\"Google\">";
-            txt += link.length() <= 80 ? link.toUpperCase() : "GOOGLE";
+            txt += link.length() <= 70 ? link.toUpperCase() : "GOOGLE";
             txt += "</p>";
             break;
             
             case "drive.google.com":
             txt += "<p class=\"hiperlink\" title=\"Google Drive\">";
-            txt += link.length() <= 80 ?  link.toUpperCase() : "GOOGLE<BR/>DRIVE";
+            txt += link.length() <= 70 ?  link.toUpperCase() : "GOOGLE<BR/>DRIVE";
             txt += "</p>";
             break;
             
@@ -760,18 +762,18 @@ public class Exportar {
             txt += "";
             break;
             
-            case "":
+            default:
             txt += "<p class=\"hiperlink\" title=\"";
             txt += link.length() <= 40 ? link : TitleLink(title_link, true);
             txt += "\">";
             
-            if(title_link.length() < 5){//title_link
+            if(title_link.length() < 10){//title_link
                 
-                txt += title_link.toUpperCase().replace(".", "<br/>");
+                txt += title_link.toUpperCase();
                 
             } else if(link.length() <= 80){//title_link
                 
-                txt += link.toUpperCase().replaceFirst("HTTPS:\\", "").replaceFirst("HTTP:\\", "");
+                txt += link.toUpperCase();
                 
             } else {//title_link
                 
@@ -791,21 +793,23 @@ public class Exportar {
             case "www.youtube.com":
             case "youtube.com":
             case "youtu.be":
-            txt += link.length() <= 100 ? link : "YouTube";
+            txt += link.length() <= 50 ? link : "YouTube";
             break;
             
             case "www.google.com":
+            case "www.google.com.br":
             case "images.app.goo.gl":
+            case "share.google":
             case "g.co":
-            txt += link.length() <= 100 ? link : "Google";
+            txt += link.length() <= 50 ? link : "Google";
             break;
             
             case "drive.google.com":
-            txt += link.length() <= 100 ? link : "Google Drive";
+            txt += link.length() <= 50 ? link : "Google Drive";
             break;
             
             default:
-            txt += link.length() <= 100 || TitleLink(title_link, true).length() < 10 ? link : TitleLink(title_link, true);
+            txt += link.length() <= 50 || TitleLink(title_link, true).length() < 10 ? link : TitleLink(title_link, true);
             break;
             
         }//switch(title_link) - 1 - 2
@@ -1135,7 +1139,7 @@ public class Exportar {
                 
                 if(this.google_font){
                     
-                    doc.add("      font-size: calc(30px + 1vw);");
+                    doc.add("      font-size: calc(20px + 1vw);");
                     doc.add("      font-family: \"Bytesized\";");
                     
                 } else {//if(this.google_font)
@@ -1164,7 +1168,7 @@ public class Exportar {
                 
                 } else {//if(this.google_font)
                     
-                    doc.add("      font-size:calc(20px + 1vw);");
+                    doc.add("      font-size:calc(10px + 1vw);");
                     doc.add("      font-family: \"Arial\";");
                 
                 }//if(this.google_font)
@@ -1279,7 +1283,7 @@ public class Exportar {
                         
                         case "mp4" ->{
                             
-                            arq_1 += "<h1 class=\"arquivo\">MPEG-4</h1><div class=\"space\"></div><h1 class=\"arquivo\">VIDEO: ";
+                            arq_1 += "<h1 class=\"arquivo\">MPEG-4</h1><div class=\"space\"></div><h1 class=\"arquivo\">";
                             arq_1 += Numb(arquivo+1, all_vcr);
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
                             arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>");
@@ -1290,18 +1294,36 @@ public class Exportar {
                         
                         case "mpg" ->{
                             
-                            arq_1 += "<h1 class=\"arquivo\">MPEG</h1><div class=\"space\"></div><h1 class=\"arquivo\">VIDEO: ";
+                            if(this.google_font){
+                                
+                                arq_1 += "<h1 class=\"arquivo\">MPEG</h1><div class=\"space\"></div><h1 class=\"arquivo\">";
+                                
+                            } else {//if(this.google_font)
+                                
+                                arq_1 += "<h1 class=\"arquivo\">MPEG Vídeo</h1><div class=\"space\"></div><h1 class=\"arquivo\">";
+                                
+                            }//if(this.google_font)
+                            
                             arq_1 += Numb(arquivo+1, all_vcr);
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
                             arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
                             arq_1 += "</h1>";
                             arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
                             
-                        }/* case "mpg" */
+                        }// case "mpg"
                         
                         case "avi" ->{
                             
-                            arq_1 += "<h1 class=\"arquivo\">VIDEO: ";
+                            if(this.google_font){
+                                
+                                arq_1 += "<h1 class=\"arquivo\">";
+                                
+                            } else {//if(this.google_font)
+                                
+                                 arq_1 += "<h1 class=\"arquivo\">VÍDEO: ";
+                                
+                            }//if(this.google_font)
+                            
                             arq_1 += Numb(arquivo+1, all_vcr);
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
                             arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
@@ -1324,7 +1346,16 @@ public class Exportar {
                                 
                             } else {//if(all_vcr > 1)
                                 
-                                arq_1 += "<h1 class=\"arquivo\">EVENTO</h1><h1 class=\"arquivo\">";
+                                if(this.google_font){
+                                    
+                                    arq_1 += "<h1 class=\"arquivo\">EVENTO</h1><h1 class=\"arquivo\">";
+                                    
+                                } else {//if(this.google_font)
+                                    
+                                    arq_1 += "<h1 class=\"arquivo\">";
+                                    
+                                }//if(this.google_font)
+                                
                                 arq_1 += Numb(arquivo+1, all_vcr);
                                 arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
                                 arq_1 += T(this.code.Read(x, 0).substring(0,max),"</h1><h1 class=\"cabecalho\">");
@@ -1406,7 +1437,13 @@ public class Exportar {
                             tx += this.h1;
                             tx += "\">";
                             
-                            if(numer.Num() == 0 && numer.Val()){
+                            if(numer.Num() == 0 && numer.Val() && this.code.Read(0, 0).contains(".")){
+                                
+                                int d = this.code.Read(0, 0).indexOf(".");
+                                
+                                tx += T(this.code.Read(0, 0).substring(0, d), "<br/>");
+                                
+                            } else if(numer.Num() == 0 && numer.Val()){
                                 
                                 tx += T(this.code.Read(0, 0), "<br/>");
                                 
