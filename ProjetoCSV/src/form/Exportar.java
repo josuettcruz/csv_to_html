@@ -16,12 +16,17 @@ public class Exportar {
     private final String local_style = "C:\\Users\\Public\\Documents\\Arquivo";
     private final String icon = "C:\\Users\\Public\\Documents\\Arquivo";
     
-    private final boolean ready_view = false;
-    private final boolean local_user = false;
     private final boolean style_local = false;
-    private final int long_text = 100;
-    private final int max_end_separator_paragraphy = 150;
+    private final boolean local_user = false;
+    private final boolean google_font = true;
+    
+    private final boolean coppy_view = false;
+    private final boolean ready_view = false;
+    
+    private final int long_text = 80;
+    private final int max_end_separator_paragraphy = 200;
     private final int tribute_max_end_separator_paragraphy = 300;
+    
     
     private final boolean new_open = true;
     
@@ -48,10 +53,8 @@ public class Exportar {
     private final String p = "texto";
     
     private boolean LongText(String long_text){
-                
-        boolean doc = Registro.Link(long_text);
         
-        return !doc && (long_text.length() > this.long_text) && !long_text.contains("\"");
+        return (long_text.length() > this.long_text) && !long_text.contains("\"");
         
     }//LongText(String long_text)
     
@@ -79,11 +82,13 @@ public class Exportar {
                     
                 }// 1 de 3
                 
-                if(LongText(code.Read(col, line))){
+                if(LongText(code.Read(col, line)) && !Registro.Link(code.Read(col, line))){
                     
                     this.text_long = true;
                     
-                } else {// 2 de 3
+                }// 2 de 3
+                
+                if(!LongText(code.Read(col, line)) && !Registro.Link(code.Read(col, line))){
                     
                     this.text = true;
                     
@@ -380,6 +385,10 @@ public class Exportar {
                 
                 case '}' ->{acept = false;}
                 
+                case ',' ->{if(dh > 0){acept = false;}}
+                
+                case '.' ->{if(dh > 0){acept = false;}}
+                
                 default ->{acept = true;}
                 
             }//switch(text.charAt(dh))
@@ -414,18 +423,18 @@ public class Exportar {
     private boolean mpeg(String txt){
         
         boolean val = false;
-        String text = "";
+        String mpeg = "";
         
         for(int a = 0; a < txt.length(); a++){
             
             switch(txt.charAt(a)){
                 
                 case '.' ->{
-                    text = "";
+                    mpeg = "";
                 }
                 
                 default ->{
-                    text += txt.charAt(a);
+                    mpeg += txt.charAt(a);
                 }
                 
             }//switch(txt.charAt(a))
@@ -434,7 +443,7 @@ public class Exportar {
         
         for(String g : this.ext){
             
-            if(g.equalsIgnoreCase(text)){val = true;break;}
+            if(g.equalsIgnoreCase(mpeg)){val = true;break;}
             
         }//for(String p : ext)
         
@@ -600,7 +609,7 @@ public class Exportar {
             
         }//if(this.meta)
 
-        return txt;
+        return txt.trim().replace(".,", ";");
 
     }//T(String dig)
     
@@ -726,7 +735,7 @@ public class Exportar {
             case "youtube.com":
             case "youtu.be":
             txt += "<p class=\"hiperlink\" title=\"YouTube\">";
-            txt += link.length() < 40 ? link.toUpperCase() : "YOUTUBE";
+            txt += link.length() <= 70 ? link.toUpperCase() : "YOUTUBE";
             txt += "</p>";
             break;
             
@@ -734,13 +743,13 @@ public class Exportar {
             case "images.app.goo.gl":
             case "g.co":
             txt += "<p class=\"hiperlink\" title=\"Google\">";
-            txt += link.length() < 40 ? link.toUpperCase() : "GOOGLE";
+            txt += link.length() <= 70 ? link.toUpperCase() : "GOOGLE";
             txt += "</p>";
             break;
             
             case "drive.google.com":
             txt += "<p class=\"hiperlink\" title=\"Google Drive\">";
-            txt += link.length() < 40 ?  link.toUpperCase() : "GOOGLE<BR/>DRIVE";
+            txt += link.length() < 70 ?  link.toUpperCase() : "GOOGLE<BR/>DRIVE";
             txt += "</p>";
             break;
             
@@ -750,9 +759,9 @@ public class Exportar {
             
             default:
             txt += "<p class=\"hiperlink\" title=\"";
-            txt += link.length() >= 120 ? TitleLink(title_link, true).replace(".","<br/>") : link;
+            txt += link.length() <= 80 || TitleLink(title_link, true).length() < 10 ? title_link.toUpperCase() : TitleLink(title_link, true);
             txt += "\">";
-            txt += link.length() < 40 ? link.toUpperCase() : TitleLink(title_link, false);
+            txt += link.length() <= 80 ? link.toUpperCase() : TitleLink(title_link, false);
             txt += "</p>";
             break;
             
@@ -771,15 +780,15 @@ public class Exportar {
             case "www.google.com":
             case "images.app.goo.gl":
             case "g.co":
-            txt += "Google";
+            txt += link.length() <= 100 ? link : "Google";
             break;
             
             case "drive.google.com":
-            txt += "Google Drive";
+            txt += link.length() <= 100 ? link : "Google Drive";
             break;
             
             default:
-            txt += link.length() <= 120 ? link : TitleLink(title_link, true);
+            txt += link.length() <= 80 || TitleLink(title_link, true).length() < 10 ? link : TitleLink(title_link, true);
             break;
             
         }//switch(title_link) - 1 - 2
@@ -800,8 +809,6 @@ public class Exportar {
     public void Export(String name){
         
         cod c = new cod();
-        
-        boolean not_tv = true;
         
         int all_vcr = 0;
         
@@ -928,9 +935,13 @@ public class Exportar {
         doc.add("<meta charset=\"utf-8\" />");
         doc.add("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
         if(this.local_user){doc.add(ico);}
+        
+        if(this.google_font){
         doc.add("<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">");
         doc.add("<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>");
         doc.add("<link href=\"https://fonts.googleapis.com/css2?family=Bytesized&family=Kavoon&family=Montserrat+Underline:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sofia+Sans+Extra+Condensed:ital,wght@0,1..1000;1,1..1000&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap\" rel=\"stylesheet\">");
+        }//if(this.google_font)
+        
         if(this.style_local){doc.add(style);} else {
         doc.add("<style>");
         
@@ -975,8 +986,18 @@ public class Exportar {
                 doc.add("      color: white;");
                 doc.add("      margin-left: 2%;");
                 doc.add("      font-weight: normal;");
-                doc.add("      font-size: calc(30px + 1vw);");
-                doc.add("      font-family: \"Bytesized\";");
+                
+                if(this.google_font){
+                    
+                    doc.add("      font-size: calc(30px + 1vw);");
+                    doc.add("      font-family: \"Bytesized\";");
+                    
+                } else {//if(this.google_font)
+                    
+                    doc.add("      font-size: calc(10px + 2vw);");
+                    
+                }//if(this.google_font)
+                
                 doc.add("      word-wrap: break-word;");
                 doc.add("   }");
                 
@@ -985,7 +1006,7 @@ public class Exportar {
                 doc.add("      margin-left: 2%;");
                 doc.add("      font-weight: normal;");
                 doc.add("      font-size: calc(20px + 1vw);");
-                doc.add("      font-family: \"Kavoon\";");
+                if(this.google_font){doc.add("      font-family: \"Kavoon\";");}
                 doc.add("      word-wrap: break-word;");
                 doc.add("      line-height: 2em;");
                 doc.add("   }");
@@ -997,7 +1018,7 @@ public class Exportar {
                 doc.add("      margin-left: 2%;");
                 doc.add("      font-weight: normal;");
                 doc.add("      font-size: calc(20px + 1vw);");
-                doc.add("      font-family: \"Kavoon\";");
+                if(this.google_font){doc.add("      font-family: \"Kavoon\";");}
                 doc.add("      word-wrap: break-word;");
                 doc.add("      line-height: 2em;");
                 doc.add("   }");
@@ -1014,7 +1035,7 @@ public class Exportar {
                 doc.add("      margin-right: 2%;");
                 doc.add("      font-weight: normal;");
                 doc.add("      font-size: calc(20px + 1vw);");
-                doc.add("      font-family: \"Winky Sans\";");
+                if(this.google_font){doc.add("      font-family: \"Winky Sans\";");}
                 doc.add("      word-wrap: break-word;");
                 doc.add("      line-height: 2em;");
                 doc.add("   }");
@@ -1031,7 +1052,7 @@ public class Exportar {
                 doc.add("      margin-right: 2%;");
                 doc.add("      font-weight: normal;");
                 doc.add("      font-size: calc(10px + 1vw);");
-                doc.add("      font-family: \"Sofia Sans Extra Condensed\";");
+                if(this.google_font){doc.add("      font-family: \"Sofia Sans Extra Condensed\";");}
                 doc.add("      word-wrap: break-word;");
                 doc.add("      line-height: 2em;");
                 doc.add("   }");
@@ -1048,8 +1069,18 @@ public class Exportar {
                 doc.add("      margin-bottom:5px;");
                 doc.add("      margin-left:2%;");
                 doc.add("      font-weight: normal;");
-                doc.add("      font-size:calc(10px + 1vw);");
-                doc.add("      font-family: \"Bytesized\";");
+                
+                if(this.google_font){
+                    
+                    doc.add("      font-size: calc(30px + 1vw);");
+                    doc.add("      font-family: \"Bytesized\";");
+                    
+                } else {//if(this.google_font)
+                    
+                    doc.add("      font-size: calc(10px + 2vw);");
+                    
+                }//if(this.google_font)
+                
                 doc.add("   }");
                 
                 }//if(this.not_only_canva)
@@ -1062,7 +1093,7 @@ public class Exportar {
                 doc.add("      margin-right:2%;");
                 doc.add("      font-weight: bold;");
                 doc.add("      font-size:calc(20px + 1vw);");
-                doc.add("      font-family: \"Montserrat Underline\";");
+                if(this.google_font){doc.add("      font-family: \"Montserrat Underline\";");}
                 doc.add("      line-height: 2em;");
                 doc.add("      word-wrap: break-word;");
                 doc.add("   }");
@@ -1173,8 +1204,7 @@ public class Exportar {
                         
                         case "mp4" ->{
                             
-                            arq_1 += "<h1 class=\"arquivo\">MPEG-4</h1><div class=\"space\"></div>";
-                            arq_1 += "<h1 class=\"arquivo\">VÍDEO: ";
+                            arq_1 += "<h1 class=\"arquivo\">MPEG-4</h1><div class=\"space\"></div><h1 class=\"arquivo\">VIDEO: ";
                             arq_1 += Numb(arquivo+1, all_vcr);
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
                             arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>");
@@ -1185,7 +1215,7 @@ public class Exportar {
                         
                         case "mpg" ->{
                             
-                            arq_1 += "<h1 class=\"arquivo\">MPEG</h1><div class=\"space\"></div><h1 class=\"arquivo\">VÍDEO: ";
+                            arq_1 += "<h1 class=\"arquivo\">MPEG</h1><div class=\"space\"></div><h1 class=\"arquivo\">VIDEO: ";
                             arq_1 += Numb(arquivo+1, all_vcr);
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
                             arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
@@ -1196,7 +1226,7 @@ public class Exportar {
                         
                         case "avi" ->{
                             
-                            arq_1 += "<h1 class=\"arquivo\">VÍDEO: ";
+                            arq_1 += "<h1 class=\"arquivo\">VIDEO: ";
                             arq_1 += Numb(arquivo+1, all_vcr);
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
                             arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
@@ -1208,8 +1238,6 @@ public class Exportar {
                         }//case "avi"
                         
                         case "tv" ->{
-                            
-                            not_tv = false;
                             
                             arq_1 += "";
                             
@@ -1395,7 +1423,7 @@ public class Exportar {
             
             doc.add("");
             
-            if(this.code.Tot() <= 100 && not_tv && this.link){
+            if(this.coppy_view){
                 
                 doc.add("<!-- " + 
                         new Data().DataAbreviada(true) + 
@@ -1453,7 +1481,7 @@ public class Exportar {
             } else {//if(this.code.Tot() <= 300 && this.link && not_tv)
                 
                 doc.add("<!-- " + 
-                        new Data().DataAbreviada(true) + 
+                        new Data().DataAbreviada(false) + 
                         " -- " + 
                         new Hora(true).getHora(true) + 
                         " --"

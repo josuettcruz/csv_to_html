@@ -17,7 +17,7 @@ public class Registro {
     
     public static String github = "https://github.com/josuettcruz/csv_to_html";
     
-    public static Data upgrade = new Data(LocalDate.of(2025, 8, 9));
+    public static Data upgrade = new Data(LocalDate.of(2025, 8, 15));
     
     public static int result = 28;
     
@@ -379,58 +379,6 @@ public class Registro {
         
     }//Select(String text, int max)
     
-    public static String Select(String text){
-        
-        String txt = "";
-        
-        String phease[] = text.split(" ");
-        
-        boolean space = false;
-        boolean div = true;
-        
-        for(String p : phease){
-            
-            if(space && div){
-                
-                txt += " ";
-                space = false;
-                
-            }//if(space)
-            
-            if(p.contentEquals("|")){
-                
-                if(div){txt += "| ";}
-                div = false;
-                
-            } else if (!p.isBlank()){
-                
-                txt += p;
-                space = true;
-                div = true;
-                
-            }//if(!p.isBlank())
-            
-        }//for(String p : phease)
-        
-        /* String index out of range: 11 **
-        if(txt.length() > 1){
-        
-            switch(txt.trim().charAt(txt.length()-1)){
-                
-                case'|' ->{
-                    
-                    txt = txt.substring(0,txt.trim().length()-2).trim();
-                    
-                }//case'|'
-                
-            }//switch(txt.charAt(txt.length()-1))
-        
-        }** if(txt.length() > 1) */
-        
-        return txt.trim();
-        
-    }//Select(String text)
-    
     public static String Agora(boolean index){
         
         int a = LocalDate.now().getYear();
@@ -589,5 +537,42 @@ public class Registro {
         return txt;
         
     }//Agora()
+    
+    public static String Select(String text){
+        
+        String txt = "";
+        
+        String phease[] = text.split(" ");
+        
+        boolean space = false;
+        //boolean div = true;
+        
+        for(String p : phease){
+            
+            if(space/* && div*/){
+                
+                txt += " ";
+                space = false;
+                
+            }//if(space)
+            
+            /*if(p.contentEquals("|")){
+                
+                if(div){txt += "| ";}
+                div = false;
+                
+            } else */if(!p.isBlank()){
+                
+                txt += p;
+                space = true;
+                //div = true;
+                
+            }//if(!p.isBlank())
+            
+        }//for(String p : phease)
+        
+        return txt.trim().replace(";", ".,");
+        
+    }//Select(String text)
     
 }//Registro
