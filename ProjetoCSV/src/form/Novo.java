@@ -34,6 +34,7 @@ public class Novo extends javax.swing.JFrame {
         
         cod d = new cod();
         
+        //csv create = new csv("C:\\Users\\Public\\Documents\\_" + d.Date(false) + "_" + d.Time(false));
         csv create = new csv("..\\arq_" + d.Date(false) + "_" + d.Time(false));
         
         if(youtube){

@@ -7,10 +7,6 @@ package linkweb;
 import form.Index;
 import model.Registro;
 
-/**
- *
- * @author josue
- */
 public class LinkWeb {
 
     /**
@@ -42,11 +38,12 @@ public class LinkWeb {
     
 }
 
-/*public class LinkWeb {
+/* Line 10 **
+public class LinkWeb {
 
     public static void main(String[] args) {
         
-        final String msg = "Não compactar esse arquivo!\n\nMotivo:\n[..\\..\\] ao invés de [..\\]";
+        final String msg = "Não compactar esse arquivo!\n\nMotivo:\n[C:\\Users\\Public\\Documents] ao invés de [..\\]";
         
         System.out.println(msg);
         
@@ -54,4 +51,5 @@ public class LinkWeb {
         
     }
     
-}*/
+}
+/* public class LinkWeb */

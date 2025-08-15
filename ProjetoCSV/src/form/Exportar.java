@@ -13,8 +13,11 @@ public class Exportar {
     
     private csv code;
     
-    private final String local_style = "C:\\Users\\Public\\Documents\\Arquivo";
-    private final String icon = "C:\\Users\\Public\\Documents\\Arquivo";
+    private final String local_icon = "C:\\Users\\Public\\Pictures\\";
+    private final String ico = "Arquivo.ico";
+    
+    private final String local_style = "C:\\Users\\Public\\Documents\\style.css";
+    private final String icon = this.local_icon + this.ico;
     
     private final boolean style_local = false;
     private final boolean local_user = false;
@@ -743,13 +746,13 @@ public class Exportar {
             case "images.app.goo.gl":
             case "g.co":
             txt += "<p class=\"hiperlink\" title=\"Google\">";
-            txt += link.length() <= 70 ? link.toUpperCase() : "GOOGLE";
+            txt += link.length() <= 80 ? link.toUpperCase() : "GOOGLE";
             txt += "</p>";
             break;
             
             case "drive.google.com":
             txt += "<p class=\"hiperlink\" title=\"Google Drive\">";
-            txt += link.length() < 70 ?  link.toUpperCase() : "GOOGLE<BR/>DRIVE";
+            txt += link.length() <= 80 ?  link.toUpperCase() : "GOOGLE<BR/>DRIVE";
             txt += "</p>";
             break;
             
@@ -757,11 +760,25 @@ public class Exportar {
             txt += "";
             break;
             
-            default:
+            case "":
             txt += "<p class=\"hiperlink\" title=\"";
-            txt += link.length() <= 80 || TitleLink(title_link, true).length() < 10 ? title_link.toUpperCase() : TitleLink(title_link, true);
+            txt += link.length() <= 40 ? link : TitleLink(title_link, true);
             txt += "\">";
-            txt += link.length() <= 80 ? link.toUpperCase() : TitleLink(title_link, false);
+            
+            if(title_link.length() < 5){//title_link
+                
+                txt += title_link.toUpperCase().replace(".", "<br/>");
+                
+            } else if(link.length() <= 80){//title_link
+                
+                txt += link.toUpperCase().replaceFirst("HTTPS:\\", "").replaceFirst("HTTP:\\", "");
+                
+            } else {//title_link
+                
+                txt += TitleLink(title_link, false);
+                
+            }//title_link
+            
             txt += "</p>";
             break;
             
@@ -788,7 +805,7 @@ public class Exportar {
             break;
             
             default:
-            txt += link.length() <= 80 || TitleLink(title_link, true).length() < 10 ? link : TitleLink(title_link, true);
+            txt += link.length() <= 100 || TitleLink(title_link, true).length() < 10 ? link : TitleLink(title_link, true);
             break;
             
         }//switch(title_link) - 1 - 2
@@ -924,17 +941,17 @@ public class Exportar {
         if(!this.local_style.contains(".")){style += ".css";}
         style += "\">";
         
-        String ico = "<link rel=\"icon\" href=\"";
-        ico += this.icon;
-        if(!this.icon.contains(".")){ico += ".ico";}
-        ico += "\" type=\"image/x-icon\">";
+        String rel = "<link rel=\"icon\" href=\"";
+        rel += this.icon;
+        if(!this.icon.contains(".")){rel += ".ico";}
+        rel += "\" type=\"image/x-icon\">";
         
         doc.add("<html>");
         doc.add("<head>");
         doc.add("<title>" + title + "</title>");
         doc.add("<meta charset=\"utf-8\" />");
         doc.add("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-        if(this.local_user){doc.add(ico);}
+        if(this.local_user){doc.add(rel);}
         
         if(this.google_font){
         doc.add("<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">");
@@ -995,6 +1012,7 @@ public class Exportar {
                 } else {//if(this.google_font)
                     
                     doc.add("      font-size: calc(10px + 2vw);");
+                    doc.add("      font-family: \"Arial Black\";");
                     
                 }//if(this.google_font)
                 
@@ -1005,10 +1023,21 @@ public class Exportar {
                 doc.add("      color:white;");
                 doc.add("      margin-left: 2%;");
                 doc.add("      font-weight: normal;");
-                doc.add("      font-size: calc(20px + 1vw);");
-                if(this.google_font){doc.add("      font-family: \"Kavoon\";");}
+                
+                if(this.google_font){
+                    
+                    doc.add("      font-size: calc(20px + 1vw);");
+                    doc.add("      font-family: \"Kavoon\";");
+                    
+                } else {//if(this.google_font)
+                    
+                    doc.add("      font-size: calc(10px + 2vw);");
+                    doc.add("      font-family: \"Arial Black\";");
+                    
+                }//if(this.google_font)
+                
                 doc.add("      word-wrap: break-word;");
-                doc.add("      line-height: 2em;");
+                if(this.google_font){doc.add("      line-height: 2em;");}
                 doc.add("   }");
                 
             } else {//if(extend)
@@ -1017,10 +1046,21 @@ public class Exportar {
                 doc.add("      color:white;");
                 doc.add("      margin-left: 2%;");
                 doc.add("      font-weight: normal;");
-                doc.add("      font-size: calc(20px + 1vw);");
-                if(this.google_font){doc.add("      font-family: \"Kavoon\";");}
+                
+                if(this.google_font){
+                    
+                    doc.add("      font-size: calc(20px + 1vw);");
+                    doc.add("      font-family: \"Kavoon\";");
+                
+                } else {//if(this.google_font)
+                    
+                    doc.add("      font-size: calc(10px + 1vw);");
+                    doc.add("      font-family: \"Arial Black\";");
+                    
+                }//if(this.google_font)
+                
                 doc.add("      word-wrap: break-word;");
-                doc.add("      line-height: 2em;");
+                if(this.google_font){doc.add("      line-height: 2em;");}
                 doc.add("   }");
                 
             }//if(extend)
@@ -1034,10 +1074,22 @@ public class Exportar {
                 doc.add("      margin-left: 2%;");
                 doc.add("      margin-right: 2%;");
                 doc.add("      font-weight: normal;");
-                doc.add("      font-size: calc(20px + 1vw);");
-                if(this.google_font){doc.add("      font-family: \"Winky Sans\";");}
+                
+                
+                if(this.google_font){
+                    
+                    doc.add("      font-size: calc(20px + 1vw);");
+                    doc.add("      font-family: \"Winky Sans\";");
+                
+                } else {//if(this.google_font)
+                    
+                    doc.add("      font-size: calc(10px + 1vw);");
+                    doc.add("      font-family: \"Tahoma\";");
+                    
+                }//if(this.google_font)
+                
                 doc.add("      word-wrap: break-word;");
-                doc.add("      line-height: 2em;");
+                if(this.google_font){doc.add("      line-height: 2em;");}
                 doc.add("   }");
                 
             }//if(this.text)
@@ -1052,9 +1104,20 @@ public class Exportar {
                 doc.add("      margin-right: 2%;");
                 doc.add("      font-weight: normal;");
                 doc.add("      font-size: calc(10px + 1vw);");
-                if(this.google_font){doc.add("      font-family: \"Sofia Sans Extra Condensed\";");}
+                
+                if(this.google_font){
+                    
+                    doc.add("      font-family: \"Sofia Sans Extra Condensed\";");
+                
+                } else {//if(this.google_font)
+                    
+                    
+                    doc.add("      font-family: \"Arial Narrow\";");
+                    
+                }//if(this.google_font)
+                
                 doc.add("      word-wrap: break-word;");
-                doc.add("      line-height: 2em;");
+                if(this.google_font){doc.add("      line-height: 2em;");}
                 doc.add("   }");
                 
             }//if(this.text_long)
@@ -1077,7 +1140,8 @@ public class Exportar {
                     
                 } else {//if(this.google_font)
                     
-                    doc.add("      font-size: calc(10px + 2vw);");
+                    doc.add("      font-size: calc(10px + 1vw);");
+                    doc.add("      font-family: \"Impact\";");
                     
                 }//if(this.google_font)
                 
@@ -1086,14 +1150,25 @@ public class Exportar {
                 }//if(this.not_only_canva)
                 
                 doc.add("   p.texto_link{");
-                doc.add("      color: white;");
+                //doc.add("      color: white;");
                 doc.add("      margin-top:5px;");
                 doc.add("      margin-bottom:30px;");
                 doc.add("      margin-left:2%;");
                 doc.add("      margin-right:2%;");
                 doc.add("      font-weight: bold;");
-                doc.add("      font-size:calc(20px + 1vw);");
-                if(this.google_font){doc.add("      font-family: \"Montserrat Underline\";");}
+                
+                if(this.google_font){
+                    
+                    doc.add("      font-size:calc(20px + 1vw);");
+                    doc.add("      font-family: \"Montserrat Underline\";");
+                
+                } else {//if(this.google_font)
+                    
+                    doc.add("      font-size:calc(20px + 1vw);");
+                    doc.add("      font-family: \"Arial\";");
+                
+                }//if(this.google_font)
+                
                 doc.add("      line-height: 2em;");
                 doc.add("      word-wrap: break-word;");
                 doc.add("   }");
@@ -1401,7 +1476,7 @@ public class Exportar {
                 doc.add("   for(var i = 0; i < metatag.length; i++){");
                 doc.add("      ");
                 doc.add("      metatag[i].innerText = \"<\" + metatag[i].innerHTML + \">\";");
-                doc.add("      metatag[i].style.letterSpacing = \"1%\";");
+                //doc.add("      metatag[i].style.letterSpacing = \"1%\";");
                 doc.add("      ");
                 doc.add("   }");
                 doc.add("   ");
@@ -1466,7 +1541,7 @@ public class Exportar {
                     
                     }//if(re.length() >= 30 && pg < this.code.Tot())
                     
-                }//for(int p = 0; p < this.code.Tot(); p++)
+                }//if(this.coppy_view)
                 
                 doc.add("");
                 doc.add("");
@@ -1478,7 +1553,7 @@ public class Exportar {
                         " --"
                 );
                 
-            } else {//if(this.code.Tot() <= 300 && this.link && not_tv)
+            } else {//if(this.coppy_view)
                 
                 doc.add("<!-- " + 
                         new Data().DataAbreviada(false) + 
@@ -1487,7 +1562,7 @@ public class Exportar {
                         " --"
                 );
                 
-            }//if(this.code.Tot() <= 300 && this.link && not_tv)
+            }//if(this.coppy_view)
             
             if(this.ready_view){
             
@@ -1505,7 +1580,7 @@ public class Exportar {
                     
                     int i = d-1;
                     
-                    itens += ";";
+                    itens += ";\"";
                     
                     itens += Numb(d,this.code.Tot());
                     
@@ -1513,29 +1588,26 @@ public class Exportar {
                     
                     int val = Test.Val() && Test.Num() == 0 ? 0 : i;
                     
-                    if(!this.code.Read(val, 0).contains("|")){
-                        
-                        itens += " | ";
-                        itens += this.code.Read(val, 0);
-                        
-                    }//if(!this.code.Read(val, 0).contains("|"))
+                    itens += "\" | \"";
+                    itens += this.code.Read(val, 0).trim().replace(" | ", "\" | \"");
                     
-                    if(this.code.Tot(i) >= 1){
+                    if(this.code.Tot(val) >= 1 && !this.code.Read(val, 0).contains("|")){
                         
-                        itens += " | ";
-                        itens += this.code.Read(i, 1);
+                        itens += "\" | \"";
+                        itens += this.code.Read(val, 1).trim().replace(" | ", "\" | \"");
+                        itens += "\"";
                         
                     }//if(this.code.Tot(i) >= 1)
                     
-                }//for(int d = 0; d < this.code.Tot(); d++)
+                }//if(this.ready_view)
 
                 doc.add(
                     name + 
                     " (" + 
                     new Data().DataAbreviada(false) + 
-                    ");" + 
+                    ");[" + 
                     this.code.Tot() + 
-                    " " + 
+                    "] " + 
                     total + 
                     itens
                 );
