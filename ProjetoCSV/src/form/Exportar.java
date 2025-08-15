@@ -738,7 +738,7 @@ public class Exportar {
             case "youtube.com":
             case "youtu.be":
             txt += "<p class=\"hiperlink\" title=\"YouTube\">";
-            txt += link.length() <= 70 ? link.toUpperCase() : "YOUTUBE";
+            txt += link.length() <= 40 ? link.toUpperCase() : "YOUTUBE";
             txt += "</p>";
             break;
             
@@ -748,13 +748,13 @@ public class Exportar {
             case "share.google":
             case "g.co":
             txt += "<p class=\"hiperlink\" title=\"Google\">";
-            txt += link.length() <= 70 ? link.toUpperCase() : "GOOGLE";
+            txt += link.length() <= 40 ? link.toUpperCase() : "GOOGLE";
             txt += "</p>";
             break;
             
             case "drive.google.com":
             txt += "<p class=\"hiperlink\" title=\"Google Drive\">";
-            txt += link.length() <= 70 ?  link.toUpperCase() : "GOOGLE<BR/>DRIVE";
+            txt += link.length() <= 40 ?  link.toUpperCase() : "GOOGLE<BR/>DRIVE";
             txt += "</p>";
             break;
             
@@ -767,13 +767,13 @@ public class Exportar {
             txt += link.length() <= 40 ? link : TitleLink(title_link, true);
             txt += "\">";
             
-            if(title_link.length() < 10){//title_link
-                
-                txt += title_link.toUpperCase();
-                
-            } else if(link.length() <= 80){//title_link
+            if(link.length() <= 80){//title_link
                 
                 txt += link.toUpperCase();
+                
+            } else if(title_link.length() < 10){//title_link
+                
+                txt += title_link.toUpperCase();
                 
             } else {//title_link
                 
@@ -1149,12 +1149,12 @@ public class Exportar {
                     
                 }//if(this.google_font)
                 
+                doc.add("      word-wrap: break-word;");
                 doc.add("   }");
                 
                 }//if(this.not_only_canva)
                 
                 doc.add("   p.texto_link{");
-                //doc.add("      color: white;");
                 doc.add("      margin-top:5px;");
                 doc.add("      margin-bottom:30px;");
                 doc.add("      margin-left:2%;");
