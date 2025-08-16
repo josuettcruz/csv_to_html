@@ -17,7 +17,7 @@ public class Registro {
     
     public static String github = "https://github.com/josuettcruz/csv_to_html";
     
-    public static Data upgrade = new Data(LocalDate.of(2025, 8, 15));
+    public static Data upgrade = new Data(LocalDate.of(2025, 8, 16));
     
     public static int result = 28;
     

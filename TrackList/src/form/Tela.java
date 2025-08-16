@@ -166,13 +166,25 @@ public class Tela extends javax.swing.JFrame {
                 
             }//if(orm.Tot() >= 0)
             
-            String htm = name;
+            String htm = "";
+            
+            if(max_track > 1){
+                
+                int i = 0;
+                
+                while(i < orm.Tot() && orm.Read(i, 2).trim().isBlank()){i++;}
+                
+                htm += orm.Read(i, 2);
+                
+            } else {//if(max_track > 1)
+                
+                htm += name;
+                
+            }//if(max_track > 1)
             
             if(orm.Tot() >= 0){
                 
-                htm += " (";
-                htm += new Data().DataAbreviada(false);
-                htm += ");Duração total: | ";
+                htm += ";Duração total: | ";
                 htm += new Hora(max_tot).Load();
                 htm += ";";
                 htm += max_track;
@@ -333,15 +345,13 @@ public class Tela extends javax.swing.JFrame {
                             
                             case "m4a" ->{
                                 
-                                htm += nome_arq.substring(0, ext_arq).toUpperCase();
-                                htm += ".m4a";
+                                htm += nome_arq;
                                 
                             }//case "m4a"
                             
                             case "mp3" ->{
                                 
                                 htm += nome_arq.substring(0, ext_arq);
-                                htm += ".mp3";
                             
                             }//case "mp3"
                             

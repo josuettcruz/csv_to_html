@@ -23,11 +23,11 @@ public class Exportar {
     private final boolean local_user = false;
     private final boolean google_font = true;
     
-    private final boolean coppy_view = false;
+    private final boolean coppy_view = true;
     private final boolean ready_view = false;
     
     private final int long_text = 80;
-    private final int max_end_separator_paragraphy = 200;
+    private final int max_end_separator_paragraphy = 150;
     private final int tribute_max_end_separator_paragraphy = 300;
     
     
@@ -735,26 +735,36 @@ public class Exportar {
         switch(title_link.toLowerCase()){
             
             case "www.youtube.com":
+            txt += "<p class=\"hiperlink\" title=\"YouTube\">";
+            txt += link.length() <= 108 ? link.toUpperCase().replaceFirst("HTTPS://", "") : "YOUTUBE";
+            txt += "</p>";
+            break;
+            
             case "youtube.com":
             case "youtu.be":
             txt += "<p class=\"hiperlink\" title=\"YouTube\">";
-            txt += link.length() <= 40 ? link.toUpperCase() : "YOUTUBE";
+            txt += link.length() <= 100 ? link.toUpperCase() : "YOUTUBE";
             txt += "</p>";
             break;
             
             case "www.google.com":
             case "www.google.com.br":
+            txt += "<p class=\"hiperlink\" title=\"Google\">";
+            txt += link.length() <= 108 ? link.toUpperCase().replaceFirst("HTTPS://", "") : "GOOGLE";
+            txt += "</p>";
+            break;
+            
             case "images.app.goo.gl":
             case "share.google":
             case "g.co":
             txt += "<p class=\"hiperlink\" title=\"Google\">";
-            txt += link.length() <= 40 ? link.toUpperCase() : "GOOGLE";
+            txt += link.length() <= 100 ? link.toUpperCase() : "GOOGLE";
             txt += "</p>";
             break;
             
             case "drive.google.com":
             txt += "<p class=\"hiperlink\" title=\"Google Drive\">";
-            txt += link.length() <= 40 ?  link.toUpperCase() : "GOOGLE<BR/>DRIVE";
+            txt += link.length() <= 108 ?  link.toUpperCase().replaceFirst("HTTPS://", "") : "GOOGLE<BR/>DRIVE";
             txt += "</p>";
             break;
             
@@ -767,9 +777,9 @@ public class Exportar {
             txt += link.length() <= 40 ? link : TitleLink(title_link, true);
             txt += "\">";
             
-            if(link.length() <= 80){//title_link
+            if(link.length() <= 108){//title_link
                 
-                txt += link.toUpperCase();
+                txt += link.toUpperCase().replaceFirst("HTTPS://", "").replaceFirst("HTTP://", "");
                 
             } else if(title_link.length() < 10){//title_link
                 
@@ -793,7 +803,7 @@ public class Exportar {
             case "www.youtube.com":
             case "youtube.com":
             case "youtu.be":
-            txt += link.length() <= 50 ? link : "YouTube";
+            txt += link.length() <= 40 ? link : "YouTube";
             break;
             
             case "www.google.com":
@@ -801,18 +811,18 @@ public class Exportar {
             case "images.app.goo.gl":
             case "share.google":
             case "g.co":
-            txt += link.length() <= 50 ? link : "Google";
+            txt += link.length() <= 40 ? link : "Google";
             break;
             
             case "drive.google.com":
-            txt += link.length() <= 50 ? link : "Google Drive";
+            txt += link.length() <= 40 ? link : "Google Drive";
             break;
             
             default:
-            txt += link.length() <= 50 || TitleLink(title_link, true).length() < 10 ? link : TitleLink(title_link, true);
+            txt += link.length() <= 40 || TitleLink(title_link, true).length() < 10 ? link : TitleLink(title_link, true);
             break;
             
-        }//switch(title_link) - 1 - 2
+        }//switch(title_link) - 2 - 2
         
         
         txt += "\"><a href=\"";
@@ -985,6 +995,9 @@ public class Exportar {
             doc.add("   body{");
             doc.add("      background-color: black;");
             doc.add("   }");
+            doc.add("   div.txt:first-of-type{");
+            doc.add("      margin-top: 15%;");
+            doc.add("   }");
             doc.add("   div.txt{");
             doc.add("      margin-left: 5%;");
             doc.add("      margin-top: 10%;");
@@ -1058,7 +1071,7 @@ public class Exportar {
                 
                 } else {//if(this.google_font)
                     
-                    doc.add("      font-size: calc(10px + 1vw);");
+                    doc.add("      font-size: calc(10px + 2vw);");
                     doc.add("      font-family: \"Arial Black\";");
                     
                 }//if(this.google_font)
@@ -1087,7 +1100,7 @@ public class Exportar {
                 
                 } else {//if(this.google_font)
                     
-                    doc.add("      font-size: calc(10px + 1vw);");
+                    doc.add("      font-size: calc(15px + 1vw);");
                     doc.add("      font-family: \"Tahoma\";");
                     
                 }//if(this.google_font)
@@ -1135,16 +1148,16 @@ public class Exportar {
                 doc.add("      margin-top:25px;");
                 doc.add("      margin-bottom:5px;");
                 doc.add("      margin-left:2%;");
+                doc.add("      margin-right: 5%;");
                 doc.add("      font-weight: normal;");
+                doc.add("      font-size: calc(5px + 1vw);");
                 
                 if(this.google_font){
                     
-                    doc.add("      font-size: calc(20px + 1vw);");
                     doc.add("      font-family: \"Bytesized\";");
                     
                 } else {//if(this.google_font)
                     
-                    doc.add("      font-size: calc(10px + 1vw);");
                     doc.add("      font-family: \"Impact\";");
                     
                 }//if(this.google_font)
@@ -1173,7 +1186,7 @@ public class Exportar {
                 
                 }//if(this.google_font)
                 
-                doc.add("      line-height: 2em;");
+                if(this.google_font){doc.add("      line-height: 2em;");}
                 doc.add("      word-wrap: break-word;");
                 doc.add("   }");
                 
@@ -1513,7 +1526,7 @@ public class Exportar {
                 doc.add("   for(var i = 0; i < metatag.length; i++){");
                 doc.add("      ");
                 doc.add("      metatag[i].innerText = \"<\" + metatag[i].innerHTML + \">\";");
-                //doc.add("      metatag[i].style.letterSpacing = \"1%\";");
+                doc.add("      metatag[i].style.letterSpacing = \"1%\";");
                 doc.add("      ");
                 doc.add("   }");
                 doc.add("   ");
@@ -1626,13 +1639,13 @@ public class Exportar {
                     int val = Test.Val() && Test.Num() == 0 ? 0 : i;
                     
                     itens += "\" | \"";
-                    itens += this.code.Read(val, 0).trim().replace(" | ", "\" | \"");
+                    itens += this.code.Read(val, 0).trim().replace(" - ", " | ").replace(" | ", "\" | \"");
+                    itens += "\"";
                     
                     if(this.code.Tot(val) >= 1 && !this.code.Read(val, 0).contains("|")){
                         
-                        itens += "\" | \"";
-                        itens += this.code.Read(val, 1).trim().replace(" | ", "\" | \"");
-                        itens += "\"";
+                        itens += " | ";
+                        itens += this.code.Read(val, 1);
                         
                     }//if(this.code.Tot(i) >= 1)
                     
@@ -1642,9 +1655,9 @@ public class Exportar {
                     name + 
                     " (" + 
                     new Data().DataAbreviada(false) + 
-                    ");[" + 
+                    ");" + 
                     this.code.Tot() + 
-                    "] " + 
+                    " " + 
                     total + 
                     itens
                 );
