@@ -19,10 +19,13 @@ public class Exportar {
     private final String local_style = "C:\\Users\\Public\\Documents\\style.css";
     private final String icon = this.local_icon + this.ico;
     
-    private final boolean style_local = false;
+    //HTML
     private final boolean local_user = false;
+    private final boolean style_local = false;
     private final boolean google_font = true;
+    private final boolean new_open = true;
     
+    //CSV
     private final boolean coppy_view = true;
     private final boolean ready_view = false;
     
@@ -30,9 +33,7 @@ public class Exportar {
     private final int max_end_separator_paragraphy = 150;
     private final int tribute_max_end_separator_paragraphy = 300;
     
-    
-    private final boolean new_open = true;
-    
+    // Inter User
     private final String target = this.new_open ? "_blank" : "_parent";
     
     private final String ext[] = {
@@ -352,6 +353,10 @@ public class Exportar {
                 
                 case '.' ->{if(dh > 0){acept = false;}}
                 
+                case '\"' ->{if(dh > 0){acept = false;}}
+                
+                case '\'' ->{if(dh > 0){acept = false;}}
+                
                 case ':' ->{if(dh > 0){acept = false;}}
                 
                 default ->{acept = true;}
@@ -391,6 +396,10 @@ public class Exportar {
                 case ',' ->{if(dh > 0){acept = false;}}
                 
                 case '.' ->{if(dh > 0){acept = false;}}
+                
+                case '\"' ->{if(dh > 0){acept = false;}}
+                
+                case '\'' ->{if(dh > 0){acept = false;}}
                 
                 default ->{acept = true;}
                 
@@ -710,21 +719,30 @@ public class Exportar {
             switch(ds){
                 
                 case '/' ->{
+                    
                     if(point){
+                        
                         title_link = char_link;
                         point = false;
-                    }
+                        
+                    }//if(point)
+                    
                     char_link = "";
-                }
+                    
+                    break;
+                    
+                }//case '/'
                 
                 case '.' ->{
                     point = true;
                     char_link += ds;
-                }
+                }//case '.'
                 
                 default ->{
+                        
                     char_link += ds;
-                }
+                        
+                }//default
                 
             }//ds
             
@@ -735,37 +753,21 @@ public class Exportar {
         switch(title_link.toLowerCase()){
             
             case "www.youtube.com":
-            txt += "<p class=\"hiperlink\" title=\"YouTube\">";
-            txt += link.length() <= 108 ? link.toUpperCase().replaceFirst("HTTPS://", "") : "YOUTUBE";
-            txt += "</p>";
-            break;
-            
             case "youtube.com":
             case "youtu.be":
-            txt += "<p class=\"hiperlink\" title=\"YouTube\">";
-            txt += link.length() <= 100 ? link.toUpperCase() : "YOUTUBE";
-            txt += "</p>";
+            txt += "<p class=\"hiperlink\" title=\"YouTube\">YOUTUBE</p>";
             break;
             
             case "www.google.com":
             case "www.google.com.br":
-            txt += "<p class=\"hiperlink\" title=\"Google\">";
-            txt += link.length() <= 108 ? link.toUpperCase().replaceFirst("HTTPS://", "") : "GOOGLE";
-            txt += "</p>";
-            break;
-            
             case "images.app.goo.gl":
             case "share.google":
             case "g.co":
-            txt += "<p class=\"hiperlink\" title=\"Google\">";
-            txt += link.length() <= 100 ? link.toUpperCase() : "GOOGLE";
-            txt += "</p>";
+            txt += "<p class=\"hiperlink\" title=\"Google\">GOOGLE</p>";
             break;
             
             case "drive.google.com":
-            txt += "<p class=\"hiperlink\" title=\"Google Drive\">";
-            txt += link.length() <= 108 ?  link.toUpperCase().replaceFirst("HTTPS://", "") : "GOOGLE<BR/>DRIVE";
-            txt += "</p>";
+            txt += "<p class=\"hiperlink\" title=\"Google Drive\">GOOGLE<br/>DRIVE</p>";
             break;
             
             case "www.canva.com":
@@ -774,23 +776,9 @@ public class Exportar {
             
             default:
             txt += "<p class=\"hiperlink\" title=\"";
-            txt += link.length() <= 40 ? link : TitleLink(title_link, true);
+            txt += link.length() <= 80 ? link.toUpperCase().replaceFirst("HTTPS://", "").replaceFirst("HTTP://", "") : TitleLink(title_link, true);
             txt += "\">";
-            
-            if(link.length() <= 108){//title_link
-                
-                txt += link.toUpperCase().replaceFirst("HTTPS://", "").replaceFirst("HTTP://", "");
-                
-            } else if(title_link.length() < 10){//title_link
-                
-                txt += title_link.toUpperCase();
-                
-            } else {//title_link
-                
-                txt += TitleLink(title_link, false);
-                
-            }//title_link
-            
+            txt += link.length() <= 100 ? link.toUpperCase().replaceFirst("HTTPS://", "").replaceFirst("HTTP://", "") : TitleLink(title_link, false);
             txt += "</p>";
             break;
             
@@ -803,7 +791,7 @@ public class Exportar {
             case "www.youtube.com":
             case "youtube.com":
             case "youtu.be":
-            txt += link.length() <= 40 ? link : "YouTube";
+            txt += "YouTube";
             break;
             
             case "www.google.com":
@@ -811,15 +799,19 @@ public class Exportar {
             case "images.app.goo.gl":
             case "share.google":
             case "g.co":
-            txt += link.length() <= 40 ? link : "Google";
+            txt += "Google";
             break;
             
             case "drive.google.com":
-            txt += link.length() <= 40 ? link : "Google Drive";
+            txt += "Google Drive";
+            break;
+            
+            case "www.canva.com":
+            txt += "Canva";
             break;
             
             default:
-            txt += link.length() <= 40 || TitleLink(title_link, true).length() < 10 ? link : TitleLink(title_link, true);
+            txt += link.length() <= 80 ? link.toUpperCase().replaceFirst("HTTPS://", "").replaceFirst("HTTP://", "") : TitleLink(title_link, true);
             break;
             
         }//switch(title_link) - 2 - 2
@@ -1049,7 +1041,7 @@ public class Exportar {
                 } else {//if(this.google_font)
                     
                     doc.add("      font-size: calc(10px + 2vw);");
-                    doc.add("      font-family: \"Arial Black\";");
+                    doc.add("      font-family: \"Arial\";");
                     
                 }//if(this.google_font)
                 
@@ -1072,7 +1064,7 @@ public class Exportar {
                 } else {//if(this.google_font)
                     
                     doc.add("      font-size: calc(10px + 2vw);");
-                    doc.add("      font-family: \"Arial Black\";");
+                    doc.add("      font-family: \"Arial\";");
                     
                 }//if(this.google_font)
                 
@@ -1597,16 +1589,14 @@ public class Exportar {
                 doc.add("");
             
                 doc.add("-- " + 
-                        new Data().DataAbreviada(false) + 
-                        " -- " + 
-                        new Hora(true).getHora(false) + 
+                        new Data().DataAbreviada(true) + 
                         " --"
                 );
                 
             } else {//if(this.coppy_view)
                 
                 doc.add("<!-- " + 
-                        new Data().DataAbreviada(false) + 
+                        new Data().DataAbreviada(true) + 
                         " -- " + 
                         new Hora(true).getHora(true) + 
                         " --"
@@ -1638,9 +1628,8 @@ public class Exportar {
                     
                     int val = Test.Val() && Test.Num() == 0 ? 0 : i;
                     
-                    itens += "\" | \"";
-                    itens += this.code.Read(val, 0).trim().replace(" - ", " | ").replace(" | ", "\" | \"");
-                    itens += "\"";
+                    itens += "\" | ";
+                    itens += this.code.Read(val, 0);
                     
                     if(this.code.Tot(val) >= 1 && !this.code.Read(val, 0).contains("|")){
                         
@@ -1653,9 +1642,9 @@ public class Exportar {
 
                 doc.add(
                     name + 
-                    " (" + 
+                    ".csv" + 
                     new Data().DataAbreviada(false) + 
-                    ");" + 
+                    ";" + 
                     this.code.Tot() + 
                     " " + 
                     total + 

@@ -24,13 +24,13 @@ public class LinkWeb {
         System.out.print(Registro.Tab("Projeto:",Registro.result));
         System.out.println("\"ProjetoCSV\"");
         
+        System.out.print("Última atualização:");
+        System.out.print(Registro.Tab("Última atualização:",Registro.result));
+        System.out.print("\"");
+        System.out.print(Registro.upgrade.DataLinha(true));
+        System.out.println("\"");
+        
         System.out.println(Registro.Agora(true));
-        
-        System.out.println();
-        
-        System.out.print("Esse projeto foi atualizado ");
-        System.out.print(Registro.upgrade.DataLinha(false));
-        System.out.println("!");
         
         new Index().Enter(false);
         
