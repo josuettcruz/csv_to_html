@@ -1293,6 +1293,7 @@ public class Exportar {
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
                             arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             arq_1 += "</h1>";
+                            
                             arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             
                         }//case "mp4"
@@ -1311,31 +1312,22 @@ public class Exportar {
                             
                             arq_1 += Numb(arquivo+1, all_vcr);
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
-                            arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
+                            arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             arq_1 += "</h1>";
-                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
+                            
+                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             
                         }// case "mpg"
                         
                         case "avi" ->{
                             
-                            if(this.google_font){
-                                
-                                arq_1 += "<h1 class=\"arquivo\">";
-                                
-                            } else {//if(this.google_font)
-                                
-                                 arq_1 += "<h1 class=\"arquivo\">VÍDEO: ";
-                                
-                            }//if(this.google_font)
-                            
+                            arq_1 += "<h1 class=\"arquivo\">VIDEO: ";
                             arq_1 += Numb(arquivo+1, all_vcr);
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
-                            arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
-                            arq_1 += this.code.Read(x, 0).substring(max).toUpperCase();
+                            arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             arq_1 += "</h1>";
-                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>").toUpperCase();
-                            arq_2 += this.code.Read(x, 0).substring(max).toUpperCase();
+                            
+                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             
                         }//case "avi"
                         
@@ -1367,6 +1359,7 @@ public class Exportar {
                                 arq_1 += "</h1>";
                                 
                             }//if(all_vcr > 1)
+                            
                             arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             
                         }// case "tv"
@@ -1378,6 +1371,7 @@ public class Exportar {
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
                             arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             arq_1 += this.code.Read(x, 0).substring(max);
+                            
                             arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
                             arq_2 += this.code.Read(x, 0).substring(max);
                             
