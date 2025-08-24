@@ -168,7 +168,7 @@ public class Tela extends javax.swing.JFrame {
             
             String htm = "";
             
-            if(max_track > 1){
+            if(max_track == 1){
                 
                 int i = 0;
                 
@@ -186,10 +186,10 @@ public class Tela extends javax.swing.JFrame {
                 
                 htm += ";Duração total: | ";
                 htm += new Hora(max_tot).Load();
-                htm += ";";
+                /*htm += ";";
                 htm += max_track;
                 htm += " faixa";
-                if(max_track > 1){htm += "s";}
+                if(max_track > 1){htm += "s";}*/
                 
                 int folder = 1;
                 String indo = "";

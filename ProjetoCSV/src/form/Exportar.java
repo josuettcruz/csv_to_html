@@ -26,12 +26,12 @@ public class Exportar {
     private final boolean new_open = true;
     
     //CSV
-    private final boolean coppy_view = true;
+    private final boolean coppy_view = false;
     private final boolean ready_view = false;
     
-    private final int long_text = 80;
-    private final int max_end_separator_paragraphy = 150;
-    private final int tribute_max_end_separator_paragraphy = 300;
+    private final int long_text = 50;
+    private final int max_end_separator_paragraphy = 200;
+    private final int tribute_max_end_separator_paragraphy = 500;
     
     // Inter User
     private final String target = this.new_open ? "_blank" : "_parent";
@@ -1032,19 +1032,8 @@ public class Exportar {
                 doc.add("      color:white;");
                 doc.add("      margin-left: 2%;");
                 doc.add("      font-weight: normal;");
-                
-                if(this.google_font){
-                    
-                    doc.add("      font-size: calc(20px + 1vw);");
-                    doc.add("      font-family: \"Kavoon\";");
-                    
-                } else {//if(this.google_font)
-                    
-                    doc.add("      font-size: calc(10px + 2vw);");
-                    doc.add("      font-family: \"Arial\";");
-                    
-                }//if(this.google_font)
-                
+                doc.add("      font-size: calc(20px + 1vw);");
+                if(this.google_font){doc.add("      font-family: \"Kavoon\";");}
                 doc.add("      word-wrap: break-word;");
                 if(this.google_font){doc.add("      line-height: 2em;");}
                 doc.add("   }");
@@ -1055,19 +1044,8 @@ public class Exportar {
                 doc.add("      color:white;");
                 doc.add("      margin-left: 2%;");
                 doc.add("      font-weight: normal;");
-                
-                if(this.google_font){
-                    
-                    doc.add("      font-size: calc(20px + 1vw);");
-                    doc.add("      font-family: \"Kavoon\";");
-                
-                } else {//if(this.google_font)
-                    
-                    doc.add("      font-size: calc(10px + 2vw);");
-                    doc.add("      font-family: \"Arial\";");
-                    
-                }//if(this.google_font)
-                
+                doc.add("      font-size: calc(20px + 1vw);");
+                if(this.google_font){doc.add("      font-family: \"Kavoon\";");}
                 doc.add("      word-wrap: break-word;");
                 if(this.google_font){doc.add("      line-height: 2em;");}
                 doc.add("   }");
@@ -1093,7 +1071,6 @@ public class Exportar {
                 } else {//if(this.google_font)
                     
                     doc.add("      font-size: calc(15px + 1vw);");
-                    doc.add("      font-family: \"Tahoma\";");
                     
                 }//if(this.google_font)
                 
@@ -1113,18 +1090,7 @@ public class Exportar {
                 doc.add("      margin-right: 2%;");
                 doc.add("      font-weight: normal;");
                 doc.add("      font-size: calc(10px + 1vw);");
-                
-                if(this.google_font){
-                    
-                    doc.add("      font-family: \"Sofia Sans Extra Condensed\";");
-                
-                } else {//if(this.google_font)
-                    
-                    
-                    doc.add("      font-family: \"Arial Narrow\";");
-                    
-                }//if(this.google_font)
-                
+                if(this.google_font){doc.add("      font-family: \"Sofia Sans Extra Condensed\";");}
                 doc.add("      word-wrap: break-word;");
                 if(this.google_font){doc.add("      line-height: 2em;");}
                 doc.add("   }");
@@ -1143,17 +1109,7 @@ public class Exportar {
                 doc.add("      margin-right: 5%;");
                 doc.add("      font-weight: normal;");
                 doc.add("      font-size: calc(5px + 1vw);");
-                
-                if(this.google_font){
-                    
-                    doc.add("      font-family: \"Bytesized\";");
-                    
-                } else {//if(this.google_font)
-                    
-                    doc.add("      font-family: \"Impact\";");
-                    
-                }//if(this.google_font)
-                
+                if(this.google_font){doc.add("      font-family: \"Bytesized\";");}
                 doc.add("      word-wrap: break-word;");
                 doc.add("   }");
                 
@@ -1636,7 +1592,7 @@ public class Exportar {
 
                 doc.add(
                     name + 
-                    ".csv" + 
+                    ".csv;" + 
                     new Data().DataAbreviada(false) + 
                     ";" + 
                     this.code.Tot() + 
