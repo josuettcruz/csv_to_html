@@ -29,7 +29,7 @@ public class Exportar {
     private final boolean coppy_view = false;
     private final boolean ready_view = false;
     
-    private final int long_text = 50;
+    private final int long_text = 100;
     private final int max_end_separator_paragraphy = 200;
     private final int tribute_max_end_separator_paragraphy = 500;
     
@@ -37,11 +37,23 @@ public class Exportar {
     private final String target = this.new_open ? "_blank" : "_parent";
     
     private final String ext[] = {
+            "tv",
             "avi",
             "mpg",
             "mp4",
-            "mov",
-            "tv"
+            "mp3",
+            "mp2",
+            "mp1",
+            "aac",
+            "ogg",
+            "ogv",
+            "gif",
+            "png",
+            "jpg",
+            "jpeg",
+            "mpeg",
+            "webp",
+            "webm"
         };
     
     private String host;
@@ -985,7 +997,7 @@ public class Exportar {
             }//if(this.link) -- 1 de 4
             
             doc.add("   body{");
-            doc.add("      background-color: black;");
+            doc.add("      background-color: #000000;");
             doc.add("   }");
             doc.add("   div.txt:first-of-type{");
             doc.add("      margin-top: 15%;");
@@ -994,7 +1006,7 @@ public class Exportar {
             doc.add("      margin-left: 5%;");
             doc.add("      margin-top: 10%;");
             doc.add("      width: 90%;");
-            doc.add("      border: 5px solid white;");
+            doc.add("      border: 5px solid #ffffff;");
             doc.add("      background-color: black;");
             doc.add("      min-height: 200px;");
             doc.add("      overflow-y: visible;");
@@ -1003,7 +1015,7 @@ public class Exportar {
             doc.add("   div.space{");
             doc.add("      width: 100%;");
             doc.add("      height: 5px;");
-            doc.add("      background-color: white;");
+            doc.add("      background-color: #ffffff;");
             doc.add("   }");
             
             if(extend){
@@ -1012,20 +1024,10 @@ public class Exportar {
                 doc.add("      color: white;");
                 doc.add("      margin-left: 2%;");
                 doc.add("      font-weight: normal;");
-                
-                if(this.google_font){
-                    
-                    doc.add("      font-size: calc(30px + 1vw);");
-                    doc.add("      font-family: \"Bytesized\";");
-                    
-                } else {//if(this.google_font)
-                    
-                    doc.add("      font-size: calc(10px + 2vw);");
-                    doc.add("      font-family: \"Arial Black\";");
-                    
-                }//if(this.google_font)
-                
+                doc.add("      font-size: calc(25px + 1vw);");
+                if(this.google_font){doc.add("      font-family: \"Bytesized\";");}
                 doc.add("      word-wrap: break-word;");
+                if(this.google_font){doc.add("      text-transform: uppercase;");}
                 doc.add("   }");
                 
                 doc.add("   h1.cabecalho, h1.tema{");
@@ -1120,21 +1122,20 @@ public class Exportar {
                 doc.add("      margin-bottom:30px;");
                 doc.add("      margin-left:2%;");
                 doc.add("      margin-right:2%;");
-                doc.add("      font-weight: bold;");
                 
                 if(this.google_font){
                     
+                    doc.add("      font-weight: bold;");
                     doc.add("      font-size:calc(20px + 1vw);");
                     doc.add("      font-family: \"Montserrat Underline\";");
+                    doc.add("      line-height: 2em;");
                 
                 } else {//if(this.google_font)
                     
-                    doc.add("      font-size:calc(10px + 1vw);");
-                    doc.add("      font-family: \"Arial\";");
+                    doc.add("      font-size:calc(15px + 1vw);");
                 
                 }//if(this.google_font)
                 
-                if(this.google_font){doc.add("      line-height: 2em;");}
                 doc.add("      word-wrap: break-word;");
                 doc.add("   }");
                 
@@ -1170,27 +1171,47 @@ public class Exportar {
             if(extend){
                 
                 doc.add("   h1.arquivo::selection{");
-                doc.add("      background-color: #add8e6;");
+                doc.add("      background-color: #87cefa;");
                 doc.add("   }");
                 
                 doc.add("   h1.cabecalho::selection{");
+                doc.add("      background-color: #add8e6;");
+                doc.add("   }");
+                
+                doc.add("   h1.tema::selection{");
+                doc.add("      background-color: #b0c4de;");
+                doc.add("   }");
+                
+                doc.add("   p.texto::selection{");
+                doc.add("      background-color: #f5f5f5;");
+                doc.add("   }");
+                
+            } else {//if(extend)
+                
+                doc.add("   h1.tema::selection{");
                 doc.add("      background-color: #87cefa;");
+                doc.add("   }");
+                
+                doc.add("   p.texto::selection{");
+                doc.add("      background-color: #add8e6;");
                 doc.add("   }");
                 
             }//if(extend)
             
-            doc.add("   h1.tema::selection{");
-            doc.add("      background-color: #add8e6;");
-            doc.add("   }");
-            
-            doc.add("   p.texto::selection{");
-            doc.add("      background-color: #f5f5f5;");
-            doc.add("   }");
-            
             if(this.text_long){
                 
                 doc.add("   p.long_text::selection{");
-                doc.add("      background-color: white;");
+                
+                if(extend){
+                    
+                    doc.add("      background-color: #ffffff;");
+                    
+                } else {//if(extend)
+                    
+                    doc.add("      background-color: #f5f5f5;");
+                    
+                }//if(extend)
+                
                 doc.add("   }");
                 
             }//if(this.text_long)
@@ -1203,7 +1224,7 @@ public class Exportar {
                 
             }//if(this.link)
             
-            if(this.link && this.not_only_canva){
+            if(this.not_only_canva){
                     
                 doc.add("   p.hiperlink::selection{");
                 doc.add("      color: #f5f5f5;");
@@ -1275,6 +1296,18 @@ public class Exportar {
                             
                         }// case "mpg"
                         
+                        case "mpeg" ->{
+                            
+                            arq_1 += "<h1 class=\"arquivo\">MPEG</h1><div class=\"space\"></div><h1 class=\"arquivo\">";
+                            arq_1 += Numb(arquivo+1, all_vcr);
+                            arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
+                            arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>");
+                            arq_1 += "</h1>";
+                            
+                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
+                            
+                        }// case "mpeg"
+                        
                         case "avi" ->{
                             
                             arq_1 += "<h1 class=\"arquivo\">VIDEO: ";
@@ -1326,9 +1359,10 @@ public class Exportar {
                             arq_1 += Numb(arquivo+1, all_vcr);
                             arq_1 += "</h1><div class=\"space\"></div><h1 class=\"cabecalho\">";
                             arq_1 += T(this.code.Read(x, 0).substring(0,max),"<br/>");
+                            arq_1 += "</h1>";
                             arq_1 += this.code.Read(x, 0).substring(max);
                             
-                            arq_2 = T(this.code.Read(x, 0).substring(0,max),"<br/>");
+                            arq_2 = T(this.code.Read(x, 0).substring(0,max).toUpperCase(),"<br/>");
                             arq_2 += this.code.Read(x, 0).substring(max);
                             
                         }// default
