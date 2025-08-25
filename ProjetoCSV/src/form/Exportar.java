@@ -23,7 +23,7 @@ public class Exportar {
     private final boolean local_user = false;
     private final boolean style_local = false;
     private final boolean google_font = true;
-    private final boolean new_open = true;
+    private final boolean new_open = false;
     
     //CSV
     private final boolean coppy_view = false;
@@ -760,6 +760,8 @@ public class Exportar {
             
         }//for(int i = 0; i < link.length(); i++)
         
+        String a_href = this.new_open ? "<a href=\"" + link + "\" target=\"_blank\">" : "<a href=\"" + link + "\">";
+        
         String txt = "";
         
         switch(title_link.toLowerCase()){
@@ -788,9 +790,9 @@ public class Exportar {
             
             default:
             txt += "<p class=\"hiperlink\" title=\"";
-            txt += link.length() <= 80 ? link.toUpperCase().replaceFirst("HTTPS://", "").replaceFirst("HTTP://", "") : TitleLink(title_link, true);
+            txt += TitleLink(title_link, true);
             txt += "\">";
-            txt += link.length() <= 100 ? link.toUpperCase().replaceFirst("HTTPS://", "").replaceFirst("HTTP://", "") : TitleLink(title_link, false);
+            txt += link.length() <= 80 ? link.toUpperCase().replaceFirst("://","<br/>").replace("."," ") : TitleLink(title_link, false);
             txt += "</p>";
             break;
             
@@ -823,18 +825,15 @@ public class Exportar {
             break;
             
             default:
-            txt += link.length() <= 80 ? link.toUpperCase().replaceFirst("HTTPS://", "").replaceFirst("HTTP://", "") : TitleLink(title_link, true);
+            txt += link.length() <= 120 ? link.toUpperCase().replaceFirst("://","-->").replace("/"," -> ") : TitleLink(title_link, true);
             break;
             
         }//switch(title_link) - 2 - 2
         
         
-        txt += "\"><a href=\"";
-        txt += link;
-        txt += "\" target=\"";
-        txt += this.target;
         txt += "\">";
-        txt += T(paragraphy, "</a><br/><a href=\"" + link + "\" target=\"" + this.target + "\">");
+        txt += a_href;
+        txt += T(paragraphy, "</a><br/>" + a_href);
         txt += "</a></p>";
         
         return txt;
