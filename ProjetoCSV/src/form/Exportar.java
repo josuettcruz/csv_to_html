@@ -33,9 +33,6 @@ public class Exportar {
     private final int max_end_separator_paragraphy = 200;
     private final int tribute_max_end_separator_paragraphy = 500;
     
-    // Inter User
-    private final String target = this.new_open ? "_blank" : "_parent";
-    
     private final String ext[] = {
             "tv",
             "avi",
